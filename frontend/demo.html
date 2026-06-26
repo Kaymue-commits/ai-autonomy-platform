@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>AI Autonomy Radar - 静态展示版</title>
+<style>
+  body { margin:0; background:#000; overflow:hidden; font-family: 'Segoe UI', sans-serif; color:#fff; }
+  #c { width:100vw; height:100vh; }
+  .info { position:absolute; top:20px; left:20px; background:rgba(0,20,40,0.7); padding:15px; border-radius:10px; border:1px solid #40c4ff; max-width:380px; }
+  .info h1 { color:#40c4ff; margin:0 0 8px 0; font-size:18px; }
+  .info .stat { color:#90a4ae; font-size:11px; margin:2px 0; }
+  .info .stat b { color:#fff; }
+</style>
+</head><body>
+<div id="c"></div>
+<div class="info">
+  <h1>🌍 AI Autonomy Radar</h1>
+  <div class="stat"><b>14</b> 条全球AI需求已捕获</div>
+  <div class="stat"><b>$4,845</b> 累计价值</div>
+  <div class="stat"><b>26</b> 城市已配置经纬度</div>
+  <div class="stat" style="margin-top:8px;color:#40c4ff">📍 实时定位: 旧金山 / 纽约 / 伦敦 / 东京 / 迪拜...</div>
+</div>
+<script src="/static/js/three.min.js"></script>
+<script>
+// 复用相同的地球渲染代码, 不依赖 SSE
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.set(0, 0, 280);
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('c').appendChild(renderer.domElement);
+
+// 星空
+const starGeo = new THREE.BufferGeometry();
+const starPos = new Float32Array(3000);
+for (let i = 0; i < starPos.length; i++) starPos[i] = (Math.random()-0.5)*1500;
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({color:0xffffff, size:0.8})));
+
+// 加载真实地球纹理 (NASA Blue Marble)
+const loader = new THREE.TextureLoader();
+const texEarth = loader.load('/static/textures/earth-blue-marble.jpg');
+const texBump = loader.load('/static/textures/earth-topology.png');
+const texSpec = loader.load('/static/textures/earth-water.png');
+
+const earth = new THREE.Mesh(
+  new THREE.SphereGeometry(80, 64, 64),
+  new THREE.MeshPhongMaterial({
+    map: texEarth,
+    bumpMap: texBump,
+    bumpScale: 0.8,
+    specularMap: texSpec,
+    specular: new THREE.Color(0x333344),
+    shininess: 12
+  })
+);
+scene.add(earth);
+window.__earth = earth; // 暴露给全局, 方便调试
+
+// 大气层
+const atmo = new THREE.Mesh(
+  new THREE.SphereGeometry(85, 64, 64),
+  new THREE.ShaderMaterial({
+    vertexShader: 'varying vec3 vN; void main(){vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+    fragmentShader: 'varying vec3 vN; void main(){float i=pow(0.7-dot(vN,vec3(0,0,1)),2);gl_FragColor=vec4(0.3,0.6,1,1)*i;}',
+    blending: THREE.AdditiveBlending, side: THREE.BackSide, transparent: true
+  })
+);
+scene.add(atmo);
+scene.add(new THREE.AmbientLight(0x404040, 1.5));
+const sun = new THREE.DirectionalLight(0xffffff, 1.2);
+sun.position.set(200, 100, 200);
+scene.add(sun);
+
+// 城市经纬度 - 26个城市
+const cities = {
+  '旧金山':[-122.42,37.77],'纽约':[-74.00,40.71],'洛杉矶':[-118.24,34.05],'多伦多':[-79.38,43.65],
+  '西雅图':[-122.33,47.61],'芝加哥':[-87.63,41.88],
+  '伦敦':[-0.12,51.50],'巴黎':[2.35,48.86],'柏林':[13.40,52.52],'阿姆斯特丹':[4.90,52.37],
+  '苏黎世':[8.54,47.38],'斯德哥尔摩':[18.07,59.33],
+  '东京':[139.65,35.68],'首尔':[126.98,37.57],'新加坡':[103.82,1.35],
+  '香港':[114.17,22.32],'上海':[121.47,31.23],'孟买':[72.88,19.08],
+  '迪拜':[55.27,25.20],'特拉维夫':[34.78,32.09],'利雅得':[46.68,24.71],
+  '圣保罗':[-46.63,-23.55],'墨西哥城':[-99.13,19.43],'布宜诺斯艾利斯':[-58.38,-34.60],
+  '悉尼':[151.21,-33.87],'墨尔本':[144.96,-37.81]
+};
+function latLonToV3(lat, lon, r=80) {
+  const phi = (90-lat)*Math.PI/180;
+  const theta = (lon+180)*Math.PI/180;
+  return new THREE.Vector3(-r*Math.sin(phi)*Math.cos(theta), r*Math.cos(phi), r*Math.sin(phi)*Math.sin(theta));
+}
+
+// 当前数据 - 模拟已匹配的需求
+const matched = [
+  {city:'伦敦', score:50, color:0xffb74d},
+  {city:'伦敦', score:50, color:0xffb74d},
+  {city:'旧金山', score:80, color:0xff5252},
+  {city:'纽约', score:75, color:0xff5252},
+  {city:'东京', score:70, color:0xff5252},
+  {city:'柏林', score:65, color:0xffb74d},
+  {city:'新加坡', score:60, color:0xffb74d},
+  {city:'迪拜', score:55, color:0xffb74d},
+  {city:'悉尼', score:45, color:0x40c4ff},
+];
+
+// 渲染所有城市底点
+Object.entries(cities).forEach(([name, [lon, lat]]) => {
+  const p = latLonToV3(lat, lon, 80);
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(0.8, 8, 8), new THREE.MeshBasicMaterial({color: 0x40c4ff, transparent:true, opacity:0.4}));
+  dot.position.copy(p);
+  earth.add(dot);
+});
+
+// 已匹配城市 - 大点+脉冲
+const pulses = [];
+matched.forEach(m => {
+  const coord = cities[m.city];
+  if (!coord) return;
+  const p = latLonToV3(coord[1], coord[0], 80);
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(2, 12, 12), new THREE.MeshBasicMaterial({color: m.color}));
+  dot.position.copy(p);
+  earth.add(dot);
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(3, 4, 32),
+    new THREE.MeshBasicMaterial({color: m.color, transparent:true, opacity:0.7, side:THREE.DoubleSide})
+  );
+  ring.position.copy(p);
+  ring.lookAt(0,0,0);
+  earth.add(ring);
+  pulses.push({dot, ring, age: Math.random()*120});
+  // 连线
+  const lineGeo = new THREE.BufferGeometry().setFromPoints([p, new THREE.Vector3(0,0,0)]);
+  const line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({color: m.color, transparent:true, opacity:0.15}));
+  earth.add(line);
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  earth.rotation.y += 0.003;
+  pulses.forEach(p => {
+    p.age += 1.5;
+    const t = (p.age % 180) / 180;
+    p.ring.scale.setScalar(1 + t * 3);
+    p.ring.material.opacity = 0.7 * (1 - t);
+  });
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+</body></html>

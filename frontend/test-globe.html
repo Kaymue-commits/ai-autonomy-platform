@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Test Globe</title>
+<style>body{margin:0;background:#000}canvas{display:block}</style>
+</head><body>
+<div id="c" style="width:100vw;height:100vh"></div>
+<script src="/static/js/three.min.js"></script>
+<script>
+// 极简地球测试
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.z = 280;
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('c').appendChild(renderer.domElement);
+
+// Canvas纹理
+function makeEarthTexture() {
+  const c = document.createElement('canvas');
+  c.width = 1024; c.height = 512;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, 512);
+  grad.addColorStop(0, '#0d1b2a');
+  grad.addColorStop(0.5, '#1b3a5c');
+  grad.addColorStop(1, '#0d1b2a');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 1024, 512);
+  ctx.fillStyle = 'rgba(76, 175, 80, 0.6)';
+  [[200,150,100,80],[400,130,80,60],[550,200,120,100],[700,250,90,70],
+   [300,320,70,60],[820,350,80,50],[150,400,60,80],[600,380,100,70]].forEach(([x,y,w,h])=>{
+    ctx.beginPath(); ctx.ellipse(x,y,w,h,0,0,Math.PI*2); ctx.fill();
+  });
+  return new THREE.CanvasTexture(c);
+}
+
+const earth = new THREE.Mesh(
+  new THREE.SphereGeometry(80, 64, 64),
+  new THREE.MeshPhongMaterial({map: makeEarthTexture()})
+);
+scene.add(earth);
+scene.add(new THREE.AmbientLight(0x404040, 1.5));
+const sun = new THREE.DirectionalLight(0xffffff, 1.2);
+sun.position.set(200, 100, 200);
+scene.add(sun);
+
+// 城市标记 - 真实坐标
+const cities = [
+  {name:'SF',lat:37.77,lon:-122.42},
+  {name:'NY',lat:40.71,lon:-74.00},
+  {name:'London',lat:51.50,lon:-0.12},
+  {name:'Tokyo',lat:35.67,lon:139.65},
+  {name:'Dubai',lat:25.20,lon:55.27},
+];
+function latLonToV3(lat, lon, r=82) {
+  const phi = (90-lat) * Math.PI/180;
+  const theta = (lon+180) * Math.PI/180;
+  return new THREE.Vector3(-r*Math.sin(phi)*Math.cos(theta), r*Math.cos(phi), r*Math.sin(phi)*Math.sin(theta));
+}
+cities.forEach(c => {
+  const p = latLonToV3(c.lat, c.lon);
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(2,8,8), new THREE.MeshBasicMaterial({color:0x40c4ff}));
+  dot.position.copy(p);
+  earth.add(dot);
+});
+
+let frame = 0;
+function animate() {
+  frame++;
+  earth.rotation.y += 0.01;
+  renderer.render(scene, camera);
+  if (frame < 60) requestAnimationFrame(animate);
+}
+animate();
+document.title = "Globe rendered OK";
+</script>
+</body></html>
