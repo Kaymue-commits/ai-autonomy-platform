@@ -22,14 +22,16 @@ ENV/
 workspace/
 logs/*.jsonl
 logs/*.log
-output/frames/
-output/*.gif
-output/*.png
-!output/.gitkeep
-*.tmp
-.cache/
-
-# 敏感
 .env
 .env.local
 config.local.json
+
+# 临时文件
+*.tmp
+.cache/
+
+# 截图 - 只保留screenshot.png作为项目截图, 其他排除
+output/*.png
+output/*.gif
+!output/screenshot.png
+!output/.gitkeep
