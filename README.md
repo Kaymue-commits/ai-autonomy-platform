@@ -2,6 +2,11 @@
 
 > 🤖 像视频里最左边电脑那样：地球在转，全球AI高价值需求实时涌来 → 自动评分 → 自动对接 → 自动开发 → 钱到你账户
 
+[![Version](https://img.shields.io/badge/version-v1.0.2-blue)](https://github.com/Kaymue-commits/ai-autonomy-platform/releases/tag/v1.0.2)
+[![License](https://img.shields.io/badge/license-MIT-green)](#)
+[![Python](https://img.shields.io/badge/python-3.11+-yellow)](#)
+[![Three.js](https://img.shields.io/badge/three.js-0.160-orange)](https://threejs.org/)
+
 ![AI Autonomy Radar](./output/screenshot.png)
 
 ## 📊 实时状态
