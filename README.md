@@ -2,7 +2,7 @@
 
 > 🤖 像视频里最左边电脑那样：地球在转，全球AI高价值需求实时涌来 → 自动评分 → 自动对接 → 自动开发 → 钱到你账户
 
-[![Version](https://img.shields.io/badge/version-v1.0.2-blue)](https://github.com/Kaymue-commits/ai-autonomy-platform/releases/tag/v1.0.2)
+[![Version](https://img.shields.io/badge/version-v1.1.0-blue)](https://github.com/Kaymue-commits/ai-autonomy-platform/releases/tag/v1.1.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](#)
 [![Python](https://img.shields.io/badge/python-3.11+-yellow)](#)
 [![Three.js](https://img.shields.io/badge/three.js-0.160-orange)](https://threejs.org/)
@@ -117,6 +117,25 @@ ai-autonomy-platform/
 | `/api/contact/{id}` | POST | 自动对接某需求 |
 | `/api/build/{id}` | POST | 自动开发某需求 |
 | `/api/webhook/creem` | POST | Creem 收款回调 |
+
+
+| `/api/feed` | GET | 聚合新闻流（149 源 + 5 variant） |
+| `/api/feed/variants` | GET | 列出所有 variant 和分类 |
+| `/api/sources/stats` | GET | 数据源统计 |
+| `/api/aggregator` | GET | 全量并发聚合（149 源） |
+| `/api/threat-levels` | GET | 威胁分级元数据 |
+| `/api/events/geolocated` | GET | 带经纬度的真实事件 |
+| `/api/events/gdelt` | GET | GDELT 全球事件数据库 |
+| `/api/specialized` | GET | 专业数据（USGS/ACLED/FIRMS/GDELT） |
+| `/api/specialized/earthquakes` | GET | 24h 地震数据 |
+
+**v1.1.0 新增**:
+- 🌐 **149 个数据源**（基于 koala73/worldmonitor 60K stars 项目）
+- 🛰 **专业 API 接入**: USGS地震 / ACLED冲突 / NASA FIRMS火灾 / GDELT全球事件
+- 🎯 **威胁分级系统**: critical/high/medium/low/info 5 级
+- 📊 **聚合器**: 149 源并发抓取 + 缓存 + 限流
+- 🗺 **变体架构**: full/tech/finance/energy/happy/intel 6 种产品定位
+
 
 ## 💰 商业模式
 

@@ -1,0 +1,895 @@
+[
+  {
+    "name": "BBC World",
+    "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Guardian World",
+    "url": "https://www.theguardian.com/world/rss",
+    "type": "rss"
+  },
+  {
+    "name": "AP News",
+    "url": "https://news.google.com/rss/search?q=site:apnews.com&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:apnews.com"
+  },
+  {
+    "name": "Reuters World",
+    "url": "https://news.google.com/rss/search?q=site:reuters.com+world&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:reuters.com world"
+  },
+  {
+    "name": "CNN World",
+    "url": "https://news.google.com/rss/search?q=site:cnn.com+world+news+when:1d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:cnn.com world news when:1d"
+  },
+  {
+    "name": "Reuters US",
+    "url": "https://news.google.com/rss/search?q=site:reuters.com+US&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:reuters.com US"
+  },
+  {
+    "name": "NPR News",
+    "url": "https://feeds.npr.org/1001/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "PBS NewsHour",
+    "url": "https://www.pbs.org/newshour/feeds/rss/headlines",
+    "type": "rss"
+  },
+  {
+    "name": "ABC News",
+    "url": "https://feeds.abcnews.com/abcnews/topstories",
+    "type": "rss"
+  },
+  {
+    "name": "CBS News",
+    "url": "https://www.cbsnews.com/latest/rss/main",
+    "type": "rss"
+  },
+  {
+    "name": "NBC News",
+    "url": "https://feeds.nbcnews.com/nbcnews/public/news",
+    "type": "rss"
+  },
+  {
+    "name": "Wall Street Journal",
+    "url": "https://feeds.content.dowjones.io/public/rss/RSSUSnews",
+    "type": "rss"
+  },
+  {
+    "name": "Politico",
+    "url": "https://rss.politico.com/politics-news.xml",
+    "type": "rss"
+  },
+  {
+    "name": "The Hill",
+    "url": "https://thehill.com/news/feed",
+    "type": "rss"
+  },
+  {
+    "name": "Axios",
+    "url": "https://api.axios.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "France 24",
+    "url": "https://www.france24.com/en/rss",
+    "type": "rss"
+  },
+  {
+    "name": "EuroNews",
+    "url": "https://www.euronews.com/rss?format=xml",
+    "type": "rss"
+  },
+  {
+    "name": "Le Monde",
+    "url": "https://www.lemonde.fr/en/rss/une.xml",
+    "type": "rss"
+  },
+  {
+    "name": "DW News",
+    "url": "https://rss.dw.com/xml/rss-en-all",
+    "type": "rss"
+  },
+  {
+    "name": "BBC Middle East",
+    "url": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Al Jazeera",
+    "url": "https://www.aljazeera.com/xml/rss/all.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Guardian ME",
+    "url": "https://www.theguardian.com/world/middleeast/rss",
+    "type": "rss"
+  },
+  {
+    "name": "Oman Observer",
+    "url": "https://www.omanobserver.om/rssFeed/1",
+    "type": "rss"
+  },
+  {
+    "name": "Hacker News",
+    "url": "https://hnrss.org/frontpage",
+    "type": "rss"
+  },
+  {
+    "name": "Ars Technica",
+    "url": "https://feeds.arstechnica.com/arstechnica/technology-lab",
+    "type": "rss"
+  },
+  {
+    "name": "The Verge",
+    "url": "https://www.theverge.com/rss/index.xml",
+    "type": "rss"
+  },
+  {
+    "name": "MIT Tech Review",
+    "url": "https://www.technologyreview.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "AI News",
+    "url": "https://news.google.com/rss/search?q=(OpenAI+OR+Anthropic+OR+Google+AI+OR+\"large+language+model\"+OR+ChatGPT)+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(OpenAI OR Anthropic OR Google AI OR \"large language model\" OR ChatGPT) when:2d"
+  },
+  {
+    "name": "VentureBeat AI",
+    "url": "https://venturebeat.com/category/ai/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "The Verge AI",
+    "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+    "type": "rss"
+  },
+  {
+    "name": "MIT Tech Review",
+    "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+    "type": "rss"
+  },
+  {
+    "name": "ArXiv AI",
+    "url": "https://export.arxiv.org/rss/cs.AI",
+    "type": "rss"
+  },
+  {
+    "name": "CNBC",
+    "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+    "type": "rss"
+  },
+  {
+    "name": "MarketWatch",
+    "url": "https://news.google.com/rss/search?q=site:marketwatch.com+markets+when:1d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:marketwatch.com markets when:1d"
+  },
+  {
+    "name": "Yahoo Finance",
+    "url": "https://finance.yahoo.com/news/rssindex",
+    "type": "rss"
+  },
+  {
+    "name": "Financial Times",
+    "url": "https://www.ft.com/rss/home",
+    "type": "rss"
+  },
+  {
+    "name": "Reuters Business",
+    "url": "https://news.google.com/rss/search?q=site:reuters.com+business+markets&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:reuters.com business markets"
+  },
+  {
+    "name": "White House",
+    "url": "https://news.google.com/rss/search?q=site:whitehouse.gov&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:whitehouse.gov"
+  },
+  {
+    "name": "State Dept",
+    "url": "https://news.google.com/rss/search?q=site:state.gov+OR+\"State+Department\"&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:state.gov OR \"State Department\""
+  },
+  {
+    "name": "Pentagon",
+    "url": "https://news.google.com/rss/search?q=site:defense.gov+OR+Pentagon&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:defense.gov OR Pentagon"
+  },
+  {
+    "name": "Federal Reserve",
+    "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+    "type": "rss"
+  },
+  {
+    "name": "SEC",
+    "url": "https://www.sec.gov/news/pressreleases.rss",
+    "type": "rss"
+  },
+  {
+    "name": "UN News",
+    "url": "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "CISA",
+    "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+    "type": "rss"
+  },
+  {
+    "name": "BBC Africa",
+    "url": "https://feeds.bbci.co.uk/news/world/africa/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "News24",
+    "url": "https://feeds.news24.com/articles/news24/TopStories/rss",
+    "type": "rss"
+  },
+  {
+    "name": "BBC Latin America",
+    "url": "https://feeds.bbci.co.uk/news/world/latin_america/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Guardian Americas",
+    "url": "https://www.theguardian.com/world/americas/rss",
+    "type": "rss"
+  },
+  {
+    "name": "BBC Asia",
+    "url": "https://feeds.bbci.co.uk/news/world/asia/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "The Diplomat",
+    "url": "https://thediplomat.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Nikkei Asia",
+    "url": "https://news.google.com/rss/search?q=site:asia.nikkei.com+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:asia.nikkei.com when:3d"
+  },
+  {
+    "name": "CNA",
+    "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml",
+    "type": "rss"
+  },
+  {
+    "name": "NDTV",
+    "url": "https://feeds.feedburner.com/ndtvnews-top-stories",
+    "type": "rss"
+  },
+  {
+    "name": "Oil & Gas",
+    "url": "https://news.google.com/rss/search?q=(oil+price+OR+OPEC+OR+\"natural+gas\"+OR+pipeline+OR+LNG)+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(oil price OR OPEC OR \"natural gas\" OR pipeline OR LNG) when:2d"
+  },
+  {
+    "name": "Foreign Policy",
+    "url": "https://foreignpolicy.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Atlantic Council",
+    "url": "https://www.atlanticcouncil.org/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Foreign Affairs",
+    "url": "https://www.foreignaffairs.com/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "CrisisWatch",
+    "url": "https://www.crisisgroup.org/rss",
+    "type": "rss"
+  },
+  {
+    "name": "IAEA",
+    "url": "https://www.iaea.org/feeds/topnews",
+    "type": "rss"
+  },
+  {
+    "name": "WHO",
+    "url": "https://www.who.int/rss-feeds/news-english.xml",
+    "type": "rss"
+  },
+  {
+    "name": "TechCrunch Layoffs",
+    "url": "https://techcrunch.com/tag/layoffs/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "TechCrunch",
+    "url": "https://techcrunch.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "The Verge",
+    "url": "https://www.theverge.com/rss/index.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Ars Technica",
+    "url": "https://feeds.arstechnica.com/arstechnica/technology-lab",
+    "type": "rss"
+  },
+  {
+    "name": "Hacker News",
+    "url": "https://hnrss.org/frontpage",
+    "type": "rss"
+  },
+  {
+    "name": "AI News",
+    "url": "https://news.google.com/rss/search?q=(OpenAI+OR+Anthropic+OR+Google+AI+OR+\"large+language+model\"+OR+ChatGPT)+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(OpenAI OR Anthropic OR Google AI OR \"large language model\" OR ChatGPT) when:2d"
+  },
+  {
+    "name": "VentureBeat AI",
+    "url": "https://venturebeat.com/category/ai/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "The Verge AI",
+    "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+    "type": "rss"
+  },
+  {
+    "name": "ArXiv AI",
+    "url": "https://export.arxiv.org/rss/cs.AI",
+    "type": "rss"
+  },
+  {
+    "name": "TechCrunch Startups",
+    "url": "https://techcrunch.com/category/startups/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "VentureBeat",
+    "url": "https://venturebeat.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Crunchbase News",
+    "url": "https://news.crunchbase.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Y Combinator Blog",
+    "url": "https://www.ycombinator.com/blog/rss/",
+    "type": "rss"
+  },
+  {
+    "name": "a16z Blog",
+    "url": "https://a16z.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "First Round Review",
+    "url": "https://review.firstround.com/feed.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Sequoia Blog",
+    "url": "https://www.sequoiacap.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Stratechery",
+    "url": "https://stratechery.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "EU Startups",
+    "url": "https://www.eu-startups.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Tech.eu",
+    "url": "https://tech.eu/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Sifted (Europe)",
+    "url": "https://sifted.eu/feed",
+    "type": "rss"
+  },
+  {
+    "name": "Tech in Asia",
+    "url": "https://www.techinasia.com/feed",
+    "type": "rss"
+  },
+  {
+    "name": "TechCabal (Africa)",
+    "url": "https://techcabal.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Inc42 (India)",
+    "url": "https://inc42.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Unicorn News",
+    "url": "https://news.google.com/rss/search?q=(\"unicorn+startup\"+OR+\"unicorn+valuation\"+OR+\"$1+billion+valuation\")+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"unicorn startup\" OR \"unicorn valuation\" OR \"$1 billion valuation\") when:7d"
+  },
+  {
+    "name": "Decacorn News",
+    "url": "https://news.google.com/rss/search?q=(\"decacorn\"+OR+\"$10+billion+valuation\")+startup+when:14d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"decacorn\" OR \"$10 billion valuation\") startup when:14d"
+  },
+  {
+    "name": "YC News",
+    "url": "https://news.ycombinator.com/rss",
+    "type": "rss"
+  },
+  {
+    "name": "YC Blog",
+    "url": "https://www.ycombinator.com/blog/rss/",
+    "type": "rss"
+  },
+  {
+    "name": "Demo Day News",
+    "url": "https://news.google.com/rss/search?q=(\"demo+day\"+OR+\"YC+batch\"+OR+\"accelerator+batch\")+startup+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"demo day\" OR \"YC batch\" OR \"accelerator batch\") startup when:7d"
+  },
+  {
+    "name": "Krebs Security",
+    "url": "https://krebsonsecurity.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Dark Reading",
+    "url": "https://www.darkreading.com/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Politico Tech",
+    "url": "https://rss.politico.com/technology.xml",
+    "type": "rss"
+  },
+  {
+    "name": "AI Regulation",
+    "url": "https://news.google.com/rss/search?q=AI+regulation+OR+\"artificial+intelligence\"+law+OR+policy+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "AI regulation OR \"artificial intelligence\" law OR policy when:7d"
+  },
+  {
+    "name": "Tech Antitrust",
+    "url": "https://news.google.com/rss/search?q=tech+antitrust+OR+FTC+Google+OR+FTC+Apple+OR+FTC+Amazon+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "tech antitrust OR FTC Google OR FTC Apple OR FTC Amazon when:7d"
+  },
+  {
+    "name": "GitHub Blog",
+    "url": "https://github.blog/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "VC News",
+    "url": "https://news.google.com/rss/search?q=(\"Series+A\"+OR+\"Series+B\"+OR+\"Series+C\"+OR+\"venture+capital\"+OR+\"funding+round\")+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"Series A\" OR \"Series B\" OR \"Series C\" OR \"venture capital\" OR \"funding round\") when:2d"
+  },
+  {
+    "name": "InfoQ",
+    "url": "https://feed.infoq.com/",
+    "type": "rss"
+  },
+  {
+    "name": "The New Stack",
+    "url": "https://thenewstack.io/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "TechCrunch Layoffs",
+    "url": "https://techcrunch.com/tag/layoffs/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "CNBC Tech",
+    "url": "https://www.cnbc.com/id/19854910/device/rss/rss.html",
+    "type": "rss"
+  },
+  {
+    "name": "Yahoo Finance",
+    "url": "https://finance.yahoo.com/rss/topstories",
+    "type": "rss"
+  },
+  {
+    "name": "Dev.to",
+    "url": "https://dev.to/feed",
+    "type": "rss"
+  },
+  {
+    "name": "Lobsters",
+    "url": "https://lobste.rs/rss",
+    "type": "rss"
+  },
+  {
+    "name": "Changelog",
+    "url": "https://changelog.com/feed",
+    "type": "rss"
+  },
+  {
+    "name": "Show HN",
+    "url": "https://hnrss.org/show",
+    "type": "rss"
+  },
+  {
+    "name": "IPO News",
+    "url": "https://news.google.com/rss/search?q=(IPO+OR+\"initial+public+offering\"+OR+SPAC)+tech+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(IPO OR \"initial public offering\" OR SPAC) tech when:7d"
+  },
+  {
+    "name": "Tech IPO News",
+    "url": "https://news.google.com/rss/search?q=tech+IPO+OR+\"tech+company\"+IPO+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "tech IPO OR \"tech company\" IPO when:7d"
+  },
+  {
+    "name": "Product Hunt",
+    "url": "https://www.producthunt.com/feed",
+    "type": "rss"
+  },
+  {
+    "name": "SemiAnalysis",
+    "url": "https://www.semianalysis.com/feed",
+    "type": "rss"
+  },
+  {
+    "name": "Semiconductor News",
+    "url": "https://news.google.com/rss/search?q=semiconductor+OR+chip+OR+TSMC+OR+NVIDIA+OR+Intel+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "semiconductor OR chip OR TSMC OR NVIDIA OR Intel when:3d"
+  },
+  {
+    "name": "AWS Status",
+    "url": "https://news.google.com/rss/search?q=AWS+outage+OR+\"Amazon+Web+Services\"+down+when:1d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "AWS outage OR \"Amazon Web Services\" down when:1d"
+  },
+  {
+    "name": "Cloud Outages",
+    "url": "https://news.google.com/rss/search?q=(Azure+outage+OR+\"Google+Cloud\"+outage+OR+Cloudflare+outage+OR+Slack+down+OR+GitHub+down)+when:1d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(Azure outage OR \"Google Cloud\" outage OR Cloudflare outage OR Slack down OR GitHub down) when:1d"
+  },
+  {
+    "name": "CNBC",
+    "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+    "type": "rss"
+  },
+  {
+    "name": "Yahoo Finance",
+    "url": "https://finance.yahoo.com/rss/topstories",
+    "type": "rss"
+  },
+  {
+    "name": "Seeking Alpha",
+    "url": "https://seekingalpha.com/market_currents.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Forex News",
+    "url": "https://news.google.com/rss/search?q=(forex+OR+currency+OR+\"exchange+rate\"+OR+FX+OR+\"US+dollar\")+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(forex OR currency OR \"exchange rate\" OR FX OR \"US dollar\") when:2d"
+  },
+  {
+    "name": "Bond Market",
+    "url": "https://news.google.com/rss/search?q=(\"bond+market\"+OR+\"treasury+yield\"+OR+\"bond+yield\"+OR+\"fixed+income\")+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"bond market\" OR \"treasury yield\" OR \"bond yield\" OR \"fixed income\") when:2d"
+  },
+  {
+    "name": "Oil & Gas",
+    "url": "https://news.google.com/rss/search?q=(oil+price+OR+OPEC+OR+\"natural+gas\"+OR+pipeline+OR+LNG)+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(oil price OR OPEC OR \"natural gas\" OR pipeline OR LNG) when:2d"
+  },
+  {
+    "name": "Gold & Metals",
+    "url": "https://news.google.com/rss/search?q=(\"gold+price\"+OR+\"silver+price\"+OR+\"precious+metals\"+OR+\"copper+price\")+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"gold price\" OR \"silver price\" OR \"precious metals\" OR \"copper price\") when:2d"
+  },
+  {
+    "name": "CoinDesk",
+    "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+    "type": "rss"
+  },
+  {
+    "name": "Cointelegraph",
+    "url": "https://cointelegraph.com/rss",
+    "type": "rss"
+  },
+  {
+    "name": "Federal Reserve",
+    "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Economic Data",
+    "url": "https://news.google.com/rss/search?q=(CPI+OR+inflation+OR+GDP+OR+\"economic+data\"+OR+\"jobs+report\")+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(CPI OR inflation OR GDP OR \"economic data\" OR \"jobs report\") when:2d"
+  },
+  {
+    "name": "IPO News",
+    "url": "https://news.google.com/rss/search?q=(IPO+OR+\"initial+public+offering\"+OR+\"stock+market+debut\")+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(IPO OR \"initial public offering\" OR \"stock market debut\") when:2d"
+  },
+  {
+    "name": "Options Market",
+    "url": "https://news.google.com/rss/search?q=(\"options+market\"+OR+\"options+trading\"+OR+\"put+call+ratio\"+OR+VIX)+when:2d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"options market\" OR \"options trading\" OR \"put call ratio\" OR VIX) when:2d"
+  },
+  {
+    "name": "Futures Trading",
+    "url": "https://news.google.com/rss/search?q=(\"futures+trading\"+OR+\"S&P+500+futures\"+OR+\"Nasdaq+futures\")+when:1d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"futures trading\" OR \"S&P 500 futures\" OR \"Nasdaq futures\") when:1d"
+  },
+  {
+    "name": "Fintech News",
+    "url": "https://news.google.com/rss/search?q=(fintech+OR+\"payment+technology\"+OR+neobank+OR+\"digital+banking\")+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(fintech OR \"payment technology\" OR neobank OR \"digital banking\") when:3d"
+  },
+  {
+    "name": "Trading Tech",
+    "url": "https://news.google.com/rss/search?q=(\"algorithmic+trading\"+OR+\"trading+platform\"+OR+\"quantitative+finance\")+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"algorithmic trading\" OR \"trading platform\" OR \"quantitative finance\") when:7d"
+  },
+  {
+    "name": "Blockchain Finance",
+    "url": "https://news.google.com/rss/search?q=(\"blockchain+finance\"+OR+tokenization+OR+\"digital+securities\"+OR+CBDC)+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"blockchain finance\" OR tokenization OR \"digital securities\" OR CBDC) when:7d"
+  },
+  {
+    "name": "SEC",
+    "url": "https://www.sec.gov/news/pressreleases.rss",
+    "type": "rss"
+  },
+  {
+    "name": "Financial Regulation",
+    "url": "https://news.google.com/rss/search?q=(SEC+OR+CFTC+OR+FINRA+OR+FCA)+regulation+OR+enforcement+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(SEC OR CFTC OR FINRA OR FCA) regulation OR enforcement when:3d"
+  },
+  {
+    "name": "Banking Rules",
+    "url": "https://news.google.com/rss/search?q=(Basel+OR+\"capital+requirements\"+OR+\"banking+regulation\")+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(Basel OR \"capital requirements\" OR \"banking regulation\") when:7d"
+  },
+  {
+    "name": "Crypto Regulation",
+    "url": "https://news.google.com/rss/search?q=(crypto+regulation+OR+\"digital+asset\"+regulation+OR+stablecoin+regulation)+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(crypto regulation OR \"digital asset\" regulation OR stablecoin regulation) when:7d"
+  },
+  {
+    "name": "Hedge Fund News",
+    "url": "https://news.google.com/rss/search?q=(\"hedge+fund\"+OR+Bridgewater+OR+Citadel+OR+Renaissance)+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"hedge fund\" OR Bridgewater OR Citadel OR Renaissance) when:7d"
+  },
+  {
+    "name": "Private Equity",
+    "url": "https://news.google.com/rss/search?q=(\"private+equity\"+OR+Blackstone+OR+KKR+OR+Apollo+OR+Carlyle)+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"private equity\" OR Blackstone OR KKR OR Apollo OR Carlyle) when:3d"
+  },
+  {
+    "name": "Sovereign Wealth",
+    "url": "https://news.google.com/rss/search?q=(\"sovereign+wealth+fund\"+OR+\"pension+fund\"+OR+\"institutional+investor\")+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"sovereign wealth fund\" OR \"pension fund\" OR \"institutional investor\") when:7d"
+  },
+  {
+    "name": "Market Outlook",
+    "url": "https://news.google.com/rss/search?q=(\"market+outlook\"+OR+\"stock+market+forecast\"+OR+\"bull+market\"+OR+\"bear+market\")+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"market outlook\" OR \"stock market forecast\" OR \"bull market\" OR \"bear market\") when:3d"
+  },
+  {
+    "name": "Risk & Volatility",
+    "url": "https://news.google.com/rss/search?q=(VIX+OR+\"market+volatility\"+OR+\"risk+off\"+OR+\"market+correction\")+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(VIX OR \"market volatility\" OR \"risk off\" OR \"market correction\") when:3d"
+  },
+  {
+    "name": "Bank Research",
+    "url": "https://news.google.com/rss/search?q=(\"Goldman+Sachs\"+OR+JPMorgan+OR+\"Morgan+Stanley\")+forecast+OR+outlook+when:3d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"Goldman Sachs\" OR JPMorgan OR \"Morgan Stanley\") forecast OR outlook when:3d"
+  },
+  {
+    "name": "Arabian Business",
+    "url": "https://news.google.com/rss/search?q=site:arabianbusiness.com+(Saudi+Arabia+OR+UAE+OR+GCC)+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:arabianbusiness.com (Saudi Arabia OR UAE OR GCC) when:7d"
+  },
+  {
+    "name": "The National",
+    "url": "https://news.google.com/rss/search?q=site:thenationalnews.com+(Abu+Dhabi+OR+UAE+OR+Saudi)+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:thenationalnews.com (Abu Dhabi OR UAE OR Saudi) when:7d"
+  },
+  {
+    "name": "Arab News",
+    "url": "https://news.google.com/rss/search?q=site:arabnews.com+(Saudi+Arabia+OR+investment+OR+infrastructure)+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:arabnews.com (Saudi Arabia OR investment OR infrastructure) when:7d"
+  },
+  {
+    "name": "Gulf FDI",
+    "url": "https://news.google.com/rss/search?q=(PIF+OR+\"DP+World\"+OR+Mubadala+OR+ADNOC+OR+Masdar+OR+\"ACWA+Power\")+infrastructure+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(PIF OR \"DP World\" OR Mubadala OR ADNOC OR Masdar OR \"ACWA Power\") infrastructure when:7d"
+  },
+  {
+    "name": "Gulf Investments",
+    "url": "https://news.google.com/rss/search?q=(\"Saudi+Arabia\"+OR+UAE+OR+\"Abu+Dhabi\")+investment+infrastructure+when:7d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "(\"Saudi Arabia\" OR UAE OR \"Abu Dhabi\") investment infrastructure when:7d"
+  },
+  {
+    "name": "Vision 2030",
+    "url": "https://news.google.com/rss/search?q=\"Vision+2030\"+(project+OR+investment+OR+announced)+when:14d&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "\"Vision 2030\" (project OR investment OR announced) when:14d"
+  },
+  {
+    "name": "Good News Network",
+    "url": "https://www.goodnewsnetwork.org/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Positive.News",
+    "url": "https://www.positive.news/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Reasons to be Cheerful",
+    "url": "https://reasonstobecheerful.world/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Optimist Daily",
+    "url": "https://www.optimistdaily.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "ScienceDaily",
+    "url": "https://www.sciencedaily.com/rss/all.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Nature News",
+    "url": "https://feeds.nature.com/nature/rss/current",
+    "type": "rss"
+  },
+  {
+    "name": "Singularity Hub",
+    "url": "https://singularityhub.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Defense One",
+    "url": "https://www.defenseone.com/rss/all/",
+    "type": "rss"
+  },
+  {
+    "name": "Breaking Defense",
+    "url": "https://breakingdefense.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "The War Zone",
+    "url": "https://www.twz.com/feed",
+    "type": "rss"
+  },
+  {
+    "name": "Defense News",
+    "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml",
+    "type": "rss"
+  },
+  {
+    "name": "Military Times",
+    "url": "https://www.militarytimes.com/arc/outboundfeeds/rss/?outputType=xml",
+    "type": "rss"
+  },
+  {
+    "name": "Task & Purpose",
+    "url": "https://taskandpurpose.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "USNI News",
+    "url": "https://news.usni.org/feed",
+    "type": "rss"
+  },
+  {
+    "name": "gCaptain",
+    "url": "https://gcaptain.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Oryx OSINT",
+    "url": "https://www.oryxspioenkop.com/feeds/posts/default?alt=rss",
+    "type": "rss"
+  },
+  {
+    "name": "Foreign Policy",
+    "url": "https://foreignpolicy.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Foreign Affairs",
+    "url": "https://www.foreignaffairs.com/rss.xml",
+    "type": "rss"
+  },
+  {
+    "name": "Atlantic Council",
+    "url": "https://www.atlanticcouncil.org/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Bellingcat",
+    "url": "https://news.google.com/rss/search?q=site:bellingcat.com&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:bellingcat.com"
+  },
+  {
+    "name": "Krebs Security",
+    "url": "https://krebsonsecurity.com/feed/",
+    "type": "rss"
+  },
+  {
+    "name": "Arms Control Assn",
+    "url": "https://news.google.com/rss/search?q=site:armscontrol.org&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:armscontrol.org"
+  },
+  {
+    "name": "Bulletin of Atomic Scientists",
+    "url": "https://news.google.com/rss/search?q=site:thebulletin.org&hl=en-US&gl=US&ceid=US:en",
+    "type": "google_news",
+    "query": "site:thebulletin.org"
+  },
+  {
+    "name": "FAO News",
+    "url": "https://www.fao.org/feeds/fao-newsroom-rss",
+    "type": "rss"
+  }
+]

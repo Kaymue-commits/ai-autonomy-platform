@@ -24,6 +24,14 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
+# 新模块
+from modules.intelligence import scan_global_intel, get_flight_snapshot
+from modules.finance import scan_finance
+from modules.osint import get_conflict_snapshot, generate_event_stream
+from modules.freelance import scan_freelance
+from modules.energy import get_energy_snapshot
+from modules.ainews import scan_ai_news
+
 # ===== 配置 =====
 ROOT = Path(__file__).parent.parent
 CONFIG_PATH = ROOT / "config.json"
@@ -446,10 +454,283 @@ async def creem_webhook(request: Request):
     # 业务逻辑：入账、通知用户
     return {"received": True}
 
+# ============================================================
+# 新增模块 API 路由（情报 / 金融 / OSINT / 自由职业 / 能源 / AI新闻）
+# ============================================================
+
+@app.get("/api/intel")
+async def api_global_intel():
+    """全球情报仪表盘（worldmonitor 风格）"""
+    try:
+        data = await scan_global_intel()
+        await log_broadcast(f"🌍 全球情报: 抓取 {len(data['events'])} 条事件", "info")
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.get("/api/flights")
+async def api_flights():
+    """航班追踪（OSINT War Room 风格）"""
+    return {"flights": get_flight_snapshot()}
+
+@app.get("/api/finance")
+async def api_finance():
+    """金融雷达（OpenStock / QuantDinger / Profitmaker 风格）"""
+    try:
+        data = await scan_finance()
+        await log_broadcast(f"💰 金融数据: {len(data['crypto'])}币 + {len(data['stock_indices'])}指数 + {len(data['prediction_markets'])}预测市场", "info")
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.get("/api/osint")
+async def api_osint():
+    """OSINT冲突追踪（war-map / crisismap 风格）"""
+    try:
+        data = get_conflict_snapshot()
+        await log_broadcast(f"🛰 OSINT: {len(data['hotspots'])}热点 + {len(data['cyber_events'])}网络战 + {len(data['military_movements'])}调动", "info")
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.get("/api/osint/events")
+async def api_osint_events():
+    """OSINT 事件流（ACLED 风格）"""
+    return {"events": generate_event_stream(25)}
+
+@app.get("/api/freelance")
+async def api_freelance():
+    """自由职业机会（Devalopers / Propoplex / HN Who's Hiring 风格）"""
+    try:
+        data = await scan_freelance()
+        await log_broadcast(f"💼 自由职业: {len(data['jobs'])}条 | 总价值 ${data['total_value_usd']:,}", "info")
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.get("/api/energy")
+async def api_energy():
+    """能源监控（ioBroker.energiefluss / solarsynkv3 风格）"""
+    try:
+        data = get_energy_snapshot()
+        await log_broadcast(f"⚡ 能源: 全球负载 {data['global_load_gw']}GW / {data['global_capacity_gw']}GW", "info")
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.get("/api/ainews")
+async def api_ainews():
+    """AI新闻雷达（Horizon / AiLert / Auto-News 风格）"""
+    try:
+        data = await scan_ai_news()
+        await log_broadcast(f"📰 AI新闻: {len(data['news'])}条 / {data['total_sources']}源", "info")
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+# 模块统一聚合状态
+@app.get("/api/modules/status")
+async def modules_status():
+    """所有模块状态"""
+    from data.sources import get_source_stats
+    stats = get_source_stats()
+    return {
+        "sources": stats,
+        "modules": {
+            "aggregator": "ready",
+            "classifier": "ready",
+            "cache": "ready",
+            "specialized": "ready (GDELT/USGS/ACLED/FIRMS)",
+            "contact": "ready",
+            "builder": "ready",
+            "payment": "ready",
+        },
+        "version": "1.1.0",
+    }
+
+
+# ===== v1.1.0: Aggregator + Specialized 路由 =====
+@app.get("/api/feed")
+async def get_feed(
+    category: str = None,
+    variant: str = None,
+    limit: int = 100,
+    min_threat: str = "info",
+):
+    """
+    获取聚合的新闻流 (来自 149 个数据源)
+    category: 指定分类 (intel/politics/ai/finance/crypto/security...)
+    variant: 'full' / 'tech' / 'finance'
+    min_threat: info / low / medium / high / critical
+    """
+    from modules.aggregator import get_feed_digest, aggregate_variant, THREAT_LEVELS
+    # 威胁等级过滤
+    min_score = THREAT_LEVELS.get(min_threat, {"score": 0})["score"]
+    if category:
+        result = await get_feed_digest(category=category, limit=limit)
+        items = [it for it in result["items"] if it.get("score", 0) >= min_score]
+        return {**result, "items": items, "total": len(items)}
+    if variant and variant != "all":
+        result = await aggregate_variant(variant=variant)
+        items = [it for it in result["all_items"] if it.get("score", 0) >= min_score][:limit]
+        return {
+            "variant": variant,
+            "items": items,
+            "total": len(items),
+            "threat_distribution": result["threat_distribution"],
+            "scanned_at": result["scanned_at"],
+        }
+    # 默认全量 top
+    result = await get_feed_digest(category=None, limit=limit)
+    items = [it for it in result["items"] if it.get("score", 0) >= min_score]
+    return {**result, "items": items, "total": len(items)}
+
+
+@app.get("/api/feed/variants")
+async def list_variants():
+    """列出所有可用的 variants 和分类"""
+    from data.sources import get_source_stats, BY_VARIANT, BY_CATEGORY
+    stats = get_source_stats()
+    return {
+        "total_sources": stats["total_sources"],
+        "variants": {
+            v: {
+                "count": len(srcs),
+                "categories": sorted(set(s["category"] for s in srcs)),
+            } for v, srcs in BY_VARIANT.items() if srcs
+        },
+        "categories": {c: len(srcs) for c, srcs in BY_CATEGORY.items()},
+        "regions": stats["by_region"],
+    }
+
+
+@app.get("/api/events/geolocated")
+async def get_geolocated_events():
+    """
+    获取带经纬度的真实事件 (USGS 地震 / NASA FIRMS 火灾)
+    可直接显示在 3D 地球上
+    """
+    from modules.specialized import fetch_earthquakes, fetch_wildfires
+    quakes, fires = await asyncio.gather(fetch_earthquakes(), fetch_wildfires())
+    geo = []
+    for q in quakes:
+        geo.append({**q, "source_type": "usgs", "category": "earthquake"})
+    for f in fires:
+        geo.append({**f, "source_type": "nasa", "category": "wildfire"})
+    return {
+        "events": geo,
+        "count": len(geo),
+        "source_breakdown": {
+            "USGS (earthquakes)": len(quakes),
+            "NASA FIRMS (fires)": len(fires),
+        },
+        "scanned_at": datetime.now().isoformat(),
+    }
+
+
+@app.get("/api/events/gdelt")
+async def get_gdelt_events(theme: str = "CONFLICT", timespan: str = "3d", max: int = 50):
+    """GDELT 全球事件数据库"""
+    from modules.specialized import fetch_gdelt_events
+    events = await fetch_gdelt_events(theme=theme, limit=max)
+    return {
+        "events": events,
+        "count": len(events),
+        "theme": theme,
+        "timespan": timespan,
+        "scanned_at": datetime.now().isoformat(),
+    }
+
+
+# ===== 新增: 数据源管理 / 专业数据 / 威胁分级元数据 =====
+@app.get("/api/sources")
+async def list_sources(category: str = None, region: str = None):
+    """列出所有数据源 (149 个分类 RSS 源)"""
+    from data.sources import ALL_SOURCES, get_source_stats, BY_CATEGORY, BY_REGION
+    if category:
+        return {
+            "category": category,
+            "sources": BY_CATEGORY.get(category, []),
+            "count": len(BY_CATEGORY.get(category, [])),
+        }
+    if region:
+        return {
+            "region": region,
+            "sources": BY_REGION.get(region, []),
+            "count": len(BY_REGION.get(region, [])),
+        }
+    return {
+        "sources": ALL_SOURCES,
+        "stats": get_source_stats(),
+    }
+
+
+@app.get("/api/sources/stats")
+async def sources_stats():
+    """数据源统计"""
+    from data.sources import get_source_stats
+    return get_source_stats()
+
+
+@app.get("/api/specialized")
+async def specialized_data():
+    """专业数据统一入口 (USGS 地震 / NASA FIRMS / OpenSky 航班 / GDELT 事件)"""
+    from modules.specialized import scan_all_specialized
+    try:
+        data = await scan_all_specialized()
+        await log_broadcast(
+            f"🛰 专业源: 地震 {data['total_quakes']} | 火灾 {data['total_fires']} | 航班 {data['total_flights']} | GDELT {data['total_gdelt']}",
+            "info"
+        )
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/specialized/earthquakes")
+async def api_earthquakes():
+    """USGS 24h 地震数据"""
+    from modules.specialized import fetch_earthquakes
+    return {"earthquakes": await fetch_earthquakes()}
+
+
+@app.get("/api/specialized/flights")
+async def api_flights_real(limit: int = 50):
+    """OpenSky 实时航班"""
+    from modules.specialized import fetch_flights_opensky
+    return {"flights": await fetch_flights_opensky(limit=limit)}
+
+
+@app.get("/api/threat-levels")
+async def threat_levels():
+    """威胁分级元数据"""
+    from data.classifier import THREAT_LEVELS, TOPIC_KEYWORDS
+    return {
+        "levels": THREAT_LEVELS,
+        "topics": list(TOPIC_KEYWORDS.keys()),
+    }
+
+
+@app.get("/api/aggregator")
+async def aggregator_all():
+    """全量聚合 (149 源并发抓取，按分类返回)"""
+    from modules.aggregator import aggregate_all
+    try:
+        data = await aggregate_all()
+        await log_broadcast(
+            f"📡 聚合: {data['total_items']} 条 / {data['total_sources']} 源 / 分布 {data['threat_distribution']}",
+            "info"
+        )
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
 # ===== 后台扫描任务 =====
 @app.on_event("startup")
 async def startup():
-    async def loop():
+    async def loop_demand():
+        """需求雷达扫描"""
         await asyncio.sleep(3)
         await log_broadcast("🚀 AI Autonomy Radar 已启动", "success")
         while True:
@@ -458,7 +739,81 @@ async def startup():
             except Exception as e:
                 await log_broadcast(f"扫描异常: {e}", "error")
             await asyncio.sleep(600)  # 每10分钟
-    asyncio.create_task(loop())
+
+    async def loop_fast_modules():
+        """快刷新模块：金融/能源/OSINT/航班（高频数据，2-5秒刷一次）"""
+        await asyncio.sleep(2)
+        while True:
+            try:
+                # 金融
+                fin = await scan_finance()
+                await broadcast("module_finance", fin)
+                # 能源
+                en = get_energy_snapshot()
+                await broadcast("module_energy", en)
+                # OSINT 冲突快照
+                os = get_conflict_snapshot()
+                await broadcast("module_osint", os)
+                # 航班
+                await broadcast("module_flights", {"flights": get_flight_snapshot()})
+            except Exception as e:
+                await log_broadcast(f"快模块异常: {e}", "error")
+            await asyncio.sleep(5)
+
+    async def loop_slow_modules():
+        """慢刷新模块：情报/AI新闻/自由职业（RSS抓取，5分钟一次）"""
+        await asyncio.sleep(8)
+        while True:
+            try:
+                intel = await scan_global_intel()
+                await broadcast("module_intel", intel)
+                news = await scan_ai_news()
+                await broadcast("module_ainews", news)
+                fl = await scan_freelance()
+                await broadcast("module_freelance", fl)
+                # OSINT 事件流
+                await broadcast("module_events", {"events": generate_event_stream(15)})
+            except Exception as e:
+                await log_broadcast(f"慢模块异常: {e}", "error")
+            await asyncio.sleep(300)
+
+    async def loop_specialized():
+        """专业数据源：USGS地震/NASA FIRMS/OpenSky航班/GDELT（3分钟一次）"""
+        await asyncio.sleep(15)
+        while True:
+            try:
+                from modules.specialized import scan_all_specialized
+                data = await scan_all_specialized()
+                await broadcast("module_specialized", data)
+                await log_broadcast(
+                    f"🛰 专业源: 地震 {data['total_quakes']} | 火灾 {data['total_fires']} | 航班 {data['total_flights']} | GDELT {data['total_gdelt']}",
+                    "info"
+                )
+            except Exception as e:
+                await log_broadcast(f"专业源异常: {e}", "error")
+            await asyncio.sleep(180)
+
+    async def loop_aggregator():
+        """全量 RSS 聚合器：149 源并发抓取（10分钟一次，配合缓存）"""
+        await asyncio.sleep(30)
+        while True:
+            try:
+                from modules.aggregator import aggregate_all
+                data = await aggregate_all()
+                await broadcast("module_aggregator", data)
+                await log_broadcast(
+                    f"📡 聚合 {data['total_items']} 条 / {data['total_sources']} 源 / 分布 {data['threat_distribution']}",
+                    "info"
+                )
+            except Exception as e:
+                await log_broadcast(f"聚合器异常: {e}", "error")
+            await asyncio.sleep(600)
+
+    asyncio.create_task(loop_demand())
+    asyncio.create_task(loop_fast_modules())
+    asyncio.create_task(loop_slow_modules())
+    asyncio.create_task(loop_specialized())
+    asyncio.create_task(loop_aggregator())
 
 # ===== 静态文件 =====
 app.mount("/static", StaticFiles(directory=str(ROOT / "frontend")), name="static")
