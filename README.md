@@ -1,16 +1,36 @@
-# AI Autonomy Radar · 全球AI需求自动商业化系统
+# NEXUS RADAR · 全球情报系统
 
-> 🤖 像视频里最左边电脑那样：地球在转，全球AI高价值需求实时涌来 → 自动评分 → 自动对接 → 自动开发 → 钱到你账户
+> 🌍 实时3D地球可视化 + 149个全球数据源 + AI智能分析 + 16家LLM服务商支持
 
-[![Version](https://img.shields.io/badge/version-v1.1.0-blue)](https://github.com/Kaymue-commits/ai-autonomy-platform/releases/tag/v1.1.0)
+[![Version](https://img.shields.io/badge/version-v2.1.0-blue)](https://github.com/Kaymue-commits/ai-autonomy-platform/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-green)](#)
 [![Python](https://img.shields.io/badge/python-3.11+-yellow)](#)
 [![Three.js](https://img.shields.io/badge/three.js-0.160-orange)](https://threejs.org/)
 
-![AI Autonomy Radar](./output/screenshot.png)
+![NEXUS RADAR v2.1.0](./screenshot_v2.png)
+
+## 📊 核心模块
+
+| 模块 | 功能 | 数据源 |
+|------|------|--------|
+| 🎯 **需求雷达** | 全球自由职业机会 + 预算估算 | WeWorkRemotely/RemoteOK/HN Jobs/电鸭社区 |
+| 🌍 **全球情报** | 地缘政治事件 + CII指数 | GDELT/ACLED/USGS/FIRMS |
+| 🤖 **AI情报** | AI论文 + GitHub Trending + AI新闻 | arXiv/GitHub/TechCrunch |
+| 💰 **金融雷达** | 加密货币 + 股指 + AI-Trader | CoinGecko/Yahoo Finance |
+| 🛰 **太空监测** | 398颗卫星实时位置(含Starlink) | CelesTrack TLE API |
+| ⚡ **能源监控** | 全球电网 + 水电/核电/光伏/天然气 | IEA/ENTSO-E |
+| 🌦 **气象海洋** | 动态云层 + 台风/气旋可视化 | NOAA/GFS |
+| 🔧 **科技情报** | 全球科技热点实时追踪 | TechCrunch/TheVerge/36氪/HN |
+
+## 🤖 AI 助手特性
+
+- **16家LLM服务商支持**: OpenAI/DeepSeek/Anthropic/Gemini/MiniMax/通义千问/智谱/Kimi/Grok/Groq/Mistral/Together/OpenRouter/SiliconFlow/百川/零一万物
+- **13个智能工具**: 赚钱机会分析、威胁评估、金融查询、卫星追踪、能源监控等
+- **自动降级机制**: 工具调用失败时自动尝试纯对话模式
+- **语音控制**: 全系统语音操控（切换模块、调节语速、打开设置等）
 
 ## 📊 实时状态
-- 11个全球信息源自动抓取（Product Hunt / HackerNews / Reddit / GitHub Trending / IndieHackers / 36氪 / 虎嗅等）
+- 149个全球数据源自动聚合
 - AI需求自动评分（0-100分 + USD价值估算）
 - 自动对接（Discord/企业微信/邮件）
 - 自动开发（LLM生成技术方案 + 代码骨架）
@@ -155,7 +175,15 @@ ai-autonomy-platform/
 - APScheduler（定时任务）
 
 ## 📝 版本
-当前版本：**v1.0.0**（[CHANGELOG](./CHANGELOG.md)）
+当前版本：**v2.1.0**（[CHANGELOG](./CHANGELOG.md)）
+
+### v2.1.0 更新内容
+- ✅ 修复 LLM API 调用问题，MiniMax 改用 OpenAI 兼容协议
+- ✅ 修复 voice_intent 语音意图识别 bug
+- ✅ 统一 LLM 抽象层，builder.py 改用 llm.py
+- ✅ 添加工具调用失败自动降级机制
+- ✅ 过滤思考标签，回复更干净
+- ✅ 16家 AI 服务商配置和切换功能
 
 ## 📜 License
 MIT
