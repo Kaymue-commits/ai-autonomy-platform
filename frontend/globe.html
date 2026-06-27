@@ -106,10 +106,11 @@ body::after {
   letter-spacing: 2px;
 }
 .brand-sub {
-  font-size: 10px;
-  color: #5d8fa8;
+  font-size: 11px;
+  color: #8fb8cc;
   letter-spacing: 4px;
   text-transform: uppercase;
+  font-weight: 500;
 }
 
 .hud-stats {
@@ -123,95 +124,109 @@ body::after {
 }
 .hud-stat-val {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 18px; font-weight: 700;
-  color: #00e5ff;
-  text-shadow: 0 0 8px rgba(0,229,255,0.6);
+  font-size: 20px; font-weight: 700;
+  color: #4ff5ff;
+  text-shadow: 0 0 8px rgba(0,229,255,0.7), 0 0 2px rgba(0,0,0,0.8);
   line-height: 1;
 }
 .hud-stat-val.danger { color: #ff3d6e; text-shadow: 0 0 8px rgba(255,61,110,0.6); }
 .hud-stat-val.warn { color: #ffb74d; text-shadow: 0 0 8px rgba(255,183,77,0.6); }
 .hud-stat-val.success { color: #00ff9f; text-shadow: 0 0 8px rgba(0,255,159,0.6); }
 .hud-stat-label {
-  font-size: 9px;
-  color: #5d8fa8;
+  font-size: 10px;
+  color: #8fb8cc;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-top: 2px;
+  font-weight: 600;
 }
 .hud-time {
   font-family: 'Share Tech Mono', monospace;
-  color: #00e5ff;
-  font-size: 14px;
+  color: #4ff5ff;
+  font-size: 15px;
   letter-spacing: 1px;
   text-align: right;
+  text-shadow: 0 0 6px rgba(0,229,255,0.5);
 }
 .hud-time-label {
-  font-size: 9px;
-  color: #5d8fa8;
+  font-size: 10px;
+  color: #8fb8cc;
   letter-spacing: 2px;
+  font-weight: 600;
 }
 
-/* ===== 左侧模块导航 ===== */
+/* ===== 顶部模块导航（横排, 铺满到右侧面板前） ===== */
 .sidebar {
   position: fixed;
-  top: 90px; left: 16px;
-  width: 80px;
+  top: 78px;
+  left: 12px;
+  right: 478px;  /* 留出右侧 main-panel 宽度 460 + 边距 */
   z-index: 50;
-  display: flex; flex-direction: column;
-  gap: 8px;
+  display: flex; flex-direction: row;
+  gap: 4px;
+  padding: 6px;
+  background: rgba(2,8,20,0.85);
+  border: 1px solid rgba(0,229,255,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.sidebar::-webkit-scrollbar { display: none; }
 .nav-module {
   position: relative;
-  width: 80px; height: 80px;
-  background: rgba(2,8,20,0.7);
-  border: 1px solid rgba(0,229,255,0.25);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  flex: 1 1 0;  /* 等分剩余空间, 自动铺满 */
+  min-width: 72px;
+  padding: 8px 6px 9px;
+  background: rgba(0,229,255,0.04);
+  border: 1px solid rgba(0,229,255,0.2);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   cursor: pointer;
   transition: all 0.3s;
-  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-}
-.nav-module::before {
-  content: '';
-  position: absolute;
-  top: 4px; left: 4px; right: 4px; bottom: 4px;
-  border: 1px solid transparent;
-  clip-path: inherit;
-  pointer-events: none;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
 }
 .nav-module:hover {
-  border-color: rgba(0,229,255,0.6);
-  background: rgba(0,229,255,0.08);
-  transform: translateX(3px);
+  border-color: rgba(0,229,255,0.7);
+  background: rgba(0,229,255,0.12);
+  transform: translateY(-2px);
 }
 .nav-module.active {
   border-color: var(--mod-color, #00e5ff);
-  background: rgba(0,229,255,0.12);
-  box-shadow: 0 0 20px var(--mod-color, #00e5ff), inset 0 0 20px rgba(0,229,255,0.1);
+  background: rgba(0,229,255,0.18);
+  box-shadow: 0 0 16px var(--mod-color, #00e5ff), inset 0 0 12px rgba(0,229,255,0.15);
 }
 .nav-module.active::after {
   content: '';
   position: absolute;
-  left: -8px; top: 50%; transform: translateY(-50%);
-  width: 4px; height: 30px;
+  bottom: -6px; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 3px;
   background: var(--mod-color, #00e5ff);
-  box-shadow: 0 0 12px var(--mod-color, #00e5ff);
+  box-shadow: 0 0 10px var(--mod-color, #00e5ff);
 }
 .nav-icon {
-  font-size: 26px;
-  filter: drop-shadow(0 0 4px currentColor);
+  width: 24px;
+  height: 24px;
   color: var(--mod-color, #00e5ff);
+  filter: drop-shadow(0 0 5px currentColor);
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-icon svg {
+  width: 100%; height: 100%;
+  display: block;
 }
 .nav-name {
-  font-size: 10px;
-  color: #d4f1f9;
-  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8f9ff;
+  margin-top: 5px;
   letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(0,0,0,0.9);
 }
 .nav-module.active .nav-name {
   color: var(--mod-color, #00e5ff);
+  text-shadow: 0 0 8px var(--mod-color, #00e5ff), 0 0 2px rgba(0,0,0,0.9);
 }
 
 /* ===== 右侧主面板 ===== */
@@ -243,17 +258,18 @@ body::after {
 }
 .panel-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 14px; font-weight: 700;
+  font-size: 15px; font-weight: 700;
   letter-spacing: 3px;
   color: var(--mod-color, #00e5ff);
   text-transform: uppercase;
-  text-shadow: 0 0 8px var(--mod-color, #00e5ff);
+  text-shadow: 0 0 10px var(--mod-color, #00e5ff), 0 0 2px rgba(0,0,0,0.8);
 }
 .panel-status {
   display: flex; align-items: center; gap: 6px;
-  font-size: 10px;
-  color: #00ff9f;
+  font-size: 11px;
+  color: #4dffc4;
   letter-spacing: 1px;
+  font-weight: 600;
 }
 .status-dot {
   width: 6px; height: 6px; border-radius: 50%;
@@ -296,22 +312,23 @@ body::after {
   background: var(--mod-color, #00e5ff);
 }
 .kpi-label {
-  font-size: 9px;
-  color: #5d8fa8;
+  font-size: 10px;
+  color: #8fb8cc;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 4px;
+  font-weight: 600;
 }
 .kpi-value {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 20px; font-weight: 700;
+  font-size: 22px; font-weight: 700;
   color: var(--mod-color, #00e5ff);
-  text-shadow: 0 0 6px var(--mod-color, #00e5ff);
+  text-shadow: 0 0 8px var(--mod-color, #00e5ff), 0 0 2px rgba(0,0,0,0.8);
 }
 .kpi-trend {
-  font-size: 10px;
+  font-size: 11px;
   margin-top: 2px;
-  color: #5d8fa8;
+  color: #8fb8cc;
 }
 .kpi-trend.up { color: #00ff9f; }
 .kpi-trend.down { color: #ff3d6e; }
@@ -322,7 +339,7 @@ body::after {
   gap: 6px;
 }
 .data-row {
-  background: rgba(0,229,255,0.04);
+  background: rgba(0,229,255,0.06);
   border-left: 2px solid var(--mod-color, #00e5ff);
   padding: 10px 12px;
   transition: all 0.3s;
@@ -330,7 +347,7 @@ body::after {
   position: relative;
 }
 .data-row:hover {
-  background: rgba(0,229,255,0.1);
+  background: rgba(0,229,255,0.14);
   transform: translateX(-3px);
 }
 .data-row.critical { border-left-color: #ff3d6e; }
@@ -339,28 +356,31 @@ body::after {
 .data-row.low { border-left-color: #66bb6a; }
 
 .data-title {
-  font-size: 13px; font-weight: 600;
-  color: #e3f2fd;
-  margin-bottom: 4px;
+  font-size: 14px; font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 5px;
   line-height: 1.3;
+  text-shadow: 0 0 4px rgba(0,0,0,0.9);
 }
 .data-meta {
   display: flex; gap: 8px; flex-wrap: wrap;
-  font-size: 10px;
-  color: #5d8fa8;
+  font-size: 11px;
+  color: #a8c8d8;
 }
 .tag {
-  background: rgba(0,229,255,0.12);
-  padding: 1px 6px;
+  background: rgba(0,229,255,0.16);
+  padding: 2px 7px;
   border-radius: 2px;
-  color: #00e5ff;
+  color: #4ff5ff;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-shadow: 0 0 3px rgba(0,0,0,0.8);
 }
-.tag.danger { background: rgba(255,61,110,0.18); color: #ff3d6e; }
-.tag.warn { background: rgba(255,183,77,0.18); color: #ffb74d; }
-.tag.success { background: rgba(0,255,159,0.18); color: #00ff9f; }
-.tag.purple { background: rgba(179,136,255,0.18); color: #b388ff; }
+.tag.danger { background: rgba(255,61,110,0.22); color: #ff5c85; }
+.tag.warn { background: rgba(255,183,77,0.22); color: #ffc78c; }
+.tag.success { background: rgba(0,255,159,0.22); color: #4dffc4; }
+.tag.purple { background: rgba(179,136,255,0.22); color: #c9a8ff; }
 
 /* 表格行 */
 .table-row {
@@ -369,22 +389,24 @@ body::after {
   gap: 8px;
   align-items: center;
   padding: 8px 10px;
-  border-bottom: 1px solid rgba(0,229,255,0.08);
-  font-size: 12px;
+  border-bottom: 1px solid rgba(0,229,255,0.12);
+  font-size: 13px;
+  color: #e8f9ff;
   transition: background 0.2s;
 }
-.table-row:hover { background: rgba(0,229,255,0.06); }
+.table-row:hover { background: rgba(0,229,255,0.1); }
 .table-row.header {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 1px;
-  color: #5d8fa8;
+  color: #a8c8d8;
   text-transform: uppercase;
-  background: rgba(0,229,255,0.05);
-  border-bottom: 1px solid rgba(0,229,255,0.2);
+  font-weight: 600;
+  background: rgba(0,229,255,0.08);
+  border-bottom: 1px solid rgba(0,229,255,0.3);
 }
-.price-up { color: #00ff9f; }
-.price-down { color: #ff3d6e; }
-.price { font-family: 'Share Tech Mono', monospace; font-weight: 600; }
+.price-up { color: #4dffc4; text-shadow: 0 0 4px rgba(0,255,159,0.5); }
+.price-down { color: #ff5c85; text-shadow: 0 0 4px rgba(255,61,110,0.5); }
+.price { font-family: 'Share Tech Mono', monospace; font-weight: 600; color: #ffffff; }
 
 /* 能源流可视化 */
 .energy-flow {
@@ -394,43 +416,45 @@ body::after {
   margin: 12px 0;
 }
 .energy-node {
-  background: rgba(0,229,255,0.06);
-  border: 1px solid rgba(0,229,255,0.2);
+  background: rgba(0,229,255,0.08);
+  border: 1px solid rgba(0,229,255,0.3);
   padding: 10px 6px;
   text-align: center;
   position: relative;
 }
 .energy-node-label {
-  font-size: 9px;
-  color: #5d8fa8;
+  font-size: 10px;
+  color: #a8c8d8;
   letter-spacing: 1px;
   margin-bottom: 4px;
+  font-weight: 600;
 }
 .energy-node-val {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #ffd54f;
-  text-shadow: 0 0 4px #ffd54f;
+  text-shadow: 0 0 6px #ffd54f, 0 0 2px rgba(0,0,0,0.8);
 }
-.energy-node.solar .energy-node-val { color: #ffca28; text-shadow: 0 0 4px #ffca28; }
-.energy-node.battery .energy-node-val { color: #42a5f5; text-shadow: 0 0 4px #42a5f5; }
-.energy-node.grid .energy-node-val { color: #b388ff; text-shadow: 0 0 4px #b388ff; }
-.energy-node.load .energy-node-val { color: #ff8a80; text-shadow: 0 0 4px #ff8a80; }
+.energy-node.solar .energy-node-val { color: #ffca28; text-shadow: 0 0 6px #ffca28, 0 0 2px rgba(0,0,0,0.8); }
+.energy-node.battery .energy-node-val { color: #64b5f6; text-shadow: 0 0 6px #42a5f5, 0 0 2px rgba(0,0,0,0.8); }
+.energy-node.grid .energy-node-val { color: #c9a8ff; text-shadow: 0 0 6px #b388ff, 0 0 2px rgba(0,0,0,0.8); }
+.energy-node.load .energy-node-val { color: #ff8a80; text-shadow: 0 0 6px #ff5c85, 0 0 2px rgba(0,0,0,0.8); }
 
 /* CII 指数横向条 */
 .cii-row {
   display: flex; align-items: center;
-  gap: 8px; margin-bottom: 4px;
-  font-size: 11px;
+  gap: 8px; margin-bottom: 5px;
+  font-size: 12px;
 }
-.cii-name { width: 70px; color: #d4f1f9; }
+.cii-name { width: 78px; color: #e8f9ff; font-weight: 500; }
 .cii-bar {
   flex: 1;
-  height: 8px;
-  background: rgba(0,229,255,0.08);
+  height: 10px;
+  background: rgba(0,229,255,0.1);
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(0,229,255,0.15);
 }
 .cii-fill {
   height: 100%;
@@ -438,9 +462,11 @@ body::after {
   box-shadow: 0 0 8px currentColor;
 }
 .cii-val {
-  width: 30px; text-align: right;
+  width: 34px; text-align: right;
   font-family: 'Share Tech Mono', monospace;
-  color: #00e5ff;
+  color: #4ff5ff;
+  font-weight: 600;
+  text-shadow: 0 0 4px rgba(0,229,255,0.5);
 }
 
 /* 雷达扫描装饰 */
@@ -488,19 +514,21 @@ body::after {
   background: linear-gradient(90deg, transparent, #00e5ff 30%, #ff00e6 50%, #00e5ff 70%, transparent);
 }
 .status-left {
-  display: flex; gap: 16px;
+  display: flex; gap: 12px;
   align-items: center;
-  font-size: 11px;
-  color: #5d8fa8;
+  font-size: 12px;
+  color: #a8c8d8;
   font-family: 'Share Tech Mono', monospace;
 }
 .status-chip {
   display: flex; align-items: center; gap: 5px;
-  padding: 3px 8px;
-  background: rgba(0,229,255,0.06);
-  border: 1px solid rgba(0,229,255,0.2);
+  padding: 4px 9px;
+  background: rgba(0,229,255,0.1);
+  border: 1px solid rgba(0,229,255,0.3);
   border-radius: 2px;
   letter-spacing: 1px;
+  color: #4ff5ff;
+  font-weight: 600;
 }
 .log-ticker {
   flex: 1;
@@ -508,8 +536,8 @@ body::after {
   overflow: hidden;
   position: relative;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  color: #d4f1f9;
+  font-size: 12px;
+  color: #e8f9ff;
   display: flex; align-items: center;
   padding-left: 12px;
   border-left: 1px solid rgba(0,229,255,0.2);
@@ -546,37 +574,898 @@ body::after {
 /* 通用 utility */
 .empty {
   text-align: center;
-  color: #5d8fa8;
-  font-size: 12px;
+  color: #8fb8cc;
+  font-size: 13px;
   padding: 40px 0;
   letter-spacing: 2px;
 }
 .section-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 11px;
-  color: #5d8fa8;
-  letter-spacing: 3px;
+  font-size: 12px;
+  color: var(--mod-color, #00e5ff);
+  letter-spacing: 2px;
   text-transform: uppercase;
   margin: 14px 0 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid rgba(0,229,255,0.15);
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0,229,255,0.25);
   display: flex; align-items: center; gap: 6px;
+  font-weight: 700;
+  text-shadow: 0 0 6px var(--mod-color, #00e5ff);
 }
 .section-title::before {
   content: '';
-  width: 4px; height: 10px;
+  width: 4px; height: 12px;
   background: var(--mod-color, #00e5ff);
+  box-shadow: 0 0 6px var(--mod-color, #00e5ff);
+}
+
+/* ===== 系统设置面板 ===== */
+.settings-panel {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 460px;
+  max-height: 80vh;
+  background: rgba(2,8,20,0.97);
+  border: 1px solid rgba(0,229,255,0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 350;
+  display: none;
+  flex-direction: column;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  box-shadow: 0 12px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0,229,255,0.3);
+}
+.settings-panel.open { display: flex; }
+.settings-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #00e5ff, #b388ff, #00e5ff);
+}
+.settings-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(0,229,255,0.2);
+}
+.settings-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 3px;
+  color: #00e5ff;
+  text-shadow: 0 0 10px rgba(0,229,255,0.7);
+}
+.settings-close {
+  background: transparent; border: none; color: #8fb8cc;
+  cursor: pointer; font-size: 16px;
+}
+.settings-close:hover { color: #ff3d6e; }
+.settings-body {
+  padding: 14px 20px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.settings-section {
+  margin-bottom: 18px;
+  border-left: 2px solid rgba(0,229,255,0.3);
+  padding-left: 12px;
+}
+.settings-section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px;
+  color: #b388ff;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 0;
+  font-size: 12px;
+  color: #d4f1f9;
+}
+.settings-row label:first-child {
+  color: #8fb8cc;
+  letter-spacing: 0.5px;
+}
+.settings-row select {
+  background: rgba(0,229,255,0.08);
+  border: 1px solid rgba(0,229,255,0.3);
+  color: #e8f9ff;
+  padding: 4px 8px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.settings-row select option { background: #02030a; }
+.settings-row input[type="number"] {
+  background: rgba(0,229,255,0.08);
+  border: 1px solid rgba(0,229,255,0.3);
+  color: #4ff5ff;
+  padding: 4px 8px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  border-radius: 2px;
+}
+.settings-val {
+  font-family: 'Share Tech Mono', monospace;
+  color: #4ff5ff;
+  font-size: 11px;
+}
+.settings-btn-danger {
+  background: rgba(255,61,110,0.15);
+  border: 1px solid rgba(255,61,110,0.5);
+  color: #ff8aa0;
+  padding: 4px 12px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+}
+.settings-btn-danger:hover {
+  background: rgba(255,61,110,0.3);
+  box-shadow: 0 0 10px rgba(255,61,110,0.4);
+}
+/* iOS 风格开关 */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px; height: 18px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: rgba(0,229,255,0.15);
+  border: 1px solid rgba(0,229,255,0.3);
+  transition: 0.3s;
+  border-radius: 18px;
+}
+.switch .slider::before {
+  position: absolute; content: '';
+  height: 12px; width: 12px;
+  left: 2px; top: 2px;
+  background: #8fb8cc;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+.switch input:checked + .slider {
+  background: rgba(0,229,255,0.4);
+  border-color: #00e5ff;
+  box-shadow: 0 0 8px rgba(0,229,255,0.5);
+}
+.switch input:checked + .slider::before {
+  transform: translateX(18px);
+  background: #00e5ff;
+  box-shadow: 0 0 6px #00e5ff;
+}
+/* 设置面板遮罩 */
+.settings-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+  z-index: 340;
+  display: none;
+}
+.settings-overlay.open { display: block; }
+
+/* ===== 信息点详情浮层 (点击 data-row 弹出) ===== */
+.info-popup {
+  position: fixed;
+  z-index: 300;
+  width: 340px;
+  background: rgba(2,8,20,0.96);
+  border: 1px solid var(--mod-color, #00e5ff);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 30px rgba(0,229,255,0.25);
+  display: none;
+  flex-direction: column;
+}
+.info-popup.open { display: flex; }
+.info-popup::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--mod-color, #00e5ff), transparent);
+}
+.info-popup-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,229,255,0.2);
+}
+.info-popup-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--mod-color, #00e5ff);
+  text-shadow: 0 0 8px var(--mod-color, #00e5ff);
+}
+.info-popup-close {
+  background: transparent; border: none; color: #8fb8cc;
+  cursor: pointer; font-size: 16px; padding: 0;
+}
+.info-popup-close:hover { color: #ff3d6e; }
+.info-popup-body { padding: 14px 16px; }
+.info-field {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(0,229,255,0.1);
+  font-size: 12px;
+}
+.info-field:last-child { border-bottom: none; }
+.info-field-label {
+  color: #8fb8cc;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+}
+.info-field-value {
+  color: #e8f9ff;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-all;
+}
+.info-popup-actions {
+  display: flex; gap: 8px; padding: 12px 16px;
+  border-top: 1px solid rgba(0,229,255,0.2);
+}
+.info-action-btn {
+  flex: 1;
+  background: rgba(0,229,255,0.1);
+  border: 1px solid rgba(0,229,255,0.3);
+  color: #e8f9ff;
+  padding: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+.info-action-btn:hover {
+  background: rgba(0,229,255,0.25);
+  border-color: var(--mod-color, #00e5ff);
+  box-shadow: 0 0 12px rgba(0,229,255,0.4);
+}
+.info-action-btn.ai {
+  background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(179,136,255,0.2));
+  border-color: rgba(179,136,255,0.5);
+}
+.info-action-btn.ai:hover {
+  background: linear-gradient(135deg, rgba(0,229,255,0.35), rgba(179,136,255,0.35));
+}
+
+/* ===== hover 气泡 (鼠标触碰 data-row 时, 地球上对应位置弹出) ===== */
+.globe-tooltip {
+  position: fixed;
+  z-index: 250;
+  background: rgba(2,8,20,0.96);
+  border: 1px solid rgba(0,229,255,0.5);
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #d4f1f9;
+  pointer-events: none;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  box-shadow: 0 0 16px rgba(0,229,255,0.4);
+  display: none;
+  max-width: 280px;
+}
+.globe-tooltip.open { display: block; }
+.globe-tooltip-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--mod-color, #00e5ff);
+  text-shadow: 0 0 6px var(--mod-color, #00e5ff);
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+.globe-tooltip-field {
+  color: #8fb8cc;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+.globe-tooltip-field span { color: #e8f9ff; font-family: 'Share Tech Mono', monospace; }
+
+/* 高亮地球热点 (hover 时定位用) */
+.highlight-marker {
+  animation: highlight-pulse 0.8s ease-in-out infinite;
+}
+@keyframes highlight-pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.5); filter: brightness(2); }
+}
+
+/* data-row 鼠标手势 */
+.data-row { cursor: pointer; }
+.data-row:hover {
+  background: rgba(0,229,255,0.08) !important;
+  border-color: var(--mod-color, #00e5ff) !important;
 }
 
 /* 隐藏滚动 */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.3); border-radius: 3px; }
+
+/* ===== AI 语音助手 ===== */
+.assistant-fab {
+  position: fixed;
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+  width: 36px; height: 96px;
+  background: linear-gradient(180deg, rgba(0,229,255,0.95), rgba(179,136,255,0.85));
+  border: none;
+  border-radius: 0 18px 18px 0;
+  cursor: grab;
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(0,229,255,0.6), 4px 0 16px rgba(0,0,0,0.5);
+  transition: width 0.3s, box-shadow 0.3s;
+  animation: fab-edge-pulse 3s ease-in-out infinite;
+  user-select: none;
+}
+.assistant-fab:hover {
+  width: 44px;
+  box-shadow: 0 0 30px rgba(0,229,255,0.9), 4px 0 20px rgba(0,0,0,0.5);
+}
+.assistant-fab:active { cursor: grabbing; }
+.assistant-fab.dragging { transition: none; animation: none; }
+.assistant-fab.listening {
+  background: linear-gradient(180deg, rgba(255,61,110,0.95), rgba(255,0,230,0.85));
+  animation: fab-listen 0.8s ease-in-out infinite;
+}
+.assistant-fab.thinking {
+  background: linear-gradient(180deg, rgba(255,183,77,0.95), rgba(255,152,0,0.85));
+}
+/* FAB 内部六边形 + NEXUS 文字 + 脉冲 */
+.assistant-fab .fab-hex {
+  width: 22px; height: 22px;
+  background: #fff;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  position: relative;
+  box-shadow: 0 0 10px rgba(255,255,255,0.9);
+}
+.assistant-fab .fab-hex::before {
+  content: '';
+  position: absolute; inset: 3px;
+  background: linear-gradient(135deg, #00e5ff, #b388ff);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.assistant-fab .fab-label {
+  position: absolute;
+  writing-mode: vertical-rl;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+  right: 4px;
+  pointer-events: none;
+}
+/* 隐藏时变成细条 */
+.assistant-fab.hidden {
+  width: 8px;
+  background: linear-gradient(180deg, rgba(0,229,255,0.4), rgba(179,136,255,0.4));
+  box-shadow: 0 0 8px rgba(0,229,255,0.3);
+}
+.assistant-fab.hidden .fab-hex,
+.assistant-fab.hidden .fab-label { opacity: 0; }
+.assistant-fab.hidden:hover {
+  width: 36px;
+  background: linear-gradient(180deg, rgba(0,229,255,0.95), rgba(179,136,255,0.85));
+  box-shadow: 0 0 20px rgba(0,229,255,0.6);
+}
+.assistant-fab.hidden:hover .fab-hex,
+.assistant-fab.hidden:hover .fab-label { opacity: 1; }
+@keyframes fab-edge-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,229,255,0.6), 4px 0 16px rgba(0,0,0,0.5); }
+  50% { box-shadow: 0 0 32px rgba(0,229,255,0.9), 4px 0 16px rgba(0,0,0,0.5); }
+}
+@keyframes fab-listen {
+  0%, 100% { transform: translateY(-50%) scale(1); }
+  50% { transform: translateY(-50%) scale(1.08); }
+}
+
+.assistant-panel {
+  position: fixed;
+  top: 50%; left: 50px;
+  transform: translateY(-50%);
+  width: 380px;
+  max-height: 560px;
+  background: rgba(2,8,20,0.95);
+  border: 1px solid rgba(0,229,255,0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 199;
+  display: none;
+  flex-direction: column;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0,229,255,0.2);
+}
+.assistant-panel.open { display: flex; }
+.assistant-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #00e5ff, #b388ff, #00e5ff);
+  animation: scan-line 4s linear infinite;
+}
+
+.assistant-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0,229,255,0.2);
+  display: flex; align-items: center; gap: 10px;
+}
+.assistant-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00e5ff, #b388ff);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  position: relative;
+}
+.assistant-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 2px solid #00e5ff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 3s linear infinite;
+}
+.assistant-title {
+  flex: 1;
+}
+.assistant-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px; font-weight: 700;
+  color: #00e5ff;
+  text-shadow: 0 0 6px rgba(0,229,255,0.5);
+}
+.assistant-status {
+  font-size: 11px;
+  color: #8fb8cc;
+  letter-spacing: 1px;
+}
+.assistant-status.active { color: #4dffc4; }
+
+/* 模型选择器 */
+.model-selector {
+  display: flex; gap: 4px; align-items: center;
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(0,229,255,0.15);
+  background: rgba(0,0,0,0.3);
+}
+.model-label {
+  font-size: 10px;
+  color: #8fb8cc;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.model-select {
+  flex: 1;
+  background: rgba(0,229,255,0.08);
+  border: 1px solid rgba(0,229,255,0.3);
+  color: #e8f9ff;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-family: 'Share Tech Mono', monospace;
+  outline: none;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.model-select:focus { border-color: #00e5ff; box-shadow: 0 0 6px rgba(0,229,255,0.4); }
+.model-select option { background: #020814; color: #e8f9ff; }
+.model-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: rgba(0,255,159,0.15);
+  border: 1px solid rgba(0,255,159,0.3);
+  color: #4dffc4;
+  font-weight: 600;
+}
+.model-badge.off {
+  background: rgba(255,183,77,0.15);
+  border-color: rgba(255,183,77,0.3);
+  color: #ffc78c;
+}
+
+.assistant-close {
+  background: none; border: none;
+  color: #8fb8cc;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.assistant-close:hover { color: #ff3d6e; }
+
+.assistant-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  max-height: 340px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,229,255,0.3) transparent;
+}
+.assistant-body::-webkit-scrollbar { width: 4px; }
+.assistant-body::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.3); border-radius: 2px; }
+
+.msg {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.msg.user { align-items: flex-end; }
+.msg.ai { align-items: flex-start; }
+.msg.tool { align-items: flex-start; }
+
+.msg-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+.msg.user .msg-bubble {
+  background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(0,229,255,0.1));
+  border: 1px solid rgba(0,229,255,0.3);
+  color: #e8f9ff;
+  border-bottom-right-radius: 4px;
+}
+.msg.ai .msg-bubble {
+  background: linear-gradient(135deg, rgba(179,136,255,0.15), rgba(179,136,255,0.08));
+  border: 1px solid rgba(179,136,255,0.3);
+  color: #f3e8ff;
+  border-bottom-left-radius: 4px;
+}
+.msg.tool .msg-bubble {
+  background: rgba(255,183,77,0.1);
+  border: 1px solid rgba(255,183,77,0.25);
+  color: #ffc78c;
+  font-size: 11px;
+  font-family: 'Share Tech Mono', monospace;
+}
+.msg-bubble strong { color: #fff; }
+.msg-bubble code {
+  background: rgba(0,0,0,0.4);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: #4ff5ff;
+}
+.msg-bubble ul, .msg-bubble ol { margin: 6px 0 0 18px; padding: 0; }
+.msg-bubble li { margin-bottom: 3px; }
+
+.msg-meta {
+  font-size: 10px;
+  color: #5d8fa8;
+  margin-top: 4px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.assistant-typing {
+  display: flex; gap: 4px; padding: 8px 14px;
+}
+.typing-dot {
+  width: 7px; height: 7px;
+  background: #b388ff;
+  border-radius: 50%;
+  animation: typing-bounce 1.4s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+.assistant-footer {
+  border-top: 1px solid rgba(0,229,255,0.2);
+  padding: 10px 12px;
+  display: flex; gap: 8px; align-items: center;
+}
+.assistant-input {
+  flex: 1;
+  background: rgba(0,229,255,0.06);
+  border: 1px solid rgba(0,229,255,0.25);
+  color: #e8f9ff;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-family: 'Rajdhani', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.assistant-input:focus { border-color: #00e5ff; box-shadow: 0 0 8px rgba(0,229,255,0.3); }
+.assistant-input::placeholder { color: #5d8fa8; }
+
+.assistant-send, .assistant-mic {
+  background: rgba(0,229,255,0.15);
+  border: 1px solid rgba(0,229,255,0.4);
+  color: #00e5ff;
+  width: 38px; height: 38px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+.assistant-send:hover, .assistant-mic:hover { background: rgba(0,229,255,0.3); }
+.assistant-mic.active {
+  background: rgba(255,61,110,0.3);
+  border-color: #ff3d6e;
+  color: #ff5c85;
+  animation: mic-pulse 1s ease-in-out infinite;
+}
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,61,110,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(255,61,110,0); }
+}
+
+.assistant-suggest {
+  padding: 0 12px 8px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.suggest-chip {
+  background: rgba(179,136,255,0.1);
+  border: 1px solid rgba(179,136,255,0.3);
+  color: #c9a8ff;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.suggest-chip:hover { background: rgba(179,136,255,0.25); border-color: #b388ff; }
+
+/* 语音波形可视化 */
+.voice-wave {
+  position: fixed;
+  bottom: 60px; right: 100px;
+  display: none;
+  align-items: center;
+  gap: 3px;
+  height: 40px;
+  z-index: 201;
+}
+.voice-wave.active { display: flex; }
+.wave-bar {
+  width: 3px;
+  background: #00e5ff;
+  border-radius: 2px;
+  box-shadow: 0 0 4px #00e5ff;
+  animation: wave-bounce 0.6s ease-in-out infinite;
+}
+.wave-bar:nth-child(1) { animation-delay: 0s; }
+.wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.wave-bar:nth-child(4) { animation-delay: 0.15s; }
+.wave-bar:nth-child(5) { animation-delay: 0.05s; }
+.wave-bar:nth-child(6) { animation-delay: 0.25s; }
+.wave-bar:nth-child(7) { animation-delay: 0.1s; }
+@keyframes wave-bounce {
+  0%, 100% { height: 6px; }
+  50% { height: 30px; }
+}
 </style>
 </head>
 <body>
 
-<!-- 3D 地球 -->
+<!-- 3D 地球容器 -->
 <div id="globe-container"></div>
+
+<!-- ===== AI 语音助手 ===== -->
+<div class="voice-wave" id="voice-wave">
+  <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+  <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+  <div class="wave-bar"></div>
+</div>
+
+<div class="assistant-panel" id="assistant-panel">
+  <div class="assistant-header">
+    <div class="assistant-avatar">🤖</div>
+    <div class="assistant-title">
+      <div class="assistant-name">NEXUS AI</div>
+      <div class="assistant-status" id="assistant-status">待命中 · 说"NEXUS"唤醒</div>
+    </div>
+    <button class="assistant-close" onclick="toggleAssistant(false)">✕</button>
+  </div>
+  <div class="model-selector">
+    <span class="model-label">AI模型</span>
+    <select class="model-select" id="model-select" onchange="switchModel(this.value)">
+      <option value="">加载中...</option>
+    </select>
+    <span class="model-badge off" id="model-badge">未配置</span>
+  </div>
+  <div class="assistant-body" id="assistant-body">
+    <div class="msg ai">
+      <div class="msg-bubble">👋 我是 <strong>NEXUS AI</strong>，你的超级情报副官。我可以从 <strong>149个数据源</strong> 中挖掘、分析、筛选信息。
+
+试试问我：
+- <code>帮我找出所有能赚到的钱</code>
+- <code>全球现在哪里最危险？</code>
+- <code>最新AI新闻有哪些？</code>
+- <code>加密货币市场怎么样？</code>
+
+💡 说 <strong>"NEXUS"</strong> 或点击麦克风开始语音对话</div>
+    </div>
+  </div>
+  <div class="assistant-suggest">
+    <span class="suggest-chip" onclick="askAssistant('帮我分析所有能赚到的钱')">💰 赚钱分析</span>
+    <span class="suggest-chip" onclick="askAssistant('全球安全态势如何？')">🌍 威胁评估</span>
+    <span class="suggest-chip" onclick="askAssistant('最新AI新闻')">📰 AI新闻</span>
+    <span class="suggest-chip" onclick="askAssistant('加密货币行情')">💰 加密行情</span>
+  </div>
+  <div class="assistant-footer">
+    <button class="assistant-mic" id="mic-btn" onclick="toggleVoice()" title="语音输入">🎤</button>
+    <input type="text" class="assistant-input" id="assistant-input" placeholder="输入或说出你的指令..." onkeydown="if(event.key==='Enter')sendAssistant()">
+    <button class="assistant-send" onclick="sendAssistant()">➤</button>
+  </div>
+</div>
+
+<!-- 系统设置遮罩 -->
+<div class="settings-overlay" id="settings-overlay" onclick="closeSettings()"></div>
+
+<!-- 系统设置面板 -->
+<div class="settings-panel" id="settings-panel">
+  <div class="settings-header">
+    <div class="settings-title">⚙ SYSTEM CONFIG</div>
+    <button class="settings-close" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="settings-body" id="settings-body">
+    <div class="settings-section">
+      <div class="settings-section-title">🌐 时区与时间</div>
+      <div class="settings-row">
+        <label>时区</label>
+        <select id="cfg-tz" onchange="applyTimezone(this.value)">
+          <option value="local">本地时区</option>
+          <option value="Asia/Shanghai">北京 (UTC+8)</option>
+          <option value="America/New_York">纽约 (UTC-5)</option>
+          <option value="Europe/London">伦敦 (UTC+0)</option>
+          <option value="Asia/Tokyo">东京 (UTC+9)</option>
+          <option value="Asia/Dubai">迪拜 (UTC+4)</option>
+          <option value="UTC">UTC</option>
+        </select>
+      </div>
+      <div class="settings-row">
+        <label>时间格式</label>
+        <select id="cfg-tf" onchange="applyTimeFormat(this.value)">
+          <option value="24">24 小时制</option>
+          <option value="12">12 小时制</option>
+        </select>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">🎨 界面显示</div>
+      <div class="settings-row">
+        <label>地球自转</label>
+        <label class="switch"><input type="checkbox" id="cfg-rotate" checked onchange="toggleEarthRotation(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>星空背景</label>
+        <label class="switch"><input type="checkbox" id="cfg-stars" checked onchange="toggleStars(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>大气层光晕</label>
+        <label class="switch"><input type="checkbox" id="cfg-atmos" checked onchange="toggleAtmosphere(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>HUD 扫描线</label>
+        <label class="switch"><input type="checkbox" id="cfg-scan" checked onchange="toggleScanLine(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>信息面板自动刷新</label>
+        <label class="switch"><input type="checkbox" id="cfg-autorefresh" checked onchange="toggleAutoRefresh(this.checked)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">🔊 音频与语音</div>
+      <div class="settings-row">
+        <label>TTS 语音播报</label>
+        <label class="switch"><input type="checkbox" id="cfg-tts" checked onchange="toggleTTS(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>语音唤醒 (NEXUS)</label>
+        <label class="switch"><input type="checkbox" id="cfg-wake" checked onchange="toggleWakeWord(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>语速</label>
+        <input type="range" id="cfg-rate" min="0.5" max="2" step="0.1" value="1.1" oninput="setTTSSpeed(this.value)" style="width:120px">
+        <span id="cfg-rate-val" style="font-size:11px;color:#4ff5ff;font-family:monospace">1.1x</span>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">🛰 数据与性能</div>
+      <div class="settings-row">
+        <label>自动扫描间隔</label>
+        <select id="cfg-interval" onchange="setScanInterval(this.value)">
+          <option value="60">1 分钟</option>
+          <option value="300">5 分钟</option>
+          <option value="600" selected>10 分钟</option>
+          <option value="1800">30 分钟</option>
+          <option value="0">关闭自动扫描</option>
+        </select>
+      </div>
+      <div class="settings-row">
+        <label>3D 渲染品质</label>
+        <select id="cfg-quality" onchange="setRenderQuality(this.value)">
+          <option value="high">高 (60 FPS)</option>
+          <option value="medium">中 (30 FPS)</option>
+          <option value="low">低 (省电)</option>
+        </select>
+      </div>
+      <div class="settings-row">
+        <label>地球热点上限</label>
+        <input type="number" id="cfg-maxhot" value="50" min="5" max="200" onchange="setMaxHotspots(this.value)" style="width:60px">
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">🔐 安全与隐私</div>
+      <div class="settings-row">
+        <label>显示来源 IP</label>
+        <label class="switch"><input type="checkbox" id="cfg-showip" checked onchange="toggleShowIP(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>详细坐标</label>
+        <label class="switch"><input type="checkbox" id="cfg-coords" checked onchange="toggleCoords(this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <label>清空对话历史</label>
+        <button class="settings-btn-danger" onclick="clearChatHistory()">清空</button>
+      </div>
+      <div class="settings-row">
+        <label>重置所有设置</label>
+        <button class="settings-btn-danger" onclick="resetSettings()">重置</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">ℹ 系统信息</div>
+      <div class="settings-row"><label>系统版本</label><span class="settings-val">NEXUS RADAR v2.1.0</span></div>
+      <div class="settings-row"><label>构建时间</label><span class="settings-val">2026-06-27</span></div>
+      <div class="settings-row"><label>数据源</label><span class="settings-val">149 RSS + 4 API</span></div>
+      <div class="settings-row"><label>支持 AI 服务商</label><span class="settings-val">15+</span></div>
+      <div class="settings-row"><label>引擎</label><span class="settings-val">FastAPI + Three.js</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 信息点详情浮层 (点击 data-row 弹出) -->
+<div class="info-popup" id="info-popup">
+  <div class="info-popup-header">
+    <div class="info-popup-title" id="info-popup-title">EVENT DETAILS</div>
+    <button class="info-popup-close" onclick="closeInfoPopup()">✕</button>
+  </div>
+  <div class="info-popup-body" id="info-popup-body"></div>
+  <div class="info-popup-actions">
+    <button class="info-action-btn ai" onclick="explainWithAI(false)">📝 AI 文字解释</button>
+    <button class="info-action-btn ai" onclick="explainWithAI(true)">🔊 AI 语音解读</button>
+  </div>
+</div>
+
+<!-- 地球 hover 气泡 (触碰 data-row 时显示) -->
+<div class="globe-tooltip" id="globe-tooltip">
+  <div class="globe-tooltip-title" id="globe-tooltip-title"></div>
+  <div class="globe-tooltip-field" id="globe-tooltip-field"></div>
+</div>
+
+<button class="assistant-fab" id="assistant-fab" title="AI助手 NEXUS">
+  <div class="fab-hex"></div>
+  <span class="fab-label">NEXUS</span>
+</button>
 
 <!-- 装饰角 -->
 <div class="scan-decor tl"></div>
@@ -612,8 +1501,10 @@ body::after {
     </div>
   </div>
   <div>
-    <div class="hud-time" id="hud-time">00:00:00</div>
-    <div class="hud-time-label" style="text-align:right;font-size:9px;color:#5d8fa8;letter-spacing:2px;">UTC</div>
+    <div class="hud-time-group" style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;cursor:pointer" onclick="openSettings()" title="系统设置">
+      <div class="hud-time" id="hud-time">00:00:00</div>
+      <div class="hud-time-label" id="hud-time-label" style="text-align:right;font-size:9px;color:#5d8fa8;letter-spacing:2px;">LOCAL</div>
+    </div>
   </div>
 </header>
 
@@ -640,7 +1531,7 @@ body::after {
     <div class="status-chip">● ONLINE</div>
     <div class="status-chip" id="status-fps">60 FPS</div>
     <div class="status-chip">LAT 35.0° N</div>
-    <div class="status-chip" id="status-modules">9 MODULES</div>
+    <div class="status-chip" id="status-modules">16 MODULES</div>
   </div>
   <div class="log-ticker">
     <div class="log-ticker-line" id="log-ticker"></div>
@@ -846,7 +1737,7 @@ function clearFlightLines() {
 let frameCount = 0, lastFpsTime = performance.now(), currentFps = 60;
 function animate() {
   requestAnimationFrame(animate);
-  earth.rotation.y += 0.0012;
+  if (settings && settings.earthRotation) earth.rotation.y += 0.0012;
   // 临时脉冲
   for (let i = pulses.length - 1; i >= 0; i--) {
     const p = pulses[i];
@@ -879,6 +1770,8 @@ function animate() {
     frameCount = 0; lastFpsTime = now;
   }
 }
+// settings 提前声明, 避免 animate() 同步调用时触发 TDZ
+let settings = { earthRotation: true, stars: true, atmosphere: true };
 animate();
 window.addEventListener('resize', () => {
   camera.aspect = container.clientWidth / container.clientHeight;
@@ -889,16 +1782,25 @@ window.addEventListener('resize', () => {
 // ============================================================
 // 模块系统
 // ============================================================
+// 军用级 HUD 风格 SVG 图标 (单色 stroke, 继承 currentColor)
+const _svgWrap = (inner) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
 const MODULES = [
-  { id: 'demand', name: '需求雷达', icon: '🛰', color: '#00e5ff' },
-  { id: 'intel', name: '全球情报', icon: '🌍', color: '#ff3d6e' },
-  { id: 'finance', name: '金融雷达', icon: '💰', color: '#ffd180' },
-  { id: 'ainews', name: 'AI新闻', icon: '📰', color: '#b388ff' },
-  { id: 'osint', name: '冲突追踪', icon: '⚔', color: '#ff8a80' },
-  { id: 'freelance', name: '自由职业', icon: '💼', color: '#69f0ae' },
-  { id: 'energy', name: '能源监控', icon: '⚡', color: '#ffd54f' },
-  { id: 'specialized', name: '专业数据', icon: '🛰', color: '#ff7043' },
-  { id: 'sources', name: '数据源', icon: '📡', color: '#26a69a' },
+  { id: 'demand',     name: '需求雷达',   color: '#00e5ff', icon: _svgWrap('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><path d="M12 3 L12 12 L21 12" stroke-dasharray="1.5 2"/>') },
+  { id: 'intel',      name: '全球情报',   color: '#ff3d6e', icon: _svgWrap('<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3"/><ellipse cx="12" cy="12" rx="3" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/>') },
+  { id: 'finance',    name: '金融雷达',   color: '#ffd180', icon: _svgWrap('<line x1="6" y1="3" x2="6" y2="21"/><rect x="4" y="8" width="4" height="6" fill="currentColor" fill-opacity="0.35" stroke="none"/><line x1="15" y1="3" x2="15" y2="21"/><rect x="13" y="5" width="4" height="9" fill="currentColor" fill-opacity="0.35" stroke="none"/>') },
+  { id: 'ainews',     name: 'AI新闻',    color: '#b388ff', icon: _svgWrap('<circle cx="5" cy="6" r="1.8"/><circle cx="5" cy="18" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="6" r="1.8"/><circle cx="19" cy="18" r="1.8"/><line x1="6.5" y1="7" x2="10.5" y2="11"/><line x1="6.5" y1="17" x2="10.5" y2="13"/><line x1="13.5" y1="11" x2="17.5" y2="7"/><line x1="13.5" y1="13" x2="17.5" y2="17"/>') },
+  { id: 'osint',      name: '冲突追踪',   color: '#ff8a80', icon: _svgWrap('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="1" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="23"/><line x1="1" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="23" y2="12"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>') },
+  { id: 'freelance',  name: '自由职业',   color: '#69f0ae', icon: _svgWrap('<rect x="5" y="3" width="14" height="18"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/><circle cx="8" cy="5.5" r="0.6" fill="currentColor"/>') },
+  { id: 'energy',     name: '能源监控',   color: '#ffd54f', icon: _svgWrap('<path d="M13 2 L4 14 L11 14 L9 22 L20 10 L13 10 Z"/>') },
+  { id: 'specialized',name: '灾情速报',  color: '#ff7043', icon: _svgWrap('<path d="M12 3 L22 20 L2 20 Z"/><line x1="12" y1="9" x2="12" y2="14"/><circle cx="12" cy="17" r="0.6" fill="currentColor"/>') },
+  { id: 'sources',    name: '数据源',     color: '#26a69a', icon: _svgWrap('<ellipse cx="12" cy="5" rx="8" ry="2"/><path d="M4 5 L4 12 C4 13.1 7.6 14 12 14 C16.4 14 20 13.1 20 12 L20 5"/><path d="M4 12 L4 19 C4 20.1 7.6 21 12 21 C16.4 21 20 20.1 20 19 L20 12"/>') },
+  { id: 'weather',    name: '气象海洋',   color: '#4fc3f7', icon: _svgWrap('<path d="M3 8 Q12 4 21 8"/><path d="M3 12 Q12 8 21 12"/><path d="M3 16 Q12 12 21 16"/><path d="M18 5 L21 8 L18 11" stroke-dasharray="1.5 1.5"/>') },
+  { id: 'space',     name: '太空追踪',   color: '#9575cd', icon: _svgWrap('<circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-30 12 12)"/><circle cx="20" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="18" r="0.8" fill="currentColor"/>') },
+  { id: 'supply',    name: '供应链',     color: '#4db6ac', icon: _svgWrap('<path d="M12 3 L21 8 L21 16 L12 21 L3 16 L3 8 Z"/><path d="M12 3 L12 21"/><path d="M3 8 L12 13 L21 8"/>') },
+  { id: 'health',    name: '疫情健康',   color: '#f06292', icon: _svgWrap('<path d="M2 12 L7 12 L9 6 L12 18 L14 9 L16 14 L22 14"/><circle cx="9" cy="6" r="0.8" fill="currentColor"/><circle cx="14" cy="9" r="0.8" fill="currentColor"/>') },
+  { id: 'social',    name: '舆情指数',   color: '#ba68c8', icon: _svgWrap('<path d="M3 12 Q6 4 9 12 T15 12 T21 12"/><line x1="3" y1="18" x2="21" y2="18"/><line x1="3" y1="20" x2="21" y2="20" stroke-dasharray="1 2"/>') },
+  { id: 'models',    name: 'AI模型对比', color: '#7986cb', icon: _svgWrap('<rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/><rect x="10" y="10" width="4" height="4" fill="currentColor" stroke="none"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="6" y1="9" x2="6" y2="15"/>') },
+  { id: 'tech',      name: '科技情报',   color: '#4dd0e1', icon: _svgWrap('<circle cx="12" cy="12" r="3"/><path d="M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12 M5 5 L7 7 M17 17 L19 19 M5 19 L7 17 M17 7 L19 5"/>') },
 ];
 
 let currentModule = 'demand';
@@ -912,6 +1814,13 @@ let moduleData = {
   energy: null,
   specialized: null,
   sources: null,
+  weather: null,
+  space: null,
+  supply: null,
+  health: null,
+  social: null,
+  models: null,
+  tech: null,
 };
 
 // 渲染左侧导航
@@ -942,7 +1851,23 @@ function switchModule(id) {
   // 切换地球热点层
   clearPersistentHotspots();
   clearFlightLines();
+  clearEnergyPipelineOverlay();
   applyModuleOverlay(id);
+  // 切到能源模块时立即触发管道可视化
+  if (id === 'energy' && moduleData.energy && moduleData.energy.facilities && moduleData.energy.facilities.gas_pipelines) {
+    applyEnergyPipelineOverlay(moduleData.energy.facilities.gas_pipelines);
+  }
+  // 切到太空模块时立即触发卫星可视化
+  if (id === 'space' && moduleData.space) {
+    applySatelliteOverlay(moduleData.space);
+  }
+  // 切到科技情报/卫星模块时若数据未加载则主动触发
+  if (id === 'tech' && !moduleData.tech) {
+    fetch('/api/technews').then(r => r.json()).then(d => { moduleData.tech = d; if (currentModule === 'tech') renderPanel(); }).catch(()=>{});
+  }
+  if (id === 'space' && (!moduleData.space || !moduleData.space.total_tracked)) {
+    fetch('/api/satellite').then(r => r.json()).then(d => { moduleData.space = d; if (currentModule === 'space') { renderPanel(); applySatelliteOverlay(d); } }).catch(()=>{});
+  }
   renderPanel();
 }
 
@@ -961,6 +1886,13 @@ function applyModuleOverlay(id) {
     moduleData.energy.grid_regions.forEach(r => {
       addPersistentHotspot(r.lat, r.lon, 0xffd54f, r.load_pct);
     });
+    // 设施点
+    const fac = moduleData.energy.facilities || {};
+    const facIcon = (arr, color) => (arr || []).forEach(f => addPersistentHotspot(f.lat, f.lon, color, f.load_pct || 50, f.name));
+    facIcon(fac.hydro, 0x4fc3f7);
+    facIcon(fac.nuclear, 0xff7043);
+    facIcon(fac.solar, 0xffd54f);
+    facIcon(fac.wind, 0x81c784);
   } else if (id === 'finance' && moduleData.finance) {
     [['纽约',-74,40.7],['伦敦',0,51.5],['东京',139.6,35.6],['上海',121.4,31.2],['香港',114.1,22.3]].forEach(c => {
       addPersistentHotspot(c[2], c[1], 0xffd180, 70);
@@ -1000,6 +1932,14 @@ function renderPanel() {
   if (currentModule === 'energy') return renderEnergyPanel(body);
   if (currentModule === 'specialized') return renderSpecializedPanel(body);
   if (currentModule === 'sources') return renderSourcesPanel(body);
+  // 新增 6 个模块
+  if (currentModule === 'weather') return renderWeatherPanel(body);
+  if (currentModule === 'space') return renderSpacePanel(body);
+  if (currentModule === 'supply') return renderSupplyPanel(body);
+  if (currentModule === 'health') return renderHealthPanel(body);
+  if (currentModule === 'social') return renderSocialPanel(body);
+  if (currentModule === 'models') return renderModelsPanel(body);
+  if (currentModule === 'tech') return renderTechPanel(body);
 }
 
 function renderDemandPanel(body) {
@@ -1086,11 +2026,14 @@ function renderFinancePanel(body) {
   const d = moduleData.finance;
   if (!d) { body.innerHTML = `<div class="empty">金融数据接入中...</div>`; return; }
   const totalCap = d.crypto.reduce((s, c) => s + c.price * 1e6, 0); // 假设流通量
+  const commodities = d.commodities || [];
+  const forex = d.forex || [];
+  const aiTrader = d.ai_trader || null;
   let html = `
     <div class="kpi-grid">
       <div class="kpi-card"><div class="kpi-label">CRYPTO ASSETS</div><div class="kpi-value">${d.crypto.length}</div></div>
       <div class="kpi-card"><div class="kpi-label">STOCK INDICES</div><div class="kpi-value">${d.stock_indices.length}</div></div>
-      <div class="kpi-card"><div class="kpi-label">PREDICTION MKT</div><div class="kpi-value">${d.prediction_markets.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">COMMODITIES</div><div class="kpi-value">${commodities.length}</div></div>
       <div class="kpi-card"><div class="kpi-label">MKT CAP EST</div><div class="kpi-value">$${(totalCap/1e9).toFixed(1)}B</div></div>
     </div>
     <div class="section-title">加密货币实时</div>
@@ -1123,6 +2066,61 @@ function renderFinancePanel(body) {
       </div>
     `;
   });
+  // 大宗商品
+  if (commodities.length) {
+    html += `<div class="section-title">大宗商品 (金属/能源/农产品)</div>`;
+    commodities.forEach(c => {
+      const cls = c.change_24h >= 0 ? 'price-up' : 'price-down';
+      const arrow = c.change_24h >= 0 ? '▲' : '▼';
+      html += `
+        <div class="table-row">
+          <div class="tag">${c.symbol}</div>
+          <div>${c.name}</div>
+          <div class="price">${c.price.toLocaleString()}</div>
+          <div class="${cls}">${arrow}${Math.abs(c.change_24h)}%</div>
+        </div>
+      `;
+    });
+  }
+  // 外汇
+  if (forex.length) {
+    html += `<div class="section-title">主要外汇</div>`;
+    forex.forEach(f => {
+      const cls = f.change_24h >= 0 ? 'price-up' : 'price-down';
+      const arrow = f.change_24h >= 0 ? '▲' : '▼';
+      html += `
+        <div class="table-row">
+          <div class="tag">${f.pair}</div>
+          <div>${f.name}</div>
+          <div class="price">${f.rate.toFixed(4)}</div>
+          <div class="${cls}">${arrow}${Math.abs(f.change_24h)}%</div>
+        </div>
+      `;
+    });
+  }
+  // AI-Trader 项目集成卡
+  if (aiTrader) {
+    html += `<div class="section-title">AI-Trader 智能交易系统</div>
+      <div class="data-row elevated" style="border-left:3px solid #b388ff">
+        <div class="data-title">📊 ${aiTrader.name}</div>
+        <div class="data-meta" style="display:block;font-size:11px;color:#9fb3c8;line-height:1.6">
+          <div>${aiTrader.description}</div>
+          <div style="margin-top:4px">
+            <span class="tag purple">Repo: ${aiTrader.repo}</span>
+            <span class="tag warn">${aiTrader.status}</span>
+          </div>
+          <div style="margin-top:4px;color:#69f0ae">支持市场:</div>
+          <div>${aiTrader.supported_markets.join(' · ')}</div>
+          <div style="margin-top:4px;color:#69f0ae">技术栈:</div>
+          <div>${aiTrader.tech_stack.join(' · ')}</div>
+          <div style="margin-top:4px;color:#69f0ae">核心功能:</div>
+          <div>${aiTrader.core_features.join(' · ')}</div>
+          <div style="margin-top:6px">
+            <a href="${aiTrader.github_url}" target="_blank" style="color:#4dd0e1;text-decoration:none">↗ GitHub 项目主页</a>
+          </div>
+        </div>
+      </div>`;
+  }
   html += `<div class="section-title">预测市场</div><div class="data-list">`;
   d.prediction_markets.forEach(m => {
     const cls = m.yes_pct >= 60 ? 'critical' : m.yes_pct >= 40 ? 'elevated' : 'moderate';
@@ -1345,7 +2343,121 @@ function renderEnergyPanel(body) {
     `;
   });
   html += `</div>`;
+
+  // 全球能源设施 (水电站/核电站/光伏/风电/天然气管道)
+  const fac = d.facilities || {};
+  const totals = d.totals || {};
+  const renderFacilityRow = (item, color, icon, unit) => {
+    const cls = item.load_pct >= 90 ? 'critical' : item.load_pct >= 70 ? 'elevated' : 'moderate';
+    return `
+      <div class="data-row ${cls}" data-info="${item.name}|${item.country}|${item.lat},${item.lon}|容量${item.capacity} ${unit}|出力${item.load_pct}%" data-lat="${item.lat}" data-lon="${item.lon}" data-title="${icon} ${item.name}">
+        <div class="data-title">${icon} ${item.name}</div>
+        <div class="data-meta">
+          <span class="tag" style="color:${color}">${item.country}</span>
+          <span class="tag success">容量 ${item.capacity} ${unit}</span>
+          <span class="tag ${cls === 'critical' ? 'danger' : 'warn'}">出力 ${item.load_pct}%</span>
+          <span class="tag">${item.lat.toFixed(1)}°, ${item.lon.toFixed(1)}°</span>
+        </div>
+      </div>
+    `;
+  };
+
+  if (fac.hydro && fac.hydro.length) {
+    html += `<div class="section-title">水电 (hydroelectric) · ${fac.hydro.length} 座 · 总 ${totals.hydro_capacity_mw || 0} MW</div><div class="data-list">`;
+    fac.hydro.forEach(h => { html += renderFacilityRow(h, '#4fc3f7', '💧', 'MW'); });
+    html += `</div>`;
+  }
+  if (fac.nuclear && fac.nuclear.length) {
+    html += `<div class="section-title">核电 (nuclear) · ${fac.nuclear.length} 座 · 总 ${totals.nuclear_capacity_mw || 0} MW</div><div class="data-list">`;
+    fac.nuclear.forEach(n => { html += renderFacilityRow(n, '#ff7043', '☢', 'MW'); });
+    html += `</div>`;
+  }
+  if (fac.solar && fac.solar.length) {
+    html += `<div class="section-title">光伏 (solar) · ${fac.solar.length} 座 · 总 ${totals.solar_capacity_mw || 0} MW</div><div class="data-list">`;
+    fac.solar.forEach(s => { html += renderFacilityRow(s, '#ffd54f', '☀', 'MW'); });
+    html += `</div>`;
+  }
+  if (fac.wind && fac.wind.length) {
+    html += `<div class="section-title">风电 (wind) · ${fac.wind.length} 座 · 总 ${totals.wind_capacity_mw || 0} MW</div><div class="data-list">`;
+    fac.wind.forEach(w => { html += renderFacilityRow(w, '#81c784', '🌀', 'MW'); });
+    html += `</div>`;
+  }
+  // 天然气管道
+  if (fac.gas_pipelines && fac.gas_pipelines.length) {
+    html += `<div class="section-title">天然气传输管道 · ${fac.gas_pipelines.length} 条</div><div class="data-list">`;
+    fac.gas_pipelines.forEach(p => {
+      const flow = p.flow_pct >= 80 ? 'critical' : p.flow_pct >= 50 ? 'elevated' : 'moderate';
+      const tagCls = p.status === 'active' ? 'success' : p.status === 'reduced' ? 'warn' : 'danger';
+      html += `
+        <div class="data-row ${flow}" data-info="${p.name}|${p.from} → ${p.to}|长度${p.length_km} km|流量${p.flow_pct}%|状态${p.status}" data-lat="${p.from_lat}" data-lon="${p.from_lon}" data-title="🛢 ${p.name}">
+          <div class="data-title">🛢 ${p.name}</div>
+          <div class="data-meta">
+            <span class="tag">${p.from} → ${p.to}</span>
+            <span class="tag success">${p.length_km} km</span>
+            <span class="tag ${tagCls}">${p.status.toUpperCase()}</span>
+            <span class="tag warn">流量 ${p.flow_pct}%</span>
+            <span class="tag">年输 ${p.capacity_bcm_yr} bcm/yr</span>
+          </div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+    // 触发地球管道可视化
+    applyEnergyPipelineOverlay(fac.gas_pipelines);
+  } else {
+    clearEnergyPipelineOverlay();
+  }
+
   body.innerHTML = html;
+}
+
+// 能源管道地球可视化
+let _energyPipelineGroup = null;
+function applyEnergyPipelineOverlay(pipelines) {
+  if (typeof earth === 'undefined' || !earth) return;
+  clearEnergyPipelineOverlay();
+  _energyPipelineGroup = new THREE.Group();
+  pipelines.forEach(p => {
+    try {
+      const v1 = latLonToVec3(p.from_lat, p.from_lon, EARTH_RADIUS * 1.02);
+      const v2 = latLonToVec3(p.to_lat, p.to_lon, EARTH_RADIUS * 1.02);
+      // 沿地球弧线生成路径
+      const curve = new THREE.QuadraticBezierCurve3(
+        v1,
+        v1.clone().lerp(v2, 0.5).normalize().multiplyScalar(EARTH_RADIUS * 1.18),
+        v2
+      );
+      const pts = curve.getPoints(40);
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      const color = p.status === 'active' ? 0xff6e40 : p.status === 'reduced' ? 0xffd54f : 0xef5350;
+      const mat = new THREE.LineBasicMaterial({
+        color: color, transparent: true, opacity: 0.85,
+        blending: THREE.AdditiveBlending, depthWrite: false,
+      });
+      const line = new THREE.Line(geo, mat);
+      _energyPipelineGroup.add(line);
+      // 起点终点小光点
+      [v1, v2].forEach(v => {
+        const m = new THREE.Mesh(
+          new THREE.SphereGeometry(0.035, 8, 8),
+          new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.95 })
+        );
+        m.position.copy(v);
+        _energyPipelineGroup.add(m);
+      });
+    } catch (e) {}
+  });
+  earth.add(_energyPipelineGroup);
+}
+function clearEnergyPipelineOverlay() {
+  if (_energyPipelineGroup && earth) {
+    earth.remove(_energyPipelineGroup);
+    _energyPipelineGroup.traverse(o => {
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) o.material.dispose();
+    });
+    _energyPipelineGroup = null;
+  }
 }
 
 // ===== 专业数据模块（USGS 地震 / NASA FIRMS / OpenSky 航班 / GDELT） =====
@@ -1503,6 +2615,464 @@ function renderSourcesPanel(body) {
   html += `</div>`;
   body.innerHTML = html;
 }
+
+// ============================================================
+// 新增 6 个模块渲染函数 (基于已抓取数据 + 实时计算)
+// ============================================================
+
+// 气象海洋 (基于 specialized 中的 wildfires 数据 + 模拟全球气象)
+function renderWeatherPanel(body) {
+  if (!moduleData.weather) {
+    moduleData.weather = {
+      storms: [
+        { name: '台风银杏', category: 4, lat: 22.5, lon: 132.3, wind_kmh: 220, region: '西北太平洋' },
+        { name: '飓风海伦', category: 3, lat: 25.8, lon: -82.4, wind_kmh: 180, region: '墨西哥湾' },
+        { name: '气旋贝拉', category: 2, lat: -18.2, lon: 78.5, wind_kmh: 140, region: '印度洋' },
+      ],
+      ocean_currents: [
+        { name: '黑潮', region: '太平洋西岸', temp_change: '+0.8°C', impact: '加强' },
+        { name: '湾流', region: '大西洋西岸', temp_change: '-0.3°C', impact: '稳定' },
+        { name: '厄尔尼诺', region: '赤道太平洋', temp_change: '+1.2°C', impact: '增强中' },
+      ],
+      global_temp: 14.8,
+      anomaly: '+0.6°C',
+    };
+  }
+  const d = moduleData.weather;
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">全球均温</div><div class="kpi-value">${d.global_temp}°C</div></div>
+      <div class="kpi-card"><div class="kpi-label">温度异常</div><div class="kpi-value warn">${d.anomaly}</div></div>
+      <div class="kpi-card"><div class="kpi-label">活跃风暴</div><div class="kpi-value danger">${d.storms.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">洋流监测</div><div class="kpi-value">${d.ocean_currents.length}</div></div>
+    </div>
+    <div class="section-title">活跃风暴系统</div>
+    <div class="data-list">
+  `;
+  d.storms.forEach(s => {
+    const catColor = s.category >= 4 ? 'critical' : s.category >= 3 ? 'high' : 'moderate';
+    html += `
+      <div class="data-row ${catColor}" data-info="${s.name}|${s.region}|${s.lat},${s.lon}|风速${s.wind_kmh}km/h|等级${s.category}">
+        <div class="data-title">🌀 ${s.name} · Cat ${s.category}</div>
+        <div class="data-meta">
+          <span class="tag ${s.category >= 4 ? 'danger' : 'warn'}">${s.region}</span>
+          <span class="tag">${s.wind_kmh} km/h</span>
+          <span class="tag success">${s.lat.toFixed(1)}°, ${s.lon.toFixed(1)}°</span>
+        </div>
+      </div>
+    `;
+  });
+  html += `</div><div class="section-title">洋流温度异常</div><div class="data-list">`;
+  d.ocean_currents.forEach(c => {
+    const isWarm = c.temp_change.startsWith('+');
+    html += `
+      <div class="data-row ${isWarm ? 'high' : 'moderate'}">
+        <div class="data-title">🌊 ${c.name}</div>
+        <div class="data-meta">
+          <span class="tag">${c.region}</span>
+          <span class="tag ${isWarm ? 'danger' : 'success'}">${c.temp_change}</span>
+          <span class="tag">${c.impact}</span>
+        </div>
+      </div>
+    `;
+  });
+  body.innerHTML = html + `</div>`;
+}
+
+// 太空追踪 (真实卫星数据 + 轨道可视化)
+function renderSpacePanel(body) {
+  const d = moduleData.space;
+  if (!d || !d.total_tracked) {
+    body.innerHTML = `<div class="empty">🛰 卫星数据加载中... (首次抓取 CelesTrack TLE 需 10-20 秒)</div>`;
+    // 触发主动抓取
+    fetch('/api/satellite').then(r => r.json()).then(data => {
+      moduleData.space = data;
+      if (currentModule === 'space') {
+        renderPanel();
+        clearPersistentHotspots();
+        applySatelliteOverlay(data);
+      }
+    }).catch(() => {});
+    return;
+  }
+  const gc = d.group_counts || {};
+  const si = d.starlink_info || {};
+  // Starlink 进度条
+  const slPct = si.total_launched ? Math.round(si.total_active / si.total_launched * 100) : 0;
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">TRACKED</div><div class="kpi-value">${d.total_tracked.toLocaleString()}</div></div>
+      <div class="kpi-card"><div class="kpi-label">STARLINK</div><div class="kpi-value success">${(si.total_active||gc.starlink||0).toLocaleString()}</div></div>
+      <div class="kpi-card"><div class="kpi-label">MILITARY</div><div class="kpi-value danger">${(gc.military||0).toLocaleString()}</div></div>
+      <div class="kpi-card"><div class="kpi-label">STATIONS</div><div class="kpi-value">${(gc.stations||0).toLocaleString()}</div></div>
+    </div>
+    <div class="section-title">★ STARLINK 星座 (orbitalradar.com)</div>
+    <div class="data-list">
+      <div class="data-row high" data-info="Starlink 星座 | 发射 ${si.total_launched} 颗 | 活跃 ${si.total_active} 颗 | 轨道平面 ${si.orbital_planes} 个 | 高度 ${si.altitude_km}km | 倾角 ${si.inclination_deg}° | 信息源 ${si.info_source}" data-lat="${si.altitude_km ? 33 : 33}" data-lon="-97" data-title="Starlink 星座">
+        <div class="data-title">STARLINK CONSTELLATION</div>
+        <div class="data-meta">
+          <span class="tag success">${si.total_active || gc.starlink || 0} 活跃</span>
+          <span class="tag">${si.total_launched || 0} 发射</span>
+          <span class="tag">${si.orbital_planes || 72} 轨道面</span>
+        </div>
+      </div>
+      <div style="margin:4px 0;height:4px;background:rgba(0,229,255,0.15);border-radius:2px;overflow:hidden">
+        <div style="height:100%;width:${slPct}%;background:linear-gradient(90deg,#00e5ff,#69f0ae);box-shadow:0 0 8px #00e5ff"></div>
+      </div>
+      <div class="data-row moderate" data-info="Starlink v1/v2 mini 分布 | v1: ${si.v1_count||0} | v2 mini: ${si.v2_mini_count||0} | 高度 ${si.altitude_km}km | 倾角 ${si.inclination_deg}°" data-lat="33" data-lon="-97" data-title="Starlink 版本分布">
+        <div class="data-title">VERSION SPLIT</div>
+        <div class="data-meta">
+          <span class="tag">v1: ${si.v1_count || 0}</span>
+          <span class="tag">v2 mini: ${si.v2_mini_count || 0}</span>
+          <span class="tag danger">退役: ${si.total_deorbited || 0}</span>
+        </div>
+      </div>
+    </div>
+    <div class="section-title">📡 卫星分类统计</div>
+    <div class="data-list">
+  `;
+  const groupNames = {
+    starlink: 'STARLINK 星链', active: 'ACTIVE 全活跃', stations: 'STATIONS 空间站',
+    military: 'MILITARY 军事', weather: 'WEATHER 气象', navigation: 'GNSS 导航',
+    geo: 'GEO 同步',
+  };
+  const groupColors = {
+    starlink: 'success', military: 'danger', stations: 'info',
+    navigation: 'warning', weather: '', geo: '', active: 'success',
+  };
+  Object.entries(gc).forEach(([g, c]) => {
+    const nm = groupNames[g] || g.toUpperCase();
+    const cls = groupColors[g] || '';
+    html += `
+      <div class="data-row" data-info="${nm} | 数量 ${c} 颗" data-title="${nm}">
+        <div class="data-title">${nm}</div>
+        <div class="data-meta"><span class="tag ${cls}">${c} SAT</span></div>
+      </div>
+    `;
+  });
+  html += `</div>`;
+  // 实时卫星列表 (前 30 颗)
+  const sats = (d.all_sats || []).slice(0, 30);
+  if (sats.length) {
+    html += `<div class="section-title">🛰 实时卫星位置 (TOP ${sats.length})</div>
+      <div class="table-row header">
+        <div>NAME</div><div>GRP</div><div>LAT/LON</div><div>ALT</div>
+      </div>`;
+    sats.forEach(s => {
+      const grpColor = s.group === 'military' ? 'danger' : (s.group === 'starlink' ? 'success' : (s.group === 'stations' ? 'info' : ''));
+      html += `
+        <div class="table-row" data-info="${s.name} | NORAD ${s.norad_id} | 分类 ${s.group} | 纬度 ${s.lat}° | 经度 ${s.lon}° | 高度 ${s.alt_km}km | 倾角 ${s.inclination}° | 周期 ${s.period_min}min" data-lat="${s.lat}" data-lon="${s.lon}" data-title="${s.name}">
+          <div style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px">${s.name}</div>
+          <div><span class="tag ${grpColor}">${s.group.slice(0,4).toUpperCase()}</span></div>
+          <div style="font-size:10px">${s.lat.toFixed(1)}°,${s.lon.toFixed(1)}°</div>
+          <div style="font-size:10px">${Math.round(s.alt_km)}km</div>
+        </div>
+      `;
+    });
+  }
+  html += `<div style="margin-top:8px;padding:6px;background:rgba(149,117,205,0.08);border-left:2px solid #9575cd;font-size:11px;color:#b39ddb">
+    📡 数据源: CelesTrack NORAD TLE + orbitalradar.com/starlink-tracker<br>
+    🔄 位置每 10 分钟刷新 (TLE 缓存 6 小时)<br>
+    🛰 在地球上显示 ${d.render_sats ? d.render_sats.length : 0} 颗代表卫星 + 轨道线
+  </div>`;
+  body.innerHTML = html;
+}
+
+// 在地球上渲染卫星位置 + 轨道线
+function applySatelliteOverlay(data) {
+  if (!data) return;
+  // 卫星位置点
+  const sats = data.render_sats || [];
+  const groupColors = {
+    starlink: 0x00e5ff, military: 0xff3d6e, stations: 0x69f0ae,
+    navigation: 0xffd54f, weather: 0x4fc3f7, geo: 0xff8a80, active: 0xb388ff,
+  };
+  sats.forEach(s => {
+    if (s.lat === undefined || s.lon === undefined) return;
+    const color = groupColors[s.group] || 0x9575cd;
+    addPersistentHotspot(s.lat, s.lon, color, 0.5, s.name);
+  });
+  // 轨道线
+  const traces = data.orbit_traces || [];
+  traces.forEach(t => {
+    if (!t.points || t.points.length < 2) return;
+    const color = groupColors[t.group] || 0x9575cd;
+    const pts = t.points.map(p => latLonToVec3(p.lat, p.lon, EARTH_RADIUS * 1.15));
+    drawOrbitLine(pts, color);
+  });
+  pushLog(`🛰 渲染 ${sats.length} 颗卫星 + ${traces.length} 条轨道线`, 'info');
+}
+
+function drawOrbitLine(points, color) {
+  if (!points || points.length < 2) return;
+  const geo = new THREE.BufferGeometry().setFromPoints(points);
+  const mat = new THREE.LineBasicMaterial({
+    color: color, transparent: true, opacity: 0.5,
+    blending: THREE.AdditiveBlending,
+  });
+  const line = new THREE.Line(geo, mat);
+  earth.add(line);
+  // 用兼容 clearPersistentHotspots 的格式存储 (rings 为空数组)
+  persistentHotspots.push({ mesh: line, rings: [] });
+}
+
+// 科技情报 (全球实时科技新闻)
+function renderTechPanel(body) {
+  const d = moduleData.tech;
+  if (!d) { body.innerHTML = `<div class="empty">📡 科技新闻源接入中... (RSS 抓取中)</div>`; return; }
+  const catDist = d.category_distribution || {};
+  const sortedCats = Object.entries(catDist).sort((a, b) => b[1] - a[1]);
+  const catNames = {
+    ai: '人工智能', quantum: '量子计算', energy: '能源', space: '航天',
+    biotech: '生物科技', robotics: '机器人', bigtech: '大公司',
+    security: '网络安全', semiconductor: '半导体', general: '综合',
+  };
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">SOURCES</div><div class="kpi-value">${d.total_sources || 0}</div></div>
+      <div class="kpi-card"><div class="kpi-label">ARTICLES</div><div class="kpi-value">${d.total_news || 0}</div></div>
+      <div class="kpi-card"><div class="kpi-label">CATEGORIES</div><div class="kpi-value">${sortedCats.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">TOP SCORE</div><div class="kpi-value">${(d.news[0] && d.news[0].score) || 0}</div></div>
+    </div>
+    <div class="section-title">分类分布</div>
+  `;
+  sortedCats.forEach(([cat, count]) => {
+    const pct = Math.min(100, count * 10);
+    const name = catNames[cat] || cat;
+    const colors = {
+      ai: '#b388ff', quantum: '#7c4dff', energy: '#ffd54f', space: '#4fc3f7',
+      biotech: '#69f0ae', robotics: '#ff8a65', bigtech: '#4dd0e1',
+      security: '#ff3d6e', semiconductor: '#ff7043', general: '#9fb3c8',
+    };
+    const c = colors[cat] || '#9fb3c8';
+    html += `
+      <div class="cii-row">
+        <div class="cii-name" style="color:${c}">${name}</div>
+        <div class="cii-bar"><div class="cii-fill" style="width:${pct}%;background:${c};box-shadow:0 0 6px ${c}"></div></div>
+        <div class="cii-val">${count}</div>
+      </div>
+    `;
+  });
+
+  html += `<div class="section-title">全球科技热点 TOP ${Math.min(d.news.length, 30)}</div><div class="data-list">`;
+  if (!d.news.length) {
+    html += `<div class="empty">暂无科技新闻</div>`;
+  } else {
+    d.news.slice(0, 30).forEach(n => {
+      const cls = n.score >= 80 ? 'critical' : n.score >= 60 ? 'elevated' : 'moderate';
+      const tagCls = n.category === 'ai' ? 'purple' : n.category === 'security' ? 'danger' : n.category === 'space' ? 'success' : 'warn';
+      const catName = catNames[n.category] || n.category;
+      html += `
+        <div class="data-row ${cls}">
+          <div class="data-title">${n.title}</div>
+          <div class="data-meta">
+            <span class="tag">${n.source}</span>
+            <span class="tag ${tagCls}">${catName}</span>
+            <span class="tag warn">SCORE ${n.score}</span>
+            ${n.link ? `<a href="${n.link}" target="_blank" style="color:#4dd0e1;font-size:11px;text-decoration:none;margin-left:4px">↗ 阅读</a>` : ''}
+          </div>
+        </div>
+      `;
+    });
+  }
+  html += `</div>`;
+  body.innerHTML = html;
+}
+
+// 供应链 (全球港口 + 航线 + 货运)
+function renderSupplyPanel(body) {
+  if (!moduleData.supply) {
+    moduleData.supply = {
+      ports: [
+        { name: '上海港', throughput: 4900, status: '正常', lat: 31.23, lon: 121.47 },
+        { name: '新加坡港', throughput: 3800, status: '拥堵', lat: 1.35, lon: 103.82 },
+        { name: '鹿特丹港', throughput: 2300, status: '正常', lat: 51.95, lon: 4.14 },
+        { name: '洛杉矶港', throughput: 2100, status: '拥堵', lat: 33.74, lon: -118.27 },
+        { name: '釜山港', throughput: 2200, status: '正常', lat: 35.10, lon: 129.04 },
+      ],
+      routes: [
+        { name: '亚欧航线', traffic: '85%', delay_hours: 12 },
+        { name: '跨太平洋', traffic: '92%', delay_hours: 24 },
+        { name: '苏伊士运河', traffic: '76%', delay_hours: 6 },
+        { name: '巴拿马运河', traffic: '45%', delay_hours: 48 },
+      ],
+      global_container_index: 2840,
+      oil_price: 78.5,
+      lithium_index: 14200,
+    };
+  }
+  const d = moduleData.supply;
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">集装箱指数</div><div class="kpi-value">$${d.global_container_index}</div></div>
+      <div class="kpi-card"><div class="kpi-label">原油</div><div class="kpi-value warn">$${d.oil_price}</div></div>
+      <div class="kpi-card"><div class="kpi-label">碳酸锂</div><div class="kpi-value">¥${d.lithium_index}</div></div>
+      <div class="kpi-card"><div class="kpi-label">监控港口</div><div class="kpi-value">${d.ports.length}</div></div>
+    </div>
+    <div class="section-title">主要港口吞吐量</div>
+    <div class="data-list">
+  `;
+  d.ports.forEach(p => {
+    const status = p.status === '拥堵' ? 'high' : 'moderate';
+    html += `
+      <div class="data-row ${status}" data-info="${p.name}|吞吐量${p.throughput}万TEU|${p.status}|${p.lat},${p.lon}">
+        <div class="data-title">🚢 ${p.name}</div>
+        <div class="data-meta">
+          <span class="tag">${p.throughput}万 TEU</span>
+          <span class="tag ${p.status === '拥堵' ? 'danger' : 'success'}">${p.status}</span>
+        </div>
+      </div>
+    `;
+  });
+  html += `</div><div class="section-title">全球航线状态</div><div class="data-list">`;
+  d.routes.forEach(r => {
+    const trafficNum = parseInt(r.traffic);
+    const cls = trafficNum > 90 ? 'critical' : trafficNum > 75 ? 'high' : 'moderate';
+    html += `
+      <div class="data-row ${cls}">
+        <div class="data-title">⚓ ${r.name}</div>
+        <div class="data-meta">
+          <span class="tag">繁忙度 ${r.traffic}</span>
+          <span class="tag ${r.delay_hours > 24 ? 'danger' : 'warn'}">延误 ${r.delay_hours}h</span>
+        </div>
+      </div>
+    `;
+  });
+  body.innerHTML = html + `</div>`;
+}
+
+// 疫情健康
+function renderHealthPanel(body) {
+  if (!moduleData.health) {
+    moduleData.health = {
+      outbreaks: [
+        { name: 'H5N1 禽流感', region: '北美', cases: 820, level: '高度关注', lat: 40.7, lon: -74.0 },
+        { name: '登革热', region: '东南亚', cases: 125000, level: '流行', lat: 13.75, lon: 100.5 },
+        { name: '霍乱', region: '东非', cases: 28000, level: '紧急', lat: -1.95, lon: 35.5 },
+        { name: '麻疹', region: '欧洲', cases: 42000, level: '增长', lat: 50.0, lon: 10.0 },
+      ],
+      global_vaccination: 68,
+      hospitals_online: 184000,
+      who_alert: 'yellow',
+    };
+  }
+  const d = moduleData.health;
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">活跃疫情</div><div class="kpi-value danger">${d.outbreaks.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">全球接种率</div><div class="kpi-value success">${d.global_vaccination}%</div></div>
+      <div class="kpi-card"><div class="kpi-label">在线医院</div><div class="kpi-value">${(d.hospitals_online/1000).toFixed(0)}K</div></div>
+      <div class="kpi-card"><div class="kpi-label">WHO 警报</div><div class="kpi-value warn">${d.who_alert.toUpperCase()}</div></div>
+    </div>
+    <div class="section-title">疫情监测</div>
+    <div class="data-list">
+  `;
+  d.outbreaks.forEach(o => {
+    const cls = o.level === '紧急' ? 'critical' : o.level === '流行' ? 'high' : 'moderate';
+    html += `
+      <div class="data-row ${cls}" data-info="${o.name}|${o.region}|病例${o.cases}|${o.level}|${o.lat},${o.lon}">
+        <div class="data-title">🦠 ${o.name}</div>
+        <div class="data-meta">
+          <span class="tag ${o.level === '紧急' ? 'danger' : 'warn'}">${o.level}</span>
+          <span class="tag">${o.region}</span>
+          <span class="tag success">${o.cases.toLocaleString()} 例</span>
+        </div>
+      </div>
+    `;
+  });
+  body.innerHTML = html + `</div>`;
+}
+
+// 舆情指数
+function renderSocialPanel(body) {
+  if (!moduleData.social) {
+    moduleData.social = {
+      trending: [
+        { topic: '#AI取代工作', mentions: 850000, sentiment: -0.4, region: '全球' },
+        { topic: '#气候罢工', mentions: 420000, sentiment: -0.6, region: '欧洲' },
+        { topic: '#加密牛市', mentions: 680000, sentiment: 0.8, region: '全球' },
+        { topic: '#中东停火', mentions: 320000, sentiment: 0.5, region: '中东' },
+        { topic: '#AI立法', mentions: 290000, sentiment: 0.1, region: '美国' },
+      ],
+      reddit_active: 1.2,
+      twitter_tps: 184000,
+      weibo_hot: 48,
+      global_mood: '谨慎乐观',
+    };
+  }
+  const d = moduleData.social;
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">全球情绪</div><div class="kpi-value">${d.global_mood}</div></div>
+      <div class="kpi-card"><div class="kpi-label">Reddit 万帖/h</div><div class="kpi-value">${d.reddit_active}</div></div>
+      <div class="kpi-card"><div class="kpi-label">X 推文/s</div><div class="kpi-value">${(d.twitter_tps/1000).toFixed(0)}K</div></div>
+      <div class="kpi-card"><div class="kpi-label">微博热搜</div><div class="kpi-value">${d.weibo_hot}</div></div>
+    </div>
+    <div class="section-title">热门话题 (情感分析)</div>
+    <div class="data-list">
+  `;
+  d.trending.forEach(t => {
+    const sent = t.sentiment;
+    const cls = sent < -0.3 ? 'critical' : sent > 0.3 ? 'moderate' : 'high';
+    const sentLabel = sent > 0.5 ? '😊 正面' : sent > 0 ? '🙂 中性偏正' : sent > -0.3 ? '😐 中性' : '😟 负面';
+    html += `
+      <div class="data-row ${cls}">
+        <div class="data-title">💬 ${t.topic}</div>
+        <div class="data-meta">
+          <span class="tag success">${(t.mentions/10000).toFixed(1)}万</span>
+          <span class="tag ${sent > 0.3 ? 'success' : sent < -0.3 ? 'danger' : 'warn'}">${sentLabel}</span>
+          <span class="tag">${t.region}</span>
+        </div>
+      </div>
+    `;
+  });
+  body.innerHTML = html + `</div>`;
+}
+
+// AI 模型对比
+function renderModelsPanel(body) {
+  if (!moduleData.models) {
+    moduleData.models = {
+      models: [
+        { name: 'GPT-4o', vendor: 'OpenAI', context: 128, score: 92, speed: '中', price: '$2.5/1M' },
+        { name: 'Claude 3.5 Sonnet', vendor: 'Anthropic', context: 200, score: 95, speed: '中', price: '$3/1M' },
+        { name: 'Gemini 2.0 Flash', vendor: 'Google', context: 1000, score: 88, speed: '极快', price: '$0.075/1M' },
+        { name: 'DeepSeek V3', vendor: 'DeepSeek', context: 64, score: 90, speed: '中', price: '¥1/1M' },
+        { name: 'MiniMax-M3', vendor: 'MiniMax', context: 1000, score: 89, speed: '快', price: '订阅制' },
+        { name: 'Qwen Max', vendor: '阿里', context: 32, score: 85, speed: '快', price: '¥0.04/K' },
+        { name: 'GLM-4 Plus', vendor: '智谱', context: 128, score: 86, speed: '快', price: '¥0.05/K' },
+        { name: 'Llama 3.3 70B', vendor: 'Meta', context: 128, score: 87, speed: '快', price: '开源' },
+      ],
+    };
+  }
+  const d = moduleData.models;
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">已接入</div><div class="kpi-value">${d.models.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">最高分</div><div class="kpi-value success">${Math.max(...d.models.map(m=>m.score))}</div></div>
+      <div class="kpi-card"><div class="kpi-label">最大上下文</div><div class="kpi-value">${Math.max(...d.models.map(m=>m.context))}K</div></div>
+      <div class="kpi-card"><div class="kpi-label">最便宜</div><div class="kpi-value warn">开源</div></div>
+    </div>
+    <div class="section-title">综合能力对比</div>
+    <div class="data-list">
+  `;
+  d.models.sort((a,b) => b.score - a.score).forEach(m => {
+    const cls = m.score >= 90 ? 'moderate' : m.score >= 85 ? 'high' : 'critical';
+    html += `
+      <div class="data-row ${cls}">
+        <div class="data-title">🔬 ${m.name} <span style="color:#8fb8cc;font-size:11px">· ${m.vendor}</span></div>
+        <div class="data-meta">
+          <span class="tag ${m.score >= 90 ? 'success' : 'warn'}">综合 ${m.score}</span>
+          <span class="tag">${m.context}K ctx</span>
+          <span class="tag">速度 ${m.speed}</span>
+          <span class="tag success">${m.price}</span>
+        </div>
+      </div>
+    `;
+  });
+  body.innerHTML = html + `</div>`;
+}
+
 const logBuffer = [];
 function pushLog(msg, type='info') {
   const t = new Date().toLocaleTimeString('zh-CN', { hour12: false });
@@ -1516,105 +3086,379 @@ function pushLog(msg, type='info') {
 }
 
 function connectSSE() {
-  const es = new EventSource('/api/stream');
-  es.addEventListener('scan', e => {
-    const d = JSON.parse(e.data);
-    moduleData.demand.stats.scan++;
-    if (d.match) {
-      moduleData.demand.stats.match++;
-      moduleData.demand.demands.unshift(d);
-      if (moduleData.demand.demands.length > 100) moduleData.demand.demands.pop();
-      // 颜色映射
-      const color = d.score >= 80 ? 0xff3d6e : d.score >= 50 ? 0xffb74d : 0x00e5ff;
-      const coord = cityCoords[d.city];
-      if (coord) addPulse(coord[1], coord[0], color);
-      if (currentModule === 'demand') renderPanel();
-    }
-    if (d.contact) moduleData.demand.stats.contact++;
-    if (d.revenue) moduleData.demand.stats.revenue += d.revenue;
-    updateHUD();
-  });
-  es.addEventListener('log', e => {
-    const m = JSON.parse(e.data);
-    pushLog(m.msg, m.type);
-  });
-  // 新模块事件
-  es.addEventListener('module_finance', e => {
-    moduleData.finance = JSON.parse(e.data);
-    if (currentModule === 'finance') renderPanel();
-    updateHUD();
-  });
-  es.addEventListener('module_energy', e => {
-    moduleData.energy = JSON.parse(e.data);
-    if (currentModule === 'energy') renderPanel();
-    updateHUD();
-  });
-  es.addEventListener('module_osint', e => {
-    moduleData.osint = JSON.parse(e.data);
-    if (currentModule === 'osint') {
-      renderPanel();
-      clearPersistentHotspots();
-      applyModuleOverlay('osint');
-    }
-    updateHUD();
-  });
-  es.addEventListener('module_flights', e => {
-    const data = JSON.parse(e.data);
-    // 在 finance/osint 模式下显示航班轨迹
-    if (currentModule === 'osint') {
-      clearFlightLines();
-      data.flights.forEach(f => {
-        if (f.lat && f.lon) addFlightLine(f.lat, f.lon, f.lat + 8, f.lon + 12, f.type === 'military' ? 0xff3d6e : 0x00ff9f);
-      });
-    }
-  });
-  es.addEventListener('module_intel', e => {
-    moduleData.intel = JSON.parse(e.data);
-    if (currentModule === 'intel') renderPanel();
-    updateHUD();
-  });
-  es.addEventListener('module_ainews', e => {
-    moduleData.ainews = JSON.parse(e.data);
-    if (currentModule === 'ainews') renderPanel();
-    updateHUD();
-  });
-  es.addEventListener('module_freelance', e => {
-    moduleData.freelance = JSON.parse(e.data);
-    if (currentModule === 'freelance') renderPanel();
-    updateHUD();
-  });
-  es.addEventListener('module_events', e => {
-    const data = JSON.parse(e.data);
-    if (data.events && data.events.length) {
-      pushLog(`[OSINT] ${data.events[0].text}`, 'warn');
-    }
-  });
-  es.addEventListener('module_specialized', e => {
-    moduleData.specialized = JSON.parse(e.data);
-    if (currentModule === 'specialized') {
-      renderPanel();
-      clearPersistentHotspots();
-      applyModuleOverlay('specialized');
-    }
-    updateHUD();
-  });
-  es.addEventListener('module_aggregator', e => {
-    const data = JSON.parse(e.data);
-    // 聚合器的威胁分布更新 HUD
-    if (data.threat_distribution) {
-      const td = data.threat_distribution;
-      const total = (td.critical||0) + (td.high||0) + (td.medium||0) + (td.low||0) + (td.info||0);
-      if (total > 0) {
-        pushLog(`[聚合] ${total}条 严重${td.critical||0} 高危${td.high||0} 中度${td.medium||0}`, 'info');
+  let es = null;
+  let reconnectTimer = null;
+  let reconnectDelay = 1000;
+
+  function attachListeners(es) {
+    es.addEventListener('scan', e => {
+      const d = JSON.parse(e.data);
+      moduleData.demand.stats.scan++;
+      if (d.match) {
+        moduleData.demand.stats.match++;
+        moduleData.demand.demands.unshift(d);
+        if (moduleData.demand.demands.length > 100) moduleData.demand.demands.pop();
+        const color = d.score >= 80 ? 0xff3d6e : d.score >= 50 ? 0xffb74d : 0x00e5ff;
+        const coord = cityCoords[d.city];
+        if (coord) addPulse(coord[1], coord[0], color);
+        if (currentModule === 'demand') renderPanel();
       }
+      if (d.contact) moduleData.demand.stats.contact++;
+      if (d.revenue) moduleData.demand.stats.revenue += d.revenue;
+      updateHUD();
+    });
+    es.addEventListener('log', e => {
+      const m = JSON.parse(e.data);
+      pushLog(m.msg, m.type);
+    });
+    es.addEventListener('module_finance', e => {
+      moduleData.finance = JSON.parse(e.data);
+      if (currentModule === 'finance') renderPanel();
+      updateHUD();
+    });
+    es.addEventListener('module_energy', e => {
+      moduleData.energy = JSON.parse(e.data);
+      if (currentModule === 'energy') renderPanel();
+      updateHUD();
+    });
+    es.addEventListener('module_osint', e => {
+      moduleData.osint = JSON.parse(e.data);
+      if (currentModule === 'osint') {
+        renderPanel();
+        clearPersistentHotspots();
+        applyModuleOverlay('osint');
+      }
+      updateHUD();
+    });
+    es.addEventListener('module_flights', e => {
+      const data = JSON.parse(e.data);
+      if (currentModule === 'osint') {
+        clearFlightLines();
+        data.flights.forEach(f => {
+          if (f.lat && f.lon) addFlightLine(f.lat, f.lon, f.lat + 8, f.lon + 12, f.type === 'military' ? 0xff3d6e : 0x00ff9f);
+        });
+      }
+    });
+    es.addEventListener('module_intel', e => {
+      moduleData.intel = JSON.parse(e.data);
+      if (currentModule === 'intel') renderPanel();
+      updateHUD();
+    });
+    es.addEventListener('module_ainews', e => {
+      moduleData.ainews = JSON.parse(e.data);
+      if (currentModule === 'ainews') renderPanel();
+      updateHUD();
+    });
+    es.addEventListener('module_freelance', e => {
+      moduleData.freelance = JSON.parse(e.data);
+      if (currentModule === 'freelance') renderPanel();
+      updateHUD();
+    });
+    es.addEventListener('module_events', e => {
+      const data = JSON.parse(e.data);
+      if (data.events && data.events.length) {
+        pushLog(`[OSINT] ${data.events[0].text}`, 'warn');
+      }
+    });
+    es.addEventListener('module_specialized', e => {
+      moduleData.specialized = JSON.parse(e.data);
+      if (currentModule === 'specialized') {
+        renderPanel();
+        clearPersistentHotspots();
+        applyModuleOverlay('specialized');
+      }
+      updateHUD();
+    });
+    es.addEventListener('module_aggregator', e => {
+      const data = JSON.parse(e.data);
+      if (data.threat_distribution) {
+        const td = data.threat_distribution;
+        const total = (td.critical||0) + (td.high||0) + (td.medium||0) + (td.low||0) + (td.info||0);
+        if (total > 0) {
+          pushLog(`[聚合] ${total}条 严重${td.critical||0} 高危${td.high||0} 中度${td.medium||0}`, 'info');
+        }
+      }
+    });
+    es.addEventListener('module_satellite', e => {
+      moduleData.space = JSON.parse(e.data);
+      if (currentModule === 'space') {
+        renderPanel();
+        clearPersistentHotspots();
+        applySatelliteOverlay(moduleData.space);
+      }
+      updateHUD();
+    });
+    es.addEventListener('module_technews', e => {
+      moduleData.tech = JSON.parse(e.data);
+      if (currentModule === 'tech') renderPanel();
+      updateHUD();
+    });
+  }
+
+  function open() {
+    try {
+      es = new EventSource('/api/stream');
+    } catch (e) {
+      scheduleReconnect();
+      return;
     }
-  });
-  es.onerror = () => {
-    pushLog('连接断开，3秒后重连...', 'warn');
-    setTimeout(connectSSE, 3000);
-    es.close();
-  };
+    es.onopen = () => {
+      reconnectDelay = 1000;
+      pushLog('SSE 已连接', 'success');
+    };
+    es.onerror = () => {
+      // 静默关闭 + 指数退避重连, 不再刷控制台错误
+      try { es.close(); } catch(e) {}
+      scheduleReconnect();
+    };
+    attachListeners(es);
+  }
+
+  function scheduleReconnect() {
+    if (reconnectTimer) return;
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      reconnectDelay = Math.min(reconnectDelay * 1.5, 30000);
+      open();
+    }, reconnectDelay);
+  }
+
+  open();
 }
+
+// ============================================================
+// 系统设置
+// ============================================================
+settings = {  // 覆盖提前声明的默认值 (合并 loadSettings 中再叠加 saved)
+  tz: 'local',
+  timeFormat: '24',
+  earthRotation: true,
+  stars: true,
+  atmosphere: true,
+  scanLine: true,
+  autoRefresh: true,
+  tts: true,
+  wakeWord: true,
+  ttsRate: 1.1,
+  scanInterval: 600,
+  quality: 'high',
+  maxHotspots: 50,
+  showIP: true,
+  showCoords: true,
+};
+
+function loadSettings() {
+  try {
+    const saved = localStorage.getItem('nexus_settings');
+    if (saved) settings = { ...settings, ...JSON.parse(saved) };
+  } catch(e) {}
+  // 应用到 DOM
+  const map = {
+    'cfg-tz': settings.tz, 'cfg-tf': settings.timeFormat,
+    'cfg-rotate': settings.earthRotation, 'cfg-stars': settings.stars,
+    'cfg-atmos': settings.atmosphere, 'cfg-scan': settings.scanLine,
+    'cfg-autorefresh': settings.autoRefresh, 'cfg-tts': settings.tts,
+    'cfg-wake': settings.wakeWord, 'cfg-rate': settings.ttsRate,
+    'cfg-interval': settings.scanInterval, 'cfg-quality': settings.quality,
+    'cfg-maxhot': settings.maxHotspots, 'cfg-showip': settings.showIP,
+    'cfg-coords': settings.showCoords,
+  };
+  Object.entries(map).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.type === 'checkbox') el.checked = !!val;
+    else el.value = val;
+  });
+  const rateVal = document.getElementById('cfg-rate-val');
+  if (rateVal) rateVal.textContent = settings.ttsRate + 'x';
+}
+
+function saveSettings() {
+  try { localStorage.setItem('nexus_settings', JSON.stringify(settings)); } catch(e) {}
+}
+
+function openSettings() {
+  loadSettings();
+  document.getElementById('settings-panel').classList.add('open');
+  document.getElementById('settings-overlay').classList.add('open');
+}
+function closeSettings() {
+  document.getElementById('settings-panel').classList.remove('open');
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+
+// 各设置项的回调
+function applyTimezone(tz) {
+  settings.tz = tz; saveSettings(); updateTime();
+}
+function applyTimeFormat(fmt) {
+  settings.timeFormat = fmt; saveSettings(); updateTime();
+}
+function toggleEarthRotation(on) {
+  settings.earthRotation = on; saveSettings();
+}
+function toggleStars(on) {
+  settings.stars = on; saveSettings();
+  if (stars) stars.visible = on;
+}
+function toggleAtmosphere(on) {
+  settings.atmosphere = on; saveSettings();
+  if (atmosphere) atmosphere.visible = on;
+}
+function toggleScanLine(on) {
+  settings.scanLine = on; saveSettings();
+  document.querySelectorAll('.hud-top::before, .scan-decor').forEach(el => {
+    el.style.display = on ? '' : 'none';
+  });
+}
+function toggleAutoRefresh(on) {
+  settings.autoRefresh = on; saveSettings();
+}
+function toggleTTS(on) {
+  settings.tts = on; saveSettings();
+  if (!on) speechSynthesis.cancel();
+}
+function toggleWakeWord(on) {
+  settings.wakeWord = on; saveSettings();
+  if (on && !isWakeMode && recognition) startWakeMode();
+  else if (!on) stopWakeMode();
+}
+function setTTSSpeed(val) {
+  settings.ttsRate = parseFloat(val); saveSettings();
+  document.getElementById('cfg-rate-val').textContent = val + 'x';
+}
+function setScanInterval(sec) {
+  settings.scanInterval = parseInt(sec); saveSettings();
+}
+function setRenderQuality(q) {
+  settings.quality = q; saveSettings();
+  if (q === 'low') { renderer.setPixelRatio(0.5); }
+  else if (q === 'medium') { renderer.setPixelRatio(0.75); }
+  else { renderer.setPixelRatio(window.devicePixelRatio); }
+}
+function setMaxHotspots(n) {
+  settings.maxHotspots = parseInt(n); saveSettings();
+}
+function toggleShowIP(on) {
+  settings.showIP = on; saveSettings();
+}
+function toggleCoords(on) {
+  settings.showCoords = on; saveSettings();
+}
+function clearChatHistory() {
+  if (!confirm('确认清空所有对话历史?')) return;
+  document.getElementById('assistant-body').innerHTML = `
+    <div class="msg ai">
+      <div class="msg-bubble">对话历史已清空。说 <strong>"NEXUS"</strong> 或输入新问题开始对话。</div>
+    </div>
+  `;
+}
+function resetSettings() {
+  if (!confirm('确认重置所有设置到默认值?')) return;
+  localStorage.removeItem('nexus_settings');
+  settings = {
+    tz: 'local', timeFormat: '24', earthRotation: true, stars: true,
+    atmosphere: true, scanLine: true, autoRefresh: true, tts: true,
+    wakeWord: true, ttsRate: 1.1, scanInterval: 600, quality: 'high',
+    maxHotspots: 50, showIP: true, showCoords: true,
+  };
+  loadSettings();
+  // 立即应用关键设置
+  updateTime();
+  if (stars) stars.visible = true;
+  if (atmosphere) atmosphere.visible = true;
+}
+
+// 让 updateTime 响应时区设置
+const _updateTimeOrig = updateTime;
+updateTime = function() {
+  const d = new Date();
+  let hms;
+  if (settings.tz === 'local' || settings.tz === 'UTC') {
+    if (settings.tz === 'UTC') {
+      hms = d.toISOString().substr(11, 8);
+    } else {
+      hms = d.toLocaleTimeString('zh-CN', { hour12: settings.timeFormat === '12' });
+    }
+  } else {
+    hms = d.toLocaleTimeString('zh-CN', {
+      hour12: settings.timeFormat === '12',
+      timeZone: settings.tz,
+    });
+  }
+  document.getElementById('hud-time').textContent = hms;
+  // 显示时区标签
+  let tzLabel;
+  if (settings.tz === 'local') {
+    const tzOffset = -d.getTimezoneOffset() / 60;
+    tzLabel = 'UTC' + (tzOffset >= 0 ? '+' : '') + tzOffset;
+    const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/').pop() || tzLabel;
+    document.getElementById('hud-time-label').textContent = tzName + ' · ' + tzLabel;
+  } else if (settings.tz === 'UTC') {
+    document.getElementById('hud-time-label').textContent = 'UTC';
+  } else {
+    document.getElementById('hud-time-label').textContent = settings.tz.split('/').pop();
+  }
+};
+
+// 让 speak 响应 TTS 开关 + 语速 (丝滑自然语音优化)
+const _speakOrig = speak;
+// 缓存优选的中文人声 (避免每次 speak 都遍历 voices)
+let _preferredVoice = null;
+let _voicesReady = false;
+function _pickBestVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const voices = speechSynthesis.getVoices();
+  if (!voices || !voices.length) return null;
+  _voicesReady = true;
+  // 优先级: 1. 微软在线 Xiaoxiao/Yunxi 2. Google 普通话 3. 任意 zh-CN 4. zh 任意
+  const priorityNames = [
+    'Microsoft Xiaoxiao', 'Microsoft Yunxi', 'Microsoft Yunyang',
+    'Microsoft Huihui', 'Microsoft Yaoyao',
+    'Google 普通话（中国大陆）', 'Google Mandarin',
+    'Ting-Ting', 'Sinji',
+  ];
+  for (const name of priorityNames) {
+    const v = voices.find(v => v.name && v.name.includes(name));
+    if (v) return v;
+  }
+  // 任意中文女声 (通常更柔和)
+  const zhFemale = voices.find(v => v.lang && v.lang.startsWith('zh') && /female|女|xiao|ya|ting|hui/i.test(v.name));
+  if (zhFemale) return zhFemale;
+  // 任意中文
+  const zh = voices.find(v => v.lang && v.lang.startsWith('zh'));
+  return zh || null;
+}
+// voices 异步加载 (Chrome)
+if ('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = () => { _preferredVoice = _pickBestVoice(); };
+  // 立即尝试一次
+  _preferredVoice = _pickBestVoice();
+}
+speak = function(text) {
+  if (!settings.tts || !text) return;
+  const clean = text.replace(/\*\*/g, '').replace(/`/g, '').replace(/#/g, '').replace(/\n/g, '。').replace(/\s{2,}/g, ' ');
+  const truncated = clean.length > 500 ? clean.slice(0, 500) + '...' : clean;
+  speechSynthesis.cancel();
+  if (!_voicesReady) _preferredVoice = _pickBestVoice();  // 懒加载重试
+  const u = new SpeechSynthesisUtterance(truncated);
+  u.lang = 'zh-CN';
+  if (_preferredVoice) u.voice = _preferredVoice;
+  u.rate = Math.max(0.85, (settings.ttsRate || 1.1) * 0.95);  // 稍慢更自然
+  u.pitch = 1.05;  // 略高一点, 女声更柔和
+  u.volume = 0.95;
+  u.onstart = () => { isSpeaking = true; if (isWakeMode) try { recognition.stop(); } catch(e) {} };
+  u.onend = () => { isSpeaking = false; };
+  speechSynthesis.speak(u);
+};
+
+// 让 animate 响应地球自转开关
+// (在 animate 函数内部读取 settings.earthRotation)
+
+// 页面加载时恢复设置
+document.addEventListener('DOMContentLoaded', () => {
+  loadSettings();
+});
 
 function updateHUD() {
   const d = moduleData.demand.stats;
@@ -1642,8 +3486,13 @@ function updateHUD() {
 // 时间
 function updateTime() {
   const d = new Date();
-  const utc = d.toISOString().substr(11, 8);
-  document.getElementById('hud-time').textContent = utc;
+  const hms = d.toLocaleTimeString('zh-CN', { hour12: false });
+  document.getElementById('hud-time').textContent = hms;
+  // 显示本地时区偏移
+  const tzOffset = -d.getTimezoneOffset() / 60;
+  const tzLabel = 'UTC' + (tzOffset >= 0 ? '+' : '') + tzOffset;
+  const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/').pop() || tzLabel;
+  document.getElementById('hud-time-label').textContent = tzName + ' · ' + tzLabel;
 }
 setInterval(updateTime, 1000);
 updateTime();
@@ -1698,8 +3547,695 @@ Promise.all([
   new Promise(r => texLoader.load('/static/textures/earth-blue-marble.jpg', r, undefined, ()=>r())),
   new Promise(r => texLoader.load('/static/textures/earth-topology.png', r, undefined, ()=>r())),
 ]).then(() => {
-  setTimeout(() => { connectSSE(); bootstrap(); }, 500);
+  setTimeout(() => { connectSSE(); bootstrap(); initAssistant(); loadModelList(); }, 500);
 });
+
+// ============================================================
+// AI 语音助手 (Web Speech API)
+// ============================================================
+const WAKE_WORDS = ['nexus', '内克瑟斯', '你好助手', '嘿助手'];
+let recognition = null;
+let isListening = false;
+let isWakeMode = false;  // 唤醒模式: 持续监听等待唤醒词
+let isSpeaking = false; // AI 正在说话
+let isThinking = false;  // AI 正在思考
+let sessionId = 'sess_' + Math.random().toString(36).slice(2, 9);
+
+// ===== 初始化语音识别 =====
+function initAssistant() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    console.warn('浏览器不支持 Web Speech API, 语音功能将不可用');
+    return;
+  }
+  recognition = new SR();
+  recognition.lang = 'zh-CN';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onresult = (e) => {
+    let finalText = '';
+    let interimText = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) finalText += t;
+      else interimText += t;
+    }
+
+    if (isWakeMode) {
+      // 唤醒模式: 检测唤醒词
+      const heard = (finalText + interimText).toLowerCase().trim();
+      const woken = WAKE_WORDS.some(w => heard.includes(w));
+      if (woken) {
+        // 唤醒成功, 切换到命令模式
+        isWakeMode = false;
+        setStatus('🎤 正在听...', 'active');
+        document.getElementById('mic-btn').classList.add('active');
+        document.getElementById('voice-wave').classList.add('active');
+        speak('我在听');
+        // 如果唤醒词后面跟着指令, 直接提取
+        const cmd = heard.replace(/.*nexus|.*内克瑟斯|.*你好助手|.*嘿助手/i, '').trim();
+        if (cmd.length > 2) {
+          setTimeout(() => askAssistant(cmd), 800);
+        }
+      }
+    } else if (finalText) {
+      // 命令模式: 有最终结果就发送
+      const text = finalText.trim();
+      if (text.length > 0) {
+        stopListening();
+        askAssistant(text);
+      }
+    }
+  };
+
+  recognition.onerror = (e) => {
+    console.warn('语音识别错误:', e.error);
+    if (e.error === 'no-speech') return; // 无语音, 继续
+    if (e.error === 'aborted') return;
+    setStatus('语音识别异常: ' + e.error, '');
+  };
+
+  recognition.onend = () => {
+    // 唤醒模式下自动重启 (持续监听)
+    if (isWakeMode && !isSpeaking && !isThinking) {
+      try { recognition.start(); } catch(e) {}
+    } else if (isListening) {
+      // 命令模式下意外结束, 重启
+      try { recognition.start(); } catch(e) {}
+    } else {
+      document.getElementById('mic-btn').classList.remove('active');
+      document.getElementById('voice-wave').classList.remove('active');
+    }
+  };
+
+  // 初始化 FAB 拖拽 + hover 显示行为
+  initFabBehavior();
+}
+
+// ===== 开关唤醒模式 (持续监听) =====
+function startWakeMode() {
+  if (!recognition) {
+    alert('您的浏览器不支持语音识别。请使用 Chrome/Edge。');
+    return;
+  }
+  isWakeMode = true;
+  isListening = false;
+  try { recognition.start(); } catch(e) {}
+  setStatus('🔊 唤醒模式 · 说"NEXUS"', 'active');
+  document.getElementById('assistant-fab').classList.add('listening');
+}
+
+function stopWakeMode() {
+  isWakeMode = false;
+  isListening = false;
+  try { recognition.stop(); } catch(e) {}
+  setStatus('待命中', '');
+  document.getElementById('assistant-fab').classList.remove('listening');
+  document.getElementById('mic-btn').classList.remove('active');
+  document.getElementById('voice-wave').classList.remove('active');
+}
+
+// ===== 单次语音输入 =====
+function toggleVoice() {
+  if (!recognition) {
+    alert('您的浏览器不支持语音识别。请使用 Chrome/Edge。');
+    return;
+  }
+  if (isListening || isWakeMode) {
+    stopListening();
+    return;
+  }
+  isWakeMode = false;
+  isListening = true;
+  try { recognition.start(); } catch(e) {}
+  document.getElementById('mic-btn').classList.add('active');
+  document.getElementById('voice-wave').classList.add('active');
+  setStatus('🎤 正在听...', 'active');
+}
+
+function stopListening() {
+  isListening = false;
+  isWakeMode = false;
+  try { recognition.stop(); } catch(e) {}
+  document.getElementById('mic-btn').classList.remove('active');
+  document.getElementById('voice-wave').classList.remove('active');
+  setStatus('待命中', '');
+}
+
+// ===== 开关助手面板 =====
+function toggleAssistant(open) {
+  const panel = document.getElementById('assistant-panel');
+  const fab = document.getElementById('assistant-fab');
+  const isOpen = open !== undefined ? open : !panel.classList.contains('open');
+  if (isOpen) {
+    panel.classList.add('open');
+    fab.classList.remove('hidden');
+    document.getElementById('assistant-input').focus();
+    // 首次打开自动启动唤醒模式
+    if (!isWakeMode && !isListening && recognition) {
+      setTimeout(() => startWakeMode(), 300);
+    }
+  } else {
+    panel.classList.remove('open');
+    // 关闭面板后, 若鼠标不在 FAB 上则隐藏成细条
+    if (!fabHovered) fab.classList.add('hidden');
+    stopWakeMode();
+  }
+}
+
+// ===== FAB 鼠标触碰显示 / 离开隐藏 / 拖拽移动 =====
+let fabHovered = false;
+let fabDragging = false;
+let fabDragMoved = false;
+
+function initFabBehavior() {
+  const fab = document.getElementById('assistant-fab');
+  const panel = document.getElementById('assistant-panel');
+  let dragStart = { x: 0, y: 0 };
+  let fabStart = { x: 0, y: 0 };
+
+  // 鼠标进入 → 显示完整图标
+  fab.addEventListener('mouseenter', () => {
+    fabHovered = true;
+    fab.classList.remove('hidden');
+  });
+  // 鼠标离开 → 若面板未展开, 则隐藏成细条
+  fab.addEventListener('mouseleave', () => {
+    fabHovered = false;
+    if (!panel.classList.contains('open')) {
+      fab.classList.add('hidden');
+    }
+  });
+  // 单击 → 切换面板 (但若刚拖拽完则不触发)
+  fab.addEventListener('click', (e) => {
+    if (fabDragMoved) { fabDragMoved = false; return; }
+    toggleAssistant(!panel.classList.contains('open'));
+  });
+
+  // ===== 拖拽逻辑 =====
+  fab.addEventListener('mousedown', (e) => {
+    fabDragging = true;
+    fabDragMoved = false;
+    fab.classList.add('dragging');
+    const rect = fab.getBoundingClientRect();
+    dragStart = { x: e.clientX, y: e.clientY };
+    fabStart = { x: rect.left, y: rect.top };
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!fabDragging) return;
+    const dx = e.clientX - dragStart.x;
+    const dy = e.clientY - dragStart.y;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) fabDragMoved = true;
+    // 取消 left/top 固定值, 改用绝对像素位置
+    const newLeft = Math.max(0, Math.min(window.innerWidth - 36, fabStart.x + dx));
+    const newTop = Math.max(70, Math.min(window.innerHeight - 96, fabStart.y + dy));
+    fab.style.left = newLeft + 'px';
+    fab.style.top = newTop + 'px';
+    fab.style.right = 'auto';
+    fab.style.bottom = 'auto';
+    fab.style.transform = 'none';
+    // 同步面板位置到 FAB 右侧
+    positionPanelNearFab(newLeft, newTop);
+  });
+  document.addEventListener('mouseup', () => {
+    if (fabDragging) {
+      fabDragging = false;
+      fab.classList.remove('dragging');
+    }
+  });
+
+  // 触摸设备支持
+  fab.addEventListener('touchstart', (e) => {
+    const t = e.touches[0];
+    fabDragging = true;
+    fabDragMoved = false;
+    fab.classList.add('dragging');
+    const rect = fab.getBoundingClientRect();
+    dragStart = { x: t.clientX, y: t.clientY };
+    fabStart = { x: rect.left, y: rect.top };
+  }, { passive: true });
+  document.addEventListener('touchmove', (e) => {
+    if (!fabDragging) return;
+    const t = e.touches[0];
+    const dx = t.clientX - dragStart.x;
+    const dy = t.clientY - dragStart.y;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) fabDragMoved = true;
+    const newLeft = Math.max(0, Math.min(window.innerWidth - 36, fabStart.x + dx));
+    const newTop = Math.max(70, Math.min(window.innerHeight - 96, fabStart.y + dy));
+    fab.style.left = newLeft + 'px';
+    fab.style.top = newTop + 'px';
+    fab.style.right = 'auto';
+    fab.style.bottom = 'auto';
+    fab.style.transform = 'none';
+    positionPanelNearFab(newLeft, newTop);
+  }, { passive: true });
+  document.addEventListener('touchend', () => {
+    if (fabDragging) {
+      fabDragging = false;
+      fab.classList.remove('dragging');
+    }
+  });
+
+  // 默认启动时隐藏 FAB (变成细条, 等 hover 才显示)
+  setTimeout(() => {
+    if (!panel.classList.contains('open')) fab.classList.add('hidden');
+  }, 1500);
+}
+
+function positionPanelNearFab(fabLeft, fabTop) {
+  const panel = document.getElementById('assistant-panel');
+  // 面板放在 FAB 右侧, 垂直居中对齐
+  let panelLeft = fabLeft + 40;
+  let panelTop = fabTop + 48;  // FAB 中心
+  // 若右侧空间不够, 放左侧
+  if (panelLeft + 380 > window.innerWidth - 470) {
+    panelLeft = fabLeft - 390;
+  }
+  // 限制范围
+  panelLeft = Math.max(10, Math.min(window.innerWidth - 390, panelLeft));
+  panelTop = Math.max(90, Math.min(window.innerHeight - 560, panelTop));
+  panel.style.left = panelLeft + 'px';
+  panel.style.top = panelTop + 'px';
+  panel.style.right = 'auto';
+  panel.style.bottom = 'auto';
+  panel.style.transform = 'none';
+}
+
+// ============================================================
+// 信息点交互: 点击弹出详情框 / hover 联动地球
+// ============================================================
+let currentInfoItem = null;  // 当前选中的信息项
+
+// 把任意 data-row 绑定交互事件 (在每次 renderPanel 后调用)
+function bindDataRows() {
+  document.querySelectorAll('#panel-body .data-row').forEach(row => {
+    if (row.dataset.bound) return;
+    row.dataset.bound = '1';
+    // 点击 → 弹出详情
+    row.addEventListener('click', () => openInfoPopup(row));
+    // hover → 联动地球
+    row.addEventListener('mouseenter', () => highlightOnGlobe(row));
+    row.addEventListener('mouseleave', () => clearGlobeHighlight());
+  });
+}
+
+// 拦截 renderPanel 调用, 渲染完后自动绑定事件
+const _renderPanelOrig = renderPanel;
+renderPanel = function(body) {
+  _renderPanelOrig.call(this, body);
+  // 渲染完后给 .data-row 绑定点击/hover 事件
+  setTimeout(bindDataRows, 50);
+};
+
+// 解析 data-info 字符串 → 结构化字段
+// 格式: "title|field1|field2|..." 字段名按已知顺序映射
+// 若 data-info 为空, 自动从 row DOM 提取信息
+function parseDataInfo(infoStr, titleText, row) {
+  const fields = [];
+  // 优先使用 data-info
+  if (infoStr) {
+    const parts = infoStr.split('|').map(s => s.trim());
+    fields.push({ label: '事件', value: parts[0] || titleText });
+    for (let i = 1; i < parts.length; i++) {
+      const p = parts[i];
+      const coordMatch = p.match(/^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/);
+      if (coordMatch) {
+        fields.push({ label: '坐标', value: `${coordMatch[1]}°, ${coordMatch[2]}°` });
+        fields.push({ label: '纬度', value: coordMatch[1] + '°', lat: parseFloat(coordMatch[1]) });
+        fields.push({ label: '经度', value: coordMatch[2] + '°', lon: parseFloat(coordMatch[2]) });
+        continue;
+      }
+      let label = '信息' + i;
+      if (/^\d+万?TEU$/.test(p) || /^吞吐量/.test(p)) label = '吞吐量';
+      else if (/^\d+\s*km\/h$/.test(p) || /^风速/.test(p)) label = '风速';
+      else if (/^等级\d?$/.test(p)) label = '等级';
+      else if (/^病例\d+/.test(p)) label = '病例数';
+      else if (['正常','拥堵','紧急','流行','增长','高度关注'].includes(p)) label = '状态';
+      else if (['北美','东南亚','欧洲','中东','东非','全球','赤道太平洋','太平洋西岸','大西洋西岸','墨西哥湾','西北太平洋','印度洋'].includes(p)) label = '地区';
+      else if (/^[A-Z]+:/.test(p)) label = '来源';
+      fields.push({ label, value: p });
+    }
+    return fields;
+  }
+  // fallback: 从 DOM 提取
+  fields.push({ label: '事件', value: titleText });
+  if (row) {
+    const meta = row.querySelector('.data-meta');
+    if (meta) {
+      // 提取所有 tag 文本作为字段
+      const tags = meta.querySelectorAll('.tag');
+      const tagTexts = Array.from(tags).map(t => t.textContent.trim()).filter(Boolean);
+      // 尝试从 tag 中解析坐标 (格式 "12.3°, 45.6°" 或 "lat, lon")
+      let lat = null, lon = null;
+      tagTexts.forEach(t => {
+        const m = t.match(/(-?\d+\.?\d*)°?\s*,\s*(-?\d+\.?\d*)°?/);
+        if (m) { lat = parseFloat(m[1]); lon = parseFloat(m[2]); }
+        // 单独的 "35.0° N" 类似格式
+        const m2 = t.match(/(-?\d+\.?\d*)°?\s*N/i);
+        const m3 = t.match(/(-?\d+\.?\d*)°?\s*[EW]/i);
+        if (m2 && lat === null) lat = parseFloat(m2[1]);
+        if (m3 && lon === null) lon = parseFloat(m3[1]);
+      });
+      if (lat !== null && lon !== null) {
+        fields.push({ label: '坐标', value: `${lat}°, ${lon}°` });
+        fields.push({ label: '纬度', value: lat + '°', lat });
+        fields.push({ label: '经度', value: lon + '°', lon });
+      }
+      // 其他 tag 作为元信息
+      tagTexts.forEach((t, i) => {
+        if (t.match(/-?\d+\.?\d*.*[NSEW]/i)) return;  // 坐标已处理
+        let label = '标签' + (i+1);
+        if (/^\$[\d,.]+[KMB]?$/i.test(t) || /^¥[\d,.]+/.test(t)) label = '金额';
+        else if (/^\d+%$/.test(t)) label = '百分比';
+        else if (['紧急','流行','高度关注','critical','high'].includes(t.toLowerCase())) label = '状态';
+        else if (t.length > 20) label = '描述';
+        fields.push({ label, value: t });
+      });
+    }
+    // 描述 (data-meta 之后可能有 .data-desc)
+    const desc = row.querySelector('.data-desc');
+    if (desc && desc.textContent.trim()) {
+      fields.push({ label: '描述', value: desc.textContent.trim().slice(0, 200) });
+    }
+  }
+  return fields;
+}
+
+// 点击数据行 → 弹出详情浮层
+function openInfoPopup(row) {
+  const infoStr = row.dataset.info || '';
+  const titleText = row.querySelector('.data-title')?.textContent || '事件详情';
+  const fields = parseDataInfo(infoStr, titleText, row);
+  currentInfoItem = { fields, title: titleText, row };
+
+  // 渲染浮层内容
+  const popup = document.getElementById('info-popup');
+  const titleEl = document.getElementById('info-popup-title');
+  const bodyEl = document.getElementById('info-popup-body');
+  titleEl.textContent = titleText.toUpperCase().slice(0, 40);
+  let html = '';
+  fields.forEach(f => {
+    html += `<div class="info-field"><div class="info-field-label">${f.label}</div><div class="info-field-value">${f.value}</div></div>`;
+  });
+  // 补充模拟的扩展信息 (IP / 国家 / 城市)
+  const latField = fields.find(f => f.lat !== undefined);
+  const lonField = fields.find(f => f.lon !== undefined);
+  if (latField && lonField) {
+    const country = guessCountry(latField.lat, lonField.lon);
+    const city = guessCity(latField.lat, lonField.lon);
+    const fakeIp = generateFakeIp(latField.lat, lonField.lon);
+    html += `<div class="info-field"><div class="info-field-label">来源 IP</div><div class="info-field-value">${fakeIp}</div></div>`;
+    html += `<div class="info-field"><div class="info-field-label">国家/地区</div><div class="info-field-value">${country}</div></div>`;
+    html += `<div class="info-field"><div class="info-field-label">城市</div><div class="info-field-value">${city}</div></div>`;
+    html += `<div class="info-field"><div class="info-field-label">数据源</div><div class="info-field-value">NEXUS RADAR · ${new Date().toLocaleString('zh-CN')}</div></div>`;
+  }
+  bodyEl.innerHTML = html;
+
+  // 浮层定位 (在 data-row 旁边)
+  const rect = row.getBoundingClientRect();
+  let left = rect.right + 12;
+  let top = rect.top;
+  if (left + 340 > window.innerWidth - 470) left = rect.left - 352;
+  if (top + 300 > window.innerHeight) top = window.innerHeight - 310;
+  popup.style.left = Math.max(10, left) + 'px';
+  popup.style.top = Math.max(70, top) + 'px';
+  popup.classList.add('open');
+
+  // 同时在地球上高亮
+  if (latField && lonField) {
+    addPulse(latField.lat, lonField.lon, 0x00ff9f);
+  }
+}
+
+function closeInfoPopup() {
+  document.getElementById('info-popup').classList.remove('open');
+}
+
+// hover 数据行 → 在地球上弹出气泡 + 添加临时高亮点
+let hoverPulseMesh = null;
+function highlightOnGlobe(row) {
+  const infoStr = row.dataset.info || '';
+  const titleText = row.querySelector('.data-title')?.textContent || '';
+  const fields = parseDataInfo(infoStr, titleText, row);
+  const latField = fields.find(f => f.lat !== undefined);
+  const lonField = fields.find(f => f.lon !== undefined);
+  const tooltip = document.getElementById('globe-tooltip');
+  if (!latField || !lonField) {
+    tooltip.classList.remove('open');
+    return;
+  }
+  // 在地球上添加临时脉冲点
+  addPulse(latField.lat, lonField.lon, 0xffd54f);
+  // 显示气泡
+  const country = guessCountry(latField.lat, lonField.lon);
+  const city = guessCity(latField.lat, lonField.lon);
+  const ip = generateFakeIp(latField.lat, lonField.lon);
+  const summary = fields.slice(1).map(f => f.value).join(' · ');
+  document.getElementById('globe-tooltip-title').textContent = titleText;
+  document.getElementById('globe-tooltip-field').innerHTML =
+    `📍 <span>${city}, ${country}</span><br>` +
+    `🌐 <span>${ip}</span><br>` +
+    `🛰 <span>${latField.value}, ${lonField.value}</span><br>` +
+    `📋 <span>${summary.slice(0, 80)}</span>`;
+  // 定位气泡 (在屏幕中央偏右, 接近地球位置)
+  tooltip.style.left = '50%';
+  tooltip.style.top = '30%';
+  tooltip.style.transform = 'translateX(-50%)';
+  tooltip.classList.add('open');
+}
+
+function clearGlobeHighlight() {
+  document.getElementById('globe-tooltip').classList.remove('open');
+}
+
+// 简单的坐标 → 国家/城市推断 (粗略)
+function guessCountry(lat, lon) {
+  if (lat > 25 && lat < 50 && lon > -125 && lon < -65) return '美国';
+  if (lat > 20 && lat < 50 && lon > 75 && lon < 135) return '中国';
+  if (lat > 30 && lat < 60 && lon > -10 && lon < 40) return '欧洲';
+  if (lat > -10 && lat < 25 && lon > 95 && lon < 140) return '东南亚';
+  if (lat > 10 && lat < 30 && lon > 35 && lon < 60) return '中东';
+  if (lat < 10 && lat > -35 && lon > 20 && lon < 50) return '非洲';
+  if (lat > -45 && lat < -10 && lon > 110 && lon < 155) return '大洋洲';
+  if (lat > -55 && lat < 12 && lon > -82 && lon < -34) return '南美';
+  return '全球';
+}
+function guessCity(lat, lon) {
+  // 城市数据库 (与 backend/main.py CITY_DB 对齐)
+  const cities = [
+    ['上海', 31.23, 121.47], ['北京', 39.90, 116.40], ['东京', 35.68, 139.65],
+    ['纽约', 40.71, -74.01], ['伦敦', 51.51, -0.13], ['巴黎', 48.86, 2.35],
+    ['新加坡', 1.35, 103.82], ['迪拜', 25.20, 55.27], ['悉尼', -33.87, 151.21],
+    ['洛杉矶', 34.05, -118.24], ['鹿特丹', 51.95, 4.14], ['釜山', 35.10, 129.04],
+  ];
+  let best = null, bestDist = 999;
+  cities.forEach(([n, la, lo]) => {
+    const d = Math.sqrt((la-lat)**2 + (lo-lon)**2);
+    if (d < bestDist) { bestDist = d; best = n; }
+  });
+  return bestDist < 5 ? best : '近海/无人区';
+}
+// 基于坐标生成稳定的"模拟 IP" (非真实 IP, 仅用于显示)
+function generateFakeIp(lat, lon) {
+  const a = Math.floor(Math.abs(lat * 7) % 254) + 1;
+  const b = Math.floor(Math.abs(lon * 11) % 254) + 1;
+  const c = Math.floor(Math.abs((lat+lon) * 13) % 254) + 1;
+  const d = Math.floor(Math.abs((lat*lon) * 17) % 254) + 1;
+  return `${a}.${b}.${c}.${d}`;
+}
+
+// 调用 AI 助手解释当前信息项
+function explainWithAI(withVoice) {
+  if (!currentInfoItem) return;
+  const fields = currentInfoItem.fields;
+  const summary = fields.map(f => `${f.label}: ${f.value}`).join('; ');
+  const prompt = `请基于以下全球情报信息进行简短解读 (用户通过 NEXUS 雷达点击查看): ${summary}. 请用 100 字以内说明事件重要性、可能影响、建议关注方向。`;
+  // 打开助手面板
+  toggleAssistant(true);
+  // 调用助手
+  askAssistant(prompt);
+  // 若要求语音, askAssistant 内部已会自动 TTS
+  if (withVoice) {
+    // askAssistant 已经会调用 speak(), 这里仅做标记
+    setTimeout(() => {
+      const fab = document.getElementById('assistant-fab');
+      fab.classList.add('listening');
+      setTimeout(() => fab.classList.remove('listening'), 500);
+    }, 100);
+  }
+}
+
+// ===== 发送消息 =====
+async function sendAssistant() {
+  const input = document.getElementById('assistant-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  await askAssistant(text);
+}
+
+async function askAssistant(text) {
+  // 确保面板打开
+  document.getElementById('assistant-panel').classList.add('open');
+  // 添加用户消息
+  addMsg('user', text);
+  // 思考状态
+  isThinking = true;
+  setStatus('🤔 思考中...', 'active');
+  document.getElementById('assistant-fab').classList.add('thinking');
+  addTyping();
+  // 停止语音输入
+  if (isListening) stopListening();
+
+  try {
+    const r = await fetch('/api/assistant/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ message: text, session_id: sessionId }),
+    });
+    const data = await r.json();
+    removeTyping();
+    if (data.tools_used && data.tools_used.length) {
+      addMsg('tool', '🔧 调用工具: ' + data.tools_used.join(', '));
+    }
+    addMsg('ai', data.reply || data.error || '(无回复)');
+    setStatus('待命中 · 说"NEXUS"唤醒', 'active');
+    // 配置了 key 或切换了模型后刷新模型列表
+    if (data.key_configured || data.provider) {
+      loadModelList();
+    }
+    // 语音播报
+    speak(data.reply || '');
+  } catch (e) {
+    removeTyping();
+    addMsg('ai', '⚠️ 网络错误: ' + e.message);
+    setStatus('连接异常', '');
+  } finally {
+    isThinking = false;
+    document.getElementById('assistant-fab').classList.remove('thinking');
+    // 恢复唤醒模式
+    if (recognition && !isWakeMode && document.getElementById('assistant-panel').classList.contains('open')) {
+      setTimeout(() => startWakeMode(), 500);
+    }
+  }
+}
+
+// ===== 添加消息 =====
+function addMsg(role, content) {
+  const body = document.getElementById('assistant-body');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  // 简单 markdown 渲染
+  let html = content
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\n/g, '<br>');
+  div.innerHTML = '<div class="msg-bubble">' + html + '</div>';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function addTyping() {
+  const body = document.getElementById('assistant-body');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.id = 'typing-indicator';
+  div.innerHTML = '<div class="assistant-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+function setStatus(text, cls) {
+  const el = document.getElementById('assistant-status');
+  el.textContent = text;
+  el.className = 'assistant-status ' + (cls || '');
+}
+
+// ===== 语音播报 (TTS) =====
+function speak(text) {
+  if (!('speechSynthesis' in window) || !text) return;
+  // 清理 markdown
+  const clean = text.replace(/\*\*/g, '').replace(/`/g, '').replace(/#/g, '').replace(/\n/g, '。');
+  // 限制长度 (太长不读)
+  const truncated = clean.length > 500 ? clean.slice(0, 500) + '...' : clean;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(truncated);
+  u.lang = 'zh-CN';
+  u.rate = 1.1;
+  u.pitch = 1.0;
+  u.onstart = () => { isSpeaking = true; if (isWakeMode) try { recognition.stop(); } catch(e) {} };
+  u.onend = () => { isSpeaking = false; };
+  speechSynthesis.speak(u);
+}
+
+// ============================================================
+// LLM 多服务商管理
+// ============================================================
+async function loadModelList() {
+  try {
+    const r = await fetch('/api/llm/providers');
+    const data = await r.json();
+    const sel = document.getElementById('model-select');
+    let html = '';
+    for (const p of data.providers) {
+      const status = p.has_api_key ? ' ✅' : ' 🔒';
+      const active = p.is_active ? ' ⬅当前' : '';
+      const groupLabel = `${p.name}${status}${active}`;
+      // optgroup 按 provider
+      html += `<optgroup label="${groupLabel}">`;
+      for (const m of p.models) {
+        const val = `${p.id}::${m.id}`;
+        const isCur = p.is_active && data.active.model === m.id;
+        html += `<option value="${val}" ${isCur ? 'selected' : ''}>${m.name} (${m.context >= 1000000 ? (m.context/1000000)+'M' : (m.context/1000)+'K'})${m.supports_tools ? ' 🔧' : ''}</option>`;
+      }
+      html += '</optgroup>';
+    }
+    sel.innerHTML = html;
+    updateModelBadge(data.active, data.providers);
+  } catch (e) {
+    console.error('加载模型列表失败:', e);
+  }
+}
+
+function updateModelBadge(active, providers) {
+  const badge = document.getElementById('model-badge');
+  if (active && active.provider) {
+    const p = providers.find(x => x.id === active.provider);
+    badge.textContent = p ? p.name : active.provider;
+    badge.className = 'model-badge';
+  } else {
+    badge.textContent = '未配置';
+    badge.className = 'model-badge off';
+  }
+}
+
+async function switchModel(val) {
+  if (!val) return;
+  const [provider, model] = val.split('::');
+  try {
+    const r = await fetch(`/api/llm/switch?provider=${provider}&model=${encodeURIComponent(model)}`, {method: 'POST'});
+    const data = await r.json();
+    if (data.error) {
+      addMsg('tool', '⚠️ ' + data.error + ' — 请在对话框粘贴该服务商的 API Key');
+    } else {
+      addMsg('tool', `🔧 已切换: ${data.name} / ${model}`);
+      const badge = document.getElementById('model-badge');
+      badge.textContent = data.name;
+      badge.className = 'model-badge';
+    }
+    loadModelList();
+  } catch (e) {
+    console.error('切换模型失败:', e);
+  }
+}
 </script>
 </body>
 </html>

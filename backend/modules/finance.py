@@ -46,6 +46,52 @@ PREDICTION_MARKETS = [
     {"id": "apple-ai-event", "question": "Apple下一代iPhone集成GPT-5?", "yes_pct": 58, "volume_usd": 1_300_000, "category": "科技"},
 ]
 
+# 大宗商品 (黄金/原油/白银/铜/天然气)
+COMMODITIES = [
+    {"symbol": "XAU", "name": "黄金", "base": 2380, "vol": 0.012, "unit": "USD/oz"},
+    {"symbol": "XAG", "name": "白银", "base": 28.5, "vol": 0.022, "unit": "USD/oz"},
+    {"symbol": "WTI", "name": "WTI原油", "base": 78.5, "vol": 0.018, "unit": "USD/bbl"},
+    {"symbol": "BRENT", "name": "布伦特原油", "base": 82.3, "vol": 0.017, "unit": "USD/bbl"},
+    {"symbol": "COPPER", "name": "伦铜", "base": 9250, "vol": 0.015, "unit": "USD/ton"},
+    {"symbol": "NATGAS", "name": "天然气", "base": 2.45, "vol": 0.035, "unit": "USD/MMBtu"},
+    {"symbol": "PLAT", "name": "铂金", "base": 985, "vol": 0.018, "unit": "USD/oz"},
+    {"symbol": "PALL", "name": "钯金", "base": 985, "vol": 0.025, "unit": "USD/oz"},
+]
+
+# 主要外汇货币对
+FOREX_PAIRS = [
+    {"symbol": "EURUSD", "name": "欧元/美元", "base": 1.085, "vol": 0.004},
+    {"symbol": "GBPUSD", "name": "英镑/美元", "base": 1.275, "vol": 0.005},
+    {"symbol": "USDJPY", "name": "美元/日元", "base": 156.5, "vol": 0.006},
+    {"symbol": "USDCNY", "name": "美元/人民币", "base": 7.245, "vol": 0.003},
+    {"symbol": "AUDUSD", "name": "澳元/美元", "base": 0.665, "vol": 0.005},
+    {"symbol": "USDCAD", "name": "美元/加元", "base": 1.365, "vol": 0.004},
+    {"symbol": "USDCHF", "name": "美元/瑞郎", "base": 0.895, "vol": 0.004},
+    {"symbol": "USDKRW", "name": "美元/韩元", "base": 1375, "vol": 0.005},
+]
+
+# AI-Trader 项目集成 (香港大学数据科学实验室)
+AI_TRADER_INFO = {
+    "name": "AI-Trader",
+    "repo": "HKUDS/AI-Trader",
+    "github_url": "https://github.com/HKUDS/AI-Trader",
+    "authors": "HKU Data Science Lab",
+    "description": "基于 LLM 的智能交易研究框架, 用大模型做市场分析、策略生成、风险管理的端到端交易 Agent",
+    "core_features": [
+        "LLM 驱动的市场情绪分析",
+        "多模态信息融合 (新闻/K线/财报)",
+        "自动化策略生成与回测",
+        "实时风险敞口管理",
+        "多市场套利识别",
+        "强化学习组合优化",
+    ],
+    "supported_markets": ["美股", "A股", "加密货币", "外汇", "大宗商品"],
+    "tech_stack": ["Python", "PyTorch", "LangChain", "OpenAI API"],
+    "paper": "AI-Trader: A LLM-based Trading Agent Framework",
+    "status": "Active Research",
+    "integrated_at": datetime.now().isoformat(),
+}
+
 # 状态缓存
 _last_crypto = {}
 _last_stocks = {}
@@ -135,6 +181,41 @@ async def fetch_stock_indices() -> list[dict]:
     return out
 
 
+def get_commodities() -> list[dict]:
+    """大宗商品实时价格"""
+    out = []
+    for c in COMMODITIES:
+        last = _last_crypto.get(c["symbol"], {}).get("price", c["base"])
+        price, change = _simulate_tick(c["base"], c["vol"], last)
+        item = {
+            "symbol": c["symbol"],
+            "name": c["name"],
+            "price": round(price, 2),
+            "change_pct": change,
+            "unit": c["unit"],
+        }
+        _last_crypto[c["symbol"]] = item
+        out.append(item)
+    return out
+
+
+def get_forex() -> list[dict]:
+    """主要外汇货币对"""
+    out = []
+    for f in FOREX_PAIRS:
+        last = _last_crypto.get(f["symbol"], {}).get("price", f["base"])
+        price, change = _simulate_tick(f["base"], f["vol"], last)
+        item = {
+            "symbol": f["symbol"],
+            "name": f["name"],
+            "price": round(price, 4),
+            "change_pct": change,
+        }
+        _last_crypto[f["symbol"]] = item
+        out.append(item)
+    return out
+
+
 def get_prediction_markets() -> list[dict]:
     """预测市场快照"""
     out = []
@@ -159,6 +240,9 @@ async def scan_finance() -> dict:
         "module": "finance",
         "crypto": crypto,
         "stock_indices": stocks,
+        "commodities": get_commodities(),
+        "forex": get_forex(),
         "prediction_markets": get_prediction_markets(),
+        "ai_trader": AI_TRADER_INFO,
         "scanned_at": datetime.now().isoformat(),
     }

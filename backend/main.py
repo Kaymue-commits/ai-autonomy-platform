@@ -31,6 +31,8 @@ from modules.osint import get_conflict_snapshot, generate_event_stream
 from modules.freelance import scan_freelance
 from modules.energy import get_energy_snapshot
 from modules.ainews import scan_ai_news
+from modules.satellite import get_satellite_snapshot
+from modules.technews import scan_tech_news
 
 # ===== 配置 =====
 ROOT = Path(__file__).parent.parent
@@ -528,6 +530,32 @@ async def api_ainews():
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
+@app.get("/api/satellite")
+async def api_satellite():
+    """太空追踪: 全球卫星实时位置 + 轨道 (CelesTrack TLE)"""
+    try:
+        data = await get_satellite_snapshot()
+        await log_broadcast(
+            f"🛰 太空追踪: {data['total_tracked']}颗卫星 / 分布 {data['group_counts']}",
+            "info"
+        )
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.get("/api/technews")
+async def api_technews():
+    """科技情报: 全球实时科技热点新闻"""
+    try:
+        data = await scan_tech_news()
+        await log_broadcast(
+            f"🔬 科技情报: {data['total_news']}条 / {data['total_sources']}源",
+            "info"
+        )
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
 # 模块统一聚合状态
 @app.get("/api/modules/status")
 async def modules_status():
@@ -726,9 +754,96 @@ async def aggregator_all():
         return JSONResponse({"error": str(e)}, status_code=500)
 
 
+# ===== AI 语音助手 =====
+class AssistantMessage(BaseModel):
+    message: str
+    session_id: str = "default"
+
+
+@app.post("/api/assistant/chat")
+async def assistant_chat(msg: AssistantMessage):
+    """AI 助手对话 (支持 function calling 多轮工具调用)"""
+    from modules.assistant import chat as assistant_chat
+    config = load_config()
+    # app_state 包含 demands 等运行时状态
+    app_state = {"demands": list(DEMANDS.values())}
+    try:
+        result = await assistant_chat(msg.message, msg.session_id, config, app_state)
+        await log_broadcast(f"🤖 AI助手: 调用工具 {result.get('tools_used', [])}", "info")
+        return result
+    except Exception as e:
+        return JSONResponse({"error": str(e), "reply": f"助手异常: {str(e)}"}, status_code=500)
+
+
+@app.post("/api/assistant/clear")
+async def assistant_clear(session_id: str = "default"):
+    """清除会话历史"""
+    from modules.assistant import clear_session
+    clear_session(session_id)
+    return {"cleared": True}
+
+
+@app.get("/api/assistant/tools")
+async def assistant_tools():
+    """列出助手可用工具"""
+    from modules.assistant import TOOLS_SCHEMA
+    return {
+        "tools": [{"name": t["function"]["name"], "description": t["function"]["description"]} for t in TOOLS_SCHEMA],
+        "count": len(TOOLS_SCHEMA),
+    }
+
+
+# ===== LLM 多服务商管理 =====
+@app.get("/api/llm/providers")
+async def llm_providers():
+    """列出所有 AI 服务商及配置状态"""
+    from modules.llm import list_providers, get_active
+    config = load_config()
+    return {
+        "providers": list_providers(config),
+        "active": get_active(),
+        "total": len(list_providers(config)),
+    }
+
+
+@app.post("/api/llm/switch")
+async def llm_switch(provider: str, model: str = ""):
+    """运行时切换 LLM 服务商/模型"""
+    from modules.llm import set_active, PROVIDERS
+    config = load_config()
+    # 检查是否有该 provider 的 key
+    from modules.llm import get_api_key
+    key = get_api_key(provider, config)
+    if not key:
+        return JSONResponse({"error": f"未配置 {provider} 的 API Key"}, status_code=400)
+    if not model:
+        models = PROVIDERS.get(provider, {}).get("models", [])
+        model = models[0]["id"] if models else ""
+    set_active(provider, model)
+    return {"provider": provider, "model": model, "name": PROVIDERS.get(provider, {}).get("name", "")}
+
+
+@app.get("/api/llm/active")
+async def llm_active():
+    """当前激活的 LLM"""
+    from modules.llm import get_active
+    return get_active()
+
+
 # ===== 后台扫描任务 =====
 @app.on_event("startup")
 async def startup():
+    # 初始化 LLM provider
+    from modules.llm import init_from_config
+    config = load_config()
+    init_from_config(config)
+    from modules.llm import get_active
+    active_llm = get_active()
+    if active_llm["provider"]:
+        await log_broadcast(f"🤖 AI助手已就绪: {active_llm['provider_name']} / {active_llm['model']}", "success")
+    else:
+        await log_broadcast("🤖 AI助手待配置: 请在对话框粘贴 API Key", "info")
+
     async def loop_demand():
         """需求雷达扫描"""
         await asyncio.sleep(3)
@@ -761,7 +876,7 @@ async def startup():
             await asyncio.sleep(5)
 
     async def loop_slow_modules():
-        """慢刷新模块：情报/AI新闻/自由职业（RSS抓取，5分钟一次）"""
+        """慢刷新模块：情报/AI新闻/自由职业/科技新闻（RSS抓取，5分钟一次）"""
         await asyncio.sleep(8)
         while True:
             try:
@@ -771,11 +886,28 @@ async def startup():
                 await broadcast("module_ainews", news)
                 fl = await scan_freelance()
                 await broadcast("module_freelance", fl)
+                tech = await scan_tech_news()
+                await broadcast("module_technews", tech)
                 # OSINT 事件流
                 await broadcast("module_events", {"events": generate_event_stream(15)})
             except Exception as e:
                 await log_broadcast(f"慢模块异常: {e}", "error")
             await asyncio.sleep(300)
+
+    async def loop_satellite():
+        """太空追踪模块: 卫星位置 (10分钟一次, TLE 缓存6小时)"""
+        await asyncio.sleep(20)
+        while True:
+            try:
+                sat = await get_satellite_snapshot()
+                await broadcast("module_satellite", sat)
+                await log_broadcast(
+                    f"🛰 太空追踪: {sat['total_tracked']}颗卫星 / 分布 {sat['group_counts']}",
+                    "info"
+                )
+            except Exception as e:
+                await log_broadcast(f"卫星模块异常: {e}", "error")
+            await asyncio.sleep(600)
 
     async def loop_specialized():
         """专业数据源：USGS地震/NASA FIRMS/OpenSky航班/GDELT（3分钟一次）"""
@@ -812,6 +944,7 @@ async def startup():
     asyncio.create_task(loop_demand())
     asyncio.create_task(loop_fast_modules())
     asyncio.create_task(loop_slow_modules())
+    asyncio.create_task(loop_satellite())
     asyncio.create_task(loop_specialized())
     asyncio.create_task(loop_aggregator())
 

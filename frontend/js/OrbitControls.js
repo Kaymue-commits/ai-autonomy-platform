@@ -22,7 +22,7 @@
     window.addEventListener("mouseup", () => { isDragging = false; });
     window.addEventListener("mousemove", e => {
       if (!isDragging) return;
-      theta -= (e.clientX - prevX) * ROT;
+      theta += (e.clientX - prevX) * ROT;
       phi = Math.max(0.2, Math.min(Math.PI - 0.2, phi - (e.clientY - prevY) * ROT));
       prevX = e.clientX; prevY = e.clientY;
       updateCamera();
@@ -37,7 +37,7 @@
     dom.addEventListener("touchstart", e => { if (e.touches.length===1) tp = [e.touches[0].clientX, e.touches[0].clientY]; });
     dom.addEventListener("touchmove", e => {
       if (tp && e.touches.length===1) {
-        theta -= (e.touches[0].clientX - tp[0]) * ROT;
+        theta += (e.touches[0].clientX - tp[0]) * ROT;
         phi = Math.max(0.2, Math.min(Math.PI - 0.2, phi - (e.touches[0].clientY - tp[1]) * ROT));
         tp = [e.touches[0].clientX, e.touches[0].clientY];
         updateCamera();
