@@ -33,6 +33,8 @@ from modules.energy import get_energy_snapshot
 from modules.ainews import scan_ai_news
 from modules.satellite import get_satellite_snapshot
 from modules.technews import scan_tech_news
+from modules.weather import get_weather_snapshot
+from modules.supply import get_supply_snapshot
 
 # ===== 配置 =====
 ROOT = Path(__file__).parent.parent
@@ -556,6 +558,32 @@ async def api_technews():
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
+@app.get("/api/weather")
+async def api_weather():
+    """气象海洋: 全球天气系统、洋流、云层、气旋"""
+    try:
+        data = get_weather_snapshot()
+        await log_broadcast(
+            f"🌤 气象海洋: {data['total_cyclones']}个气旋 / {len(data['ocean_currents'])}条洋流 / {len(data['weather_stations'])}个站点",
+            "info"
+        )
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.get("/api/supply")
+async def api_supply():
+    """供应链: 全球港口、航道、货运枢纽"""
+    try:
+        data = get_supply_snapshot()
+        await log_broadcast(
+            f"🚢 供应链: {data['total_ports']}个港口 / {data['total_lanes']}条航道 / 贸易指数 {data['global_trade_index']}",
+            "info"
+        )
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
 # 模块统一聚合状态
 @app.get("/api/modules/status")
 async def modules_status():
@@ -828,6 +856,141 @@ async def llm_active():
     """当前激活的 LLM"""
     from modules.llm import get_active
     return get_active()
+
+
+# ===== 语音控制意图识别 =====
+@app.post("/api/voice/intent")
+async def voice_intent(req: dict):
+    """识别语音指令意图：是系统控制还是正常对话
+    返回 { type: 'control'|'chat', action: 'switch_module'|'expand_panel'|..., params: {...}, response: '语音回复' }
+    """
+    text = (req.get("text") or "").strip()
+    if not text:
+        return {"type": "chat", "action": None, "params": {}, "response": ""}
+
+    # 本地快速匹配（保证响应速度）
+    result = _quick_match_intent(text)
+    if result:
+        return result
+
+    # 本地没匹配到，用 AI 做智能意图识别
+    try:
+        from modules.llm import chat_completion
+        config = load_config()
+        prompt = f"""你是一个语音控制系统的意图识别器。请分析用户说的话，判断是【系统控制指令】还是【正常对话/提问】。
+
+可用的系统控制操作（action 字段）：
+1. switch_module - 切换模块，params.module 取值: demand/osint/finance/ainews/specialized/freelance/energy/weather/supply/sources/space/tech/health/social/models
+2. expand_panel - 放大/缩小对话框，params.expanded = true/false
+3. toggle_assistant - 打开/关闭助手面板，params.open = true/false
+4. toggle_rotation - 地球自转开关，params.enabled = true/false
+5. toggle_stars - 星空背景开关，params.enabled = true/false
+6. toggle_tts - 语音播报开关，params.enabled = true/false
+7. set_tts_rate - 调整语速，params.direction = 'faster'/'slower'
+8. cycle_voice - 切换音色，无需 params
+9. open_settings - 打开设置面板
+10. close_settings - 关闭设置面板
+11. refresh - 刷新页面
+
+请严格用 JSON 回复，不要有任何额外文字：
+{{"type": "control" 或 "chat", "action": "动作名或null", "params": {{}}, "response": "简短的中文语音回复，告诉用户你做了什么，控制类才需要"}}
+
+用户说："{text}"
+"""
+        resp = await chat_completion(
+            messages=[{"role": "user", "content": prompt}],
+            config=config,
+            temperature=0.1,
+        )
+        content = resp.get("content", "")
+        # 提取 JSON
+        json_match = re.search(r'\{[^{}]*\}', content)
+        if json_match:
+            import json
+            try:
+                parsed = json.loads(json_match.group())
+                parsed.setdefault("type", "chat")
+                parsed.setdefault("action", None)
+                parsed.setdefault("params", {})
+                parsed.setdefault("response", "")
+                return parsed
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+    return {"type": "chat", "action": None, "params": {}, "response": ""}
+
+
+def _quick_match_intent(text: str) -> dict:
+    """本地快速意图匹配，保证响应速度。匹配不到返回 None。"""
+    t = text.lower().strip()
+
+    # 对话框控制
+    if any(k in t for k in ['放大对话框', '全屏对话框', '展开对话框', '对话框放大', '把对话框放大', '对话框变大', '大一点对话框']):
+        return {"type": "control", "action": "expand_panel", "params": {"expanded": True}, "response": "好的，已放大对话框"}
+    if any(k in t for k in ['缩小对话框', '收起对话框', '对话框缩小', '把对话框缩小', '对话框变小', '小一点对话框', '恢复对话框']):
+        return {"type": "control", "action": "expand_panel", "params": {"expanded": False}, "response": "好的，已恢复对话框"}
+    if any(k in t for k in ['打开助手', '打开ai助手', '显示助手', '打开面板', 'ai助手出来']):
+        return {"type": "control", "action": "toggle_assistant", "params": {"open": True}, "response": "我来了"}
+    if any(k in t for k in ['关闭助手', '关闭ai助手', '隐藏助手', '关了吧', '你可以退下了']):
+        return {"type": "control", "action": "toggle_assistant", "params": {"open": False}, "response": "好的"}
+
+    # 模块切换
+    module_map = [
+        (['能源', '电力', '发电', '石油', '天然气', '电网'], 'energy', '能源监控'),
+        (['天气', '气象', '海洋', '台风', '气旋', '下雨', '温度'], 'weather', '气象海洋'),
+        (['供应链', '港口', '航运', '物流', '海运', '货运'], 'supply', '供应链'),
+        (['数据源', '情报源', '来源', '数据来源'], 'sources', '数据源'),
+        (['太空', '卫星', '航天', '空间站'], 'space', '太空监测'),
+        (['科技', '黑科技', '技术', '科技情报'], 'tech', '科技情报'),
+        (['冲突', '战争', '军事', '危机', '灾情', '灾难', '地震', '火灾'], 'specialized', '灾情速递'),
+        (['金融', '股票', '市场', '加密货币', '币圈', '行情'], 'finance', '金融市场'),
+        (['需求', '接单', '自由职业', '赚钱', '兼职'], 'demand', '需求情报'),
+        (['全球情报', 'osint', '情报网'], 'osint', '全球情报'),
+        (['ai新闻', '人工智能新闻', 'ai动态'], 'ainews', 'AI新闻'),
+        (['模型', 'ai模型', '大模型', '模型对比'], 'models', 'AI模型对比'),
+        (['健康', '疫情', '疾病', '医疗'], 'health', '健康疫情'),
+        (['社交', '社交媒体', '舆情', '微博'], 'social', '社交舆情'),
+        (['自由职业平台', '接单平台'], 'freelance', '自由职业'),
+        (['首页', '主页', '回到首页', '主界面'], 'demand', '首页'),
+    ]
+    for kws, mid, name in module_map:
+        if any(kw in t for kw in kws):
+            # 排除明显是提问的句子（以"什么/怎么/为什么"开头或结尾）
+            if re.match(r'^(什么|怎么|为什么|为啥|如何|哪些|有没有|是不是)', t) or t.endswith('？') or t.endswith('?'):
+                continue
+            return {"type": "control", "action": "switch_module", "params": {"module": mid}, "response": f"已切换到{name}"}
+
+    # 设置控制
+    if any(k in t for k in ['地球自转打开', '开启自转', '打开自转', '开始自转', '让地球转起来']):
+        return {"type": "control", "action": "toggle_rotation", "params": {"enabled": True}, "response": "已开启地球自转"}
+    if any(k in t for k in ['地球自转关闭', '关闭自转', '停止自转', '暂停自转', '地球别转了']):
+        return {"type": "control", "action": "toggle_rotation", "params": {"enabled": False}, "response": "已暂停地球自转"}
+    if any(k in t for k in ['打开星空', '显示星空', '开启星空']):
+        return {"type": "control", "action": "toggle_stars", "params": {"enabled": True}, "response": "已显示星空背景"}
+    if any(k in t for k in ['关闭星空', '隐藏星空', '去掉星空']):
+        return {"type": "control", "action": "toggle_stars", "params": {"enabled": False}, "response": "已隐藏星空背景"}
+    if any(k in t for k in ['打开语音播报', '开启语音', '语音打开', '开始朗读']):
+        return {"type": "control", "action": "toggle_tts", "params": {"enabled": True}, "response": "语音播报已开启"}
+    if any(k in t for k in ['关闭语音播报', '关掉语音', '别说话了', '静音', '语音关了']):
+        return {"type": "control", "action": "toggle_tts", "params": {"enabled": False}, "response": "语音播报已关闭"}
+    if any(k in t for k in ['语速加快', '语速快点', '说快一点', '快一点说']):
+        return {"type": "control", "action": "set_tts_rate", "params": {"direction": "faster"}, "response": "语速已加快"}
+    if any(k in t for k in ['语速减慢', '语速慢点', '说慢一点', '慢一点说']):
+        return {"type": "control", "action": "set_tts_rate", "params": {"direction": "slower"}, "response": "语速已减慢"}
+    if any(k in t for k in ['换个声音', '换音色', '换种声音', '变个声音']):
+        return {"type": "control", "action": "cycle_voice", "params": {}, "response": "已切换音色"}
+
+    # 系统控制
+    if any(k in t for k in ['打开设置', '打开设置面板', '设置在哪里']):
+        return {"type": "control", "action": "open_settings", "params": {}, "response": "已打开设置面板"}
+    if any(k in t for k in ['关闭设置', '关掉设置', '设置关了']):
+        return {"type": "control", "action": "close_settings", "params": {}, "response": "已关闭设置面板"}
+    if any(k in t for k in ['刷新页面', '重新加载', '更新一下', '刷新一下']):
+        return {"type": "control", "action": "refresh", "params": {}, "response": "正在刷新"}
+
+    return None
 
 
 # ===== 后台扫描任务 =====

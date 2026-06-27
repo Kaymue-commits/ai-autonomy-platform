@@ -21,7 +21,7 @@
   "cancel_url": "https://ai-autonomy.example.com/cancel",
   "llm_provider": "minimax",
   "llm_model": "MiniMax-M3",
-  "llm_api_key": "",
+  "llm_api_key": "sk-cp-DmVpGt8yUg0LOXw0eThTVxEjUNNmY9ICfpJsTq_EUzD3IBPCQsJ1tsrE7IzcFmLJ8-s09g3WqEQe-9KtagdtpzZ4Dk4E57tZC1Rnm2-yBXAIcIU3ZY4ZoZA",
   "openai_api_key": "",
   "deepseek_api_key": "",
   "anthropic_api_key": "",
@@ -37,5 +37,5 @@
   "together_api_key": "",
   "openrouter_api_key": "",
   "siliconflow_api_key": "",
-  "minimax_api_key": ""
+  "minimax_api_key": "sk-cp-DmVpGt8yUg0LOXw0eThTVxEjUNNmY9ICfpJsTq_EUzD3IBPCQsJ1tsrE7IzcFmLJ8-s09g3WqEQe-9KtagdtpzZ4Dk4E57tZC1Rnm2-yBXAIcIU3ZY4ZoZA"
 }

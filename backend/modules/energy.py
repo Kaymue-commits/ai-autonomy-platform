@@ -85,14 +85,52 @@ SOLAR_PLANTS = [
 
 # 全球主要风力发电场 (真实位置)
 WIND_FARMS = [
-    {"name": "甘肃风电基地", "country": "中国", "lat": 39.80, "lon": 96.40, "capacity_mw": 8000, "type": "陆上"},
-    {"name": "GansuJiuquan", "country": "中国", "lat": 39.71, "lon": 98.49, "capacity_mw": 6000, "type": "陆上"},
-    {"name": "Alta风能中心", "country": "美国", "lat": 35.02, "lon": -118.40, "capacity_mw": 1548, "type": "陆上"},
-    {"name": "Hornsea", "country": "英国", "lat": 53.95, "lon": 2.20, "capacity_mw": 1218, "type": "海上"},
-    {"name": "伦敦阵列", "country": "英国", "lat": 51.60, "lon": 1.70, "capacity_mw": 630, "type": "海上"},
-    {"name": "Walney", "country": "英国", "lat": 54.05, "lon": -3.50, "capacity_mw": 659, "type": "海上"},
-    {"name": "Gemini", "country": "荷兰", "lat": 54.00, "lon": 6.00, "capacity_mw": 600, "type": "海上"},
-    {"name": "上海东海大桥", "country": "中国", "lat": 30.50, "lon": 122.20, "capacity_mw": 204, "type": "海上"},
+    {"name": "酒泉风电基地", "country": "中国", "lat": 39.71, "lon": 98.49, "capacity_mw": 8000, "type": "onshore", "current_pct": 60},
+    {"name": "乌兰察布风电场", "country": "中国", "lat": 41.03, "lon": 113.10, "capacity_mw": 6000, "type": "onshore", "current_pct": 55},
+    {"name": "张家口风电场", "country": "中国", "lat": 40.82, "lon": 114.88, "capacity_mw": 5000, "type": "onshore", "current_pct": 58},
+    {"name": "哈密风电基地", "country": "中国", "lat": 42.83, "lon": 93.52, "capacity_mw": 5000, "type": "onshore", "current_pct": 62},
+    {"name": "锡林郭勒风电场", "country": "中国", "lat": 43.94, "lon": 116.05, "capacity_mw": 4000, "type": "onshore", "current_pct": 55},
+    {"name": "上海东海大桥", "country": "中国", "lat": 30.50, "lon": 122.20, "capacity_mw": 204, "type": "offshore", "current_pct": 70},
+    {"name": "阳江沙扒风电场", "country": "中国", "lat": 21.50, "lon": 111.80, "capacity_mw": 1000, "type": "offshore", "current_pct": 65},
+
+    {"name": "Alta风能中心", "country": "美国", "lat": 35.02, "lon": -118.40, "capacity_mw": 1548, "type": "onshore", "current_pct": 65},
+    {"name": "Shepherds Flat", "country": "美国", "lat": 45.50, "lon": -120.50, "capacity_mw": 845, "type": "onshore", "current_pct": 70},
+    {"name": "Horse Hollow", "country": "美国", "lat": 32.40, "lon": -100.10, "capacity_mw": 735, "type": "onshore", "current_pct": 60},
+    {"name": "Roscoe", "country": "美国", "lat": 32.43, "lon": -100.52, "capacity_mw": 781, "type": "onshore", "current_pct": 58},
+    {"name": "Fowler Ridge", "country": "美国", "lat": 40.58, "lon": -87.31, "capacity_mw": 600, "type": "onshore", "current_pct": 62},
+    {"name": "Block Island", "country": "美国", "lat": 41.16, "lon": -71.58, "capacity_mw": 30, "type": "offshore", "current_pct": 75},
+
+    {"name": "London Array", "country": "英国", "lat": 51.60, "lon": 1.70, "capacity_mw": 630, "type": "offshore", "current_pct": 70},
+    {"name": "Walney", "country": "英国", "lat": 54.05, "lon": -3.50, "capacity_mw": 1026, "type": "offshore", "current_pct": 72},
+    {"name": "Hornsea", "country": "英国", "lat": 53.95, "lon": 2.20, "capacity_mw": 1218, "type": "offshore", "current_pct": 68},
+    {"name": "Gemini", "country": "荷兰", "lat": 54.00, "lon": 6.00, "capacity_mw": 600, "type": "offshore", "current_pct": 73},
+    {"name": "Kriegers Flak", "country": "丹麦", "lat": 55.20, "lon": 12.70, "capacity_mw": 605, "type": "offshore", "current_pct": 75},
+    {"name": "Borssele", "country": "荷兰", "lat": 51.70, "lon": 3.20, "capacity_mw": 752, "type": "offshore", "current_pct": 70},
+]
+
+
+# 全球主要高压输电线路 (真实位置)
+POWER_LINES = [
+    {"name": "昌吉-古泉 ±1100kV特高压", "from_lat": 44.02, "from_lon": 87.12, "to_lat": 31.20, "to_lon": 117.58, "voltage_kv": 1100, "capacity_gw": 12, "status": "active"},
+    {"name": "锡盟-泰州 ±800kV特高压", "from_lat": 43.94, "from_lon": 116.05, "to_lat": 32.40, "to_lon": 119.90, "voltage_kv": 800, "capacity_gw": 10, "status": "active"},
+    {"name": "锦屏-苏南 ±800kV特高压", "from_lat": 27.80, "from_lon": 102.00, "to_lat": 31.50, "to_lon": 120.60, "voltage_kv": 800, "capacity_gw": 7.2, "status": "active"},
+    {"name": "宾金直流 ±800kV", "from_lat": 26.36, "from_lon": 102.62, "to_lat": 30.30, "to_lon": 120.10, "voltage_kv": 800, "capacity_gw": 8, "status": "active"},
+    {"name": "呼辽直流 ±500kV", "from_lat": 40.82, "from_lon": 111.75, "to_lat": 41.80, "to_lon": 123.40, "voltage_kv": 500, "capacity_gw": 3, "status": "maintenance"},
+    {"name": "格尔木-拉萨 ±400kV", "from_lat": 36.42, "from_lon": 94.91, "to_lat": 29.65, "to_lon": 91.13, "voltage_kv": 400, "capacity_gw": 1.5, "status": "active"},
+    {"name": "向家坝-上海 ±800kV", "from_lat": 28.65, "from_lon": 104.40, "to_lat": 31.23, "to_lon": 121.47, "voltage_kv": 800, "capacity_gw": 6.4, "status": "active"},
+    {"name": "糯扎渡-广东 ±800kV", "from_lat": 22.65, "from_lon": 100.40, "to_lat": 23.13, "to_lon": 113.26, "voltage_kv": 800, "capacity_gw": 5, "status": "overloaded"},
+
+    {"name": "Pacific DC Intertie", "from_lat": 45.52, "from_lon": -122.68, "to_lat": 34.05, "to_lon": -118.24, "voltage_kv": 500, "capacity_gw": 3.1, "status": "active"},
+    {"name": "Transbay Cable", "from_lat": 37.80, "from_lon": -122.27, "to_lat": 37.33, "to_lon": -121.88, "voltage_kv": 400, "capacity_gw": 0.4, "status": "active"},
+    {"name": "Path 15 California", "from_lat": 37.80, "from_lon": -121.60, "to_lat": 35.40, "to_lon": -119.30, "voltage_kv": 500, "capacity_gw": 5, "status": "active"},
+    {"name": "Plains & Eastern Clean Line", "from_lat": 35.47, "from_lon": -101.88, "to_lat": 35.05, "to_lon": -89.77, "voltage_kv": 600, "capacity_gw": 4, "status": "maintenance"},
+
+    {"name": "France-UK IFA", "from_lat": 50.78, "from_lon": 1.70, "to_lat": 51.12, "to_lon": 0.87, "voltage_kv": 270, "capacity_gw": 2, "status": "active"},
+    {"name": "NorNed Norway-Netherlands", "from_lat": 58.15, "from_lon": 6.08, "to_lat": 53.23, "to_lon": 6.78, "voltage_kv": 450, "capacity_gw": 0.7, "status": "active"},
+    {"name": "NordLink Norway-Germany", "from_lat": 58.15, "from_lon": 6.08, "to_lat": 53.92, "to_lon": 9.30, "voltage_kv": 500, "capacity_gw": 1.4, "status": "active"},
+    {"name": "SACOI Italy-France", "from_lat": 43.71, "from_lon": 7.26, "to_lat": 45.48, "to_lon": 1.45, "voltage_kv": 200, "capacity_gw": 0.55, "status": "overloaded"},
+    {"name": "Baltic Cable Germany-Sweden", "from_lat": 53.92, "from_lon": 10.75, "to_lat": 55.60, "to_lon": 13.20, "voltage_kv": 450, "capacity_gw": 0.6, "status": "active"},
+    {"name": "Viking Link UK-Denmark", "from_lat": 53.15, "from_lon": 0.80, "to_lat": 55.65, "to_lon": 8.58, "voltage_kv": 525, "capacity_gw": 1.4, "status": "active"},
 ]
 
 
@@ -108,6 +146,25 @@ GAS_PIPELINES = [
     {"name": "蓝溪", "from": "俄罗斯", "to": "土耳其", "from_lat": 45.20, "from_lon": 36.60, "to_lat": 41.20, "to_lon": 31.50, "length_km": 1213, "capacity_bcm_y": 16},
     {"name": "LNG卡塔尔-中国", "from": "卡塔尔", "to": "中国", "from_lat": 25.30, "from_lon": 51.50, "to_lat": 31.20, "to_lon": 121.50, "length_km": 8500, "capacity_bcm_y": 70, "type": "LNG海运"},
     {"name": "页岩气美国-欧洲", "from": "美国", "to": "欧洲", "from_lat": 29.00, "from_lon": -90.00, "to_lat": 50.00, "to_lon": 0.00, "length_km": 7500, "capacity_bcm_y": 50, "type": "LNG海运"},
+]
+
+
+# 全球主要石油管道 (真实起止点)
+OIL_PIPELINES = [
+    {"name": "中俄原油管道", "from_lat": 52.50, "from_lon": 135.10, "to_lat": 45.75, "to_lon": 126.65, "length_km": 1030, "capacity_mbd": 0.6, "type": "oil", "status": "active"},
+    {"name": "中哈原油管道", "from_lat": 45.60, "from_lon": 54.50, "to_lat": 44.83, "to_lon": 83.68, "length_km": 2798, "capacity_mbd": 0.4, "type": "oil", "status": "active"},
+    {"name": "西部管道中国", "from_lat": 30.00, "from_lon": 91.15, "to_lat": 36.06, "to_lon": 103.83, "length_km": 2000, "capacity_mbd": 0.3, "type": "oil", "status": "active"},
+
+    {"name": "Keystone Pipeline", "from_lat": 51.05, "from_lon": -114.06, "to_lat": 38.12, "to_lon": -95.78, "length_km": 4324, "capacity_mbd": 0.59, "type": "oil", "status": "active"},
+    {"name": "Trans-Alaska Pipeline", "from_lat": 70.24, "from_lon": -148.35, "to_lat": 61.23, "to_lon": -149.81, "length_km": 1287, "capacity_mbd": 0.5, "type": "oil", "status": "active"},
+    {"name": "Colonial Pipeline", "from_lat": 29.76, "from_lon": -95.38, "to_lat": 40.71, "to_lon": -74.01, "length_km": 8850, "capacity_mbd": 3.0, "type": "product", "status": "active"},
+    {"name": "Seaway Pipeline", "from_lat": 29.76, "from_lon": -95.38, "to_lat": 29.36, "to_lon": -94.98, "length_km": 1000, "capacity_mbd": 0.85, "type": "oil", "status": "maintenance"},
+
+    {"name": "Druzhba Pipeline", "from_lat": 54.20, "from_lon": 50.13, "to_lat": 52.22, "to_lon": 19.80, "length_km": 5500, "capacity_mbd": 2.0, "type": "oil", "status": "active"},
+    {"name": "Baku-Tbilisi-Ceyhan", "from_lat": 40.37, "from_lon": 49.70, "to_lat": 36.58, "to_lon": 35.93, "length_km": 1768, "capacity_mbd": 1.2, "type": "oil", "status": "active"},
+    {"name": "Sumed Pipeline", "from_lat": 29.87, "from_lon": 32.55, "to_lat": 30.95, "to_lon": 29.50, "length_km": 320, "capacity_mbd": 2.5, "type": "oil", "status": "active"},
+    {"name": "ESPOPipeline", "from_lat": 60.55, "from_lon": 28.15, "to_lat": 60.41, "to_lon": 28.50, "length_km": 2800, "capacity_mbd": 1.6, "type": "oil", "status": "active"},
+    {"name": "Kurdistan-Turkey Pipeline", "from_lat": 36.20, "from_lon": 43.10, "to_lat": 36.83, "to_lon": 35.57, "length_km": 970, "capacity_mbd": 0.7, "type": "oil", "status": "overloaded"},
 ]
 
 
@@ -192,6 +249,15 @@ def get_energy_snapshot() -> dict:
     total_nuclear_mw = sum(n["capacity_mw"] for n in NUCLEAR_PLANTS)
     total_solar_mw = sum(s["capacity_mw"] for s in SOLAR_PLANTS)
     total_wind_mw = sum(w["capacity_mw"] for w in WIND_FARMS)
+    # 补齐天然气管道字段 (兼容旧数据)
+    enriched_gas = []
+    for p in GAS_PIPELINES:
+        pp = dict(p)
+        pp.setdefault("status", "active" if random.random() > 0.15 else "reduced")
+        pp.setdefault("flow_pct", random.randint(45, 95))
+        cap = pp.get("capacity_bcm_yr") or pp.get("capacity_bcm_y") or 30
+        pp["capacity_bcm_yr"] = cap
+        enriched_gas.append(pp)
     return {
         "module": "energy",
         "grid_regions": GRID_REGIONS,
@@ -202,7 +268,9 @@ def get_energy_snapshot() -> dict:
             "nuclear": NUCLEAR_PLANTS,
             "solar": SOLAR_PLANTS,
             "wind": WIND_FARMS,
-            "gas_pipelines": GAS_PIPELINES,
+            "power_lines": POWER_LINES,
+            "oil_pipelines": OIL_PIPELINES,
+            "gas_pipelines": enriched_gas,
         },
         "totals": {
             "hydro_mw": total_hydro_mw,
@@ -213,6 +281,11 @@ def get_energy_snapshot() -> dict:
             "nuclear_count": len(NUCLEAR_PLANTS),
             "solar_count": len(SOLAR_PLANTS),
             "wind_count": len(WIND_FARMS),
+            "power_line_count": len(POWER_LINES),
+            "power_line_total_capacity_gw": round(sum(pl["capacity_gw"] for pl in POWER_LINES), 1),
+            "oil_pipeline_count": len(OIL_PIPELINES),
+            "oil_pipeline_total_km": sum(p["length_km"] for p in OIL_PIPELINES),
+            "oil_pipeline_total_mbd": round(sum(p["capacity_mbd"] for p in OIL_PIPELINES), 2),
             "gas_pipeline_count": len(GAS_PIPELINES),
             "gas_pipeline_total_km": sum(p["length_km"] for p in GAS_PIPELINES),
         },
