@@ -195,12 +195,12 @@ PROVIDERS = {
     # ===== MiniMax (Token Plan) =====
     # 官方文档: https://platform.minimaxi.com/docs/token-plan/quickstart
     # Token Plan 订阅 Key 前缀: sk-cp-xxx
-    # 协议: Anthropic 兼容 (base_url 后缀 /anthropic)
+    # 协议: OpenAI 兼容 (稳定性更好, 生态更完善)
     # 模型: MiniMax-M3 (原生支持 thinking + 工具调用)
     "minimax": {
         "name": "MiniMax M3 (Token Plan)",
-        "protocol": "anthropic",
-        "base_url": "https://api.minimaxi.com/anthropic",
+        "protocol": "openai_compatible",
+        "base_url": "https://api.minimaxi.com/v1",
         "models": [
             {"id": "MiniMax-M3", "name": "MiniMax M3 (1M上下文+多模态)", "context": 1000000, "supports_tools": True},
         ],
@@ -401,11 +401,40 @@ async def _chat_openai(client, base_url, api_key, model, messages, tools, temper
 
     r = await client.post(f"{base_url}/chat/completions", headers=headers, json=payload)
     if r.status_code != 200:
+        # 如果带工具调用失败，尝试不带工具调用（降级）
+        if tools and r.status_code in (400, 403, 500):
+            try:
+                payload_no_tools = {
+                    "model": model,
+                    "messages": messages,
+                    "temperature": temperature,
+                    "max_tokens": max_tokens,
+                }
+                r2 = await client.post(f"{base_url}/chat/completions", headers=headers, json=payload_no_tools)
+                if r2.status_code == 200:
+                    data2 = r2.json()
+                    choice2 = data2["choices"][0]
+                    return {
+                        "message": choice2["message"],
+                        "finish_reason": choice2.get("finish_reason", ""),
+                        "model": data2.get("model", model),
+                        "provider": provider_id,
+                        "_tools_fallback": True,
+                    }
+            except Exception:
+                pass
         return {"error": f"HTTP {r.status_code}: {r.text[:300]}"}
     data = r.json()
     choice = data["choices"][0]
+    msg = choice["message"]
+    # 过滤 MiniMax M3 等模型的 <think> 思考标签
+    if isinstance(msg.get("content"), str):
+        content = msg["content"]
+        import re as _re
+        content = _re.sub(r'^<think>.*?</think>\s*', '', content, flags=_re.DOTALL)
+        msg["content"] = content
     return {
-        "message": choice["message"],
+        "message": msg,
         "finish_reason": choice.get("finish_reason", ""),
         "model": data.get("model", model),
         "provider": provider_id,
@@ -481,6 +510,32 @@ async def _chat_anthropic(client, base_url, api_key, model, messages, tools, tem
 
     r = await client.post(f"{base_url}/v1/messages", headers=headers, json=payload)
     if r.status_code != 200:
+        # 如果带工具调用失败，尝试不带工具调用（降级）
+        if tools and r.status_code in (400, 403, 500):
+            try:
+                payload_no_tools = {
+                    "model": model,
+                    "messages": conv_messages,
+                    "system": system_text.strip() or "You are a helpful assistant.",
+                    "max_tokens": max_tokens,
+                    "temperature": temperature,
+                }
+                r2 = await client.post(f"{base_url}/v1/messages", headers=headers, json=payload_no_tools)
+                if r2.status_code == 200:
+                    data2 = r2.json()
+                    content2 = ""
+                    for block in data2.get("content", []):
+                        if block["type"] == "text":
+                            content2 += block["text"]
+                    return {
+                        "message": {"role": "assistant", "content": content2},
+                        "finish_reason": data2.get("stop_reason", ""),
+                        "model": data2.get("model", model),
+                        "provider": provider_id,
+                        "_tools_fallback": True,
+                    }
+            except Exception:
+                pass
         return {"error": f"HTTP {r.status_code}: {r.text[:300]}"}
     data = r.json()
 

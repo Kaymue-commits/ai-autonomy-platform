@@ -1391,25 +1391,39 @@ body::after {
       </div>
     </div>
     <div class="settings-section">
-      <div class="settings-section-title">🎨 界面显示</div>
+      <div class="settings-section-title">🎨 Interface Display</div>
       <div class="settings-row">
-        <label>地球自转</label>
+        <label>Language / 语言</label>
+        <select id="cfg-lang" onchange="setLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
+      <div class="settings-row">
+        <label>Theme / 主题</label>
+        <select id="cfg-theme" onchange="setTheme(this.value)">
+          <option value="dark">DARK (深色)</option>
+          <option value="light">LIGHT (浅色)</option>
+        </select>
+      </div>
+      <div class="settings-row">
+        <label>Earth Rotation</label>
         <label class="switch"><input type="checkbox" id="cfg-rotate" checked onchange="toggleEarthRotation(this.checked)"><span class="slider"></span></label>
       </div>
       <div class="settings-row">
-        <label>星空背景</label>
+        <label>Star Background</label>
         <label class="switch"><input type="checkbox" id="cfg-stars" checked onchange="toggleStars(this.checked)"><span class="slider"></span></label>
       </div>
       <div class="settings-row">
-        <label>大气层光晕</label>
+        <label>Atmosphere Glow</label>
         <label class="switch"><input type="checkbox" id="cfg-atmos" checked onchange="toggleAtmosphere(this.checked)"><span class="slider"></span></label>
       </div>
       <div class="settings-row">
-        <label>HUD 扫描线</label>
+        <label>HUD Scanline</label>
         <label class="switch"><input type="checkbox" id="cfg-scan" checked onchange="toggleScanLine(this.checked)"><span class="slider"></span></label>
       </div>
       <div class="settings-row">
-        <label>信息面板自动刷新</label>
+        <label>Auto Refresh Panels</label>
         <label class="switch"><input type="checkbox" id="cfg-autorefresh" checked onchange="toggleAutoRefresh(this.checked)"><span class="slider"></span></label>
       </div>
     </div>
@@ -2712,70 +2726,88 @@ function renderFinancePanel(body) {
       <div class="kpi-card"><div class="kpi-label">COMMODITIES</div><div class="kpi-value">${commodities.length}</div></div>
       <div class="kpi-card"><div class="kpi-label">MKT CAP EST</div><div class="kpi-value">$${(totalCap/1e9).toFixed(1)}B</div></div>
     </div>
-    <div class="section-title">加密货币实时</div>
+  `;
+  
+  // 加密货币
+  const cryptoList = d.crypto || [];
+  if (cryptoList.length) {
+    html += `<div class="section-title">加密货币实时</div>
     <div class="table-row header">
       <div>SYM</div><div>NAME</div><div>PRICE</div><div>24H</div>
-    </div>
-  `;
-  d.crypto.forEach(c => {
-    const cls = c.change_24h >= 0 ? 'price-up' : 'price-down';
-    const arrow = c.change_24h >= 0 ? '▲' : '▼';
-    html += `
-      <div class="table-row">
-        <div class="tag">${c.symbol}</div>
-        <div>${c.name}</div>
-        <div class="price">$${c.price.toLocaleString()}</div>
-        <div class="${cls}">${arrow}${Math.abs(c.change_24h)}%</div>
-      </div>
-    `;
-  });
-  html += `<div class="section-title">全球股票指数</div>`;
-  d.stock_indices.forEach(s => {
-    const cls = s.change_pct >= 0 ? 'price-up' : 'price-down';
-    const arrow = s.change_pct >= 0 ? '▲' : '▼';
-    html += `
-      <div class="table-row">
-        <div class="tag">${s.symbol}</div>
-        <div>${s.name}</div>
-        <div class="price">${s.price.toLocaleString()}</div>
-        <div class="${cls}">${arrow}${Math.abs(s.change_pct)}%</div>
-      </div>
-    `;
-  });
-  // 大宗商品
-  if (commodities.length) {
-    html += `<div class="section-title">大宗商品 (金属/能源/农产品)</div>`;
-    commodities.forEach(c => {
-      const cls = c.change_24h >= 0 ? 'price-up' : 'price-down';
-      const arrow = c.change_24h >= 0 ? '▲' : '▼';
+    </div>`;
+    cryptoList.forEach(c => {
+      const change = c.change_24h ?? 0;
+      const cls = change >= 0 ? 'price-up' : 'price-down';
+      const arrow = change >= 0 ? '▲' : '▼';
       html += `
         <div class="table-row">
-          <div class="tag">${c.symbol}</div>
-          <div>${c.name}</div>
-          <div class="price">${c.price.toLocaleString()}</div>
-          <div class="${cls}">${arrow}${Math.abs(c.change_24h)}%</div>
+          <div class="tag">${c.symbol || 'N/A'}</div>
+          <div>${c.name || ''}</div>
+          <div class="price">$${(c.price ?? 0).toLocaleString()}</div>
+          <div class="${cls}">${arrow}${Math.abs(change).toFixed(2)}%</div>
+        </div>
+      `;
+    });
+  }
+  
+  // 全球股票指数
+  const stockList = d.stock_indices || [];
+  if (stockList.length) {
+    html += `<div class="section-title">全球股票指数</div>`;
+    stockList.forEach(s => {
+      const change = s.change_pct ?? 0;
+      const cls = change >= 0 ? 'price-up' : 'price-down';
+      const arrow = change >= 0 ? '▲' : '▼';
+      html += `
+        <div class="table-row">
+          <div class="tag">${s.symbol || 'N/A'}</div>
+          <div>${s.name || ''}</div>
+          <div class="price">${(s.price ?? 0).toLocaleString()}</div>
+          <div class="${cls}">${arrow}${Math.abs(change).toFixed(2)}%</div>
+        </div>
+      `;
+    });
+  }
+  // 大宗商品
+  if (commodities && commodities.length) {
+    html += `<div class="section-title">大宗商品 (金属/能源/农产品)</div>`;
+    commodities.forEach(c => {
+      const change = c.change_24h ?? c.change_pct ?? 0;
+      const cls = change >= 0 ? 'price-up' : 'price-down';
+      const arrow = change >= 0 ? '▲' : '▼';
+      html += `
+        <div class="table-row">
+          <div class="tag">${c.symbol || 'N/A'}</div>
+          <div>${c.name || ''}</div>
+          <div class="price">${(c.price ?? 0).toLocaleString()}</div>
+          <div class="${cls}">${arrow}${Math.abs(change).toFixed(2)}%</div>
         </div>
       `;
     });
   }
   // 外汇
-  if (forex.length) {
+  if (forex && forex.length) {
     html += `<div class="section-title">主要外汇</div>`;
     forex.forEach(f => {
-      const cls = f.change_24h >= 0 ? 'price-up' : 'price-down';
-      const arrow = f.change_24h >= 0 ? '▲' : '▼';
+      const change = f.change_24h ?? f.change_pct ?? 0;
+      const cls = change >= 0 ? 'price-up' : 'price-down';
+      const arrow = change >= 0 ? '▲' : '▼';
       html += `
         <div class="table-row">
-          <div class="tag">${f.pair}</div>
-          <div>${f.name}</div>
-          <div class="price">${f.rate.toFixed(4)}</div>
-          <div class="${cls}">${arrow}${Math.abs(f.change_24h)}%</div>
+          <div class="tag">${f.symbol || f.pair || 'N/A'}</div>
+          <div>${f.name || ''}</div>
+          <div class="price">${(f.price ?? f.rate ?? 0).toFixed(4)}</div>
+          <div class="${cls}">${arrow}${Math.abs(change).toFixed(2)}%</div>
         </div>
       `;
     });
   }
   // AI-Trader 项目集成卡
   if (aiTrader) {
+    const analysis = aiTrader.latest_analysis || {};
+    const sentimentColor = {
+      'bullish': '#69f0ae', 'bearish': '#ff5252', 'neutral': '#ffd54f'
+    }[analysis.crypto_sentiment] || '#ffd54f';
     html += `<div class="section-title">AI-Trader 智能交易系统</div>
       <div class="data-row elevated" style="border-left:3px solid #b388ff">
         <div class="data-title">📊 ${aiTrader.name}</div>
@@ -2785,10 +2817,39 @@ function renderFinancePanel(body) {
             <span class="tag purple">Repo: ${aiTrader.repo}</span>
             <span class="tag warn">${aiTrader.status}</span>
           </div>
+          <div style="margin-top:6px;padding:8px;background:rgba(179,136,255,0.1);border-radius:6px">
+            <div style="color:#69f0ae;font-weight:600;margin-bottom:6px">🔮 市场情绪分析</div>
+            <div style="display:flex;gap:12px;margin-bottom:6px">
+              <span style="color:${sentimentColor}">加密货币: ${analysis.crypto_sentiment || 'N/A'} (${Math.round((analysis.crypto_confidence || 0) * 100)}%)</span>
+              <span style="color:${sentimentColor}">股票: ${analysis.stock_sentiment || 'N/A'} (${Math.round((analysis.stock_confidence || 0) * 100)}%)</span>
+            </div>
+          </div>
+          <div style="margin-top:6px">
+            <div style="color:#69f0ae;font-weight:600;margin-bottom:4px">📈 热门交易机会</div>`;
+    if (analysis.trending_opportunities && analysis.trending_opportunities.length) {
+      analysis.trending_opportunities.forEach(opp => {
+        const signalColor = { 'accumulate': '#69f0ae', 'hold': '#ffd54f', 'sell': '#ff5252' }[opp.signal] || '#ffd54f';
+        html += `<div style="margin:4px 0;padding:6px;background:rgba(0,0,0,0.2);border-radius:4px">
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:${signalColor};font-weight:600">${opp.asset}</span>
+            <span style="color:#ffd54f">信号: ${opp.signal.toUpperCase()}</span>
+          </div>
+          <div style="color:#9fb3c8;font-size:10px">目标: $${opp.target} | 止损: $${opp.stop_loss}</div>
+          <div style="color:#7aa;margin-top:2px">${opp.rationale}</div>
+        </div>`;
+      });
+    }
+    if (analysis.risk_alerts && analysis.risk_alerts.length) {
+      html += `<div style="color:#ff8a80;font-weight:600;margin:8px 0 4px">⚠️ 风险提示</div>`;
+      analysis.risk_alerts.forEach(alert => {
+        html += `<div style="color:#9fb3c8;font-size:10px;margin:2px 0">
+          <span class="tag danger">${alert.level.toUpperCase()}</span> ${alert.asset}: ${alert.reason}
+        </div>`;
+      });
+    }
+    html += `</div>
           <div style="margin-top:4px;color:#69f0ae">支持市场:</div>
           <div>${aiTrader.supported_markets.join(' · ')}</div>
-          <div style="margin-top:4px;color:#69f0ae">技术栈:</div>
-          <div>${aiTrader.tech_stack.join(' · ')}</div>
           <div style="margin-top:4px;color:#69f0ae">核心功能:</div>
           <div>${aiTrader.core_features.join(' · ')}</div>
           <div style="margin-top:6px">
@@ -2818,44 +2879,116 @@ function renderFinancePanel(body) {
 
 function renderAINewsPanel(body) {
   const d = moduleData.ainews;
-  if (!d) { body.innerHTML = `<div class="empty">AI新闻源接入中...</div>`; return; }
+  if (!d) { body.innerHTML = `<div class="empty">AI Intelligence sources loading...</div>`; return; }
+  
+  // Topic colors
+  const topicColors = {
+    "论文研究": "purple", "产品发布": "success", "性能评测": "warn",
+    "融资动态": "danger", "Agent智能体": "cyan", "开源项目": "green",
+    "安全治理": "orange", "政策法规": "blue", "商业应用": "teal", "综合资讯": ""
+  };
+  
   let html = `
     <div class="kpi-grid">
       <div class="kpi-card"><div class="kpi-label">SOURCES</div><div class="kpi-value">${d.total_sources}</div></div>
       <div class="kpi-card"><div class="kpi-label">ARTICLES</div><div class="kpi-value">${d.news.length}</div></div>
-      <div class="kpi-card"><div class="kpi-label">GITHUB TREND</div><div class="kpi-value">${d.github_trending.length}</div></div>
-      <div class="kpi-card"><div class="kpi-label">TOPICS</div><div class="kpi-value">${Object.keys(d.topic_distribution).length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">GITHUB</div><div class="kpi-value">${d.github_trending.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">HOT TOPIC</div><div class="kpi-value">${Object.keys(d.topic_distribution).length}</div></div>
     </div>
-    <div class="section-title">GitHub Trending AI</div>
-    <div class="data-list">
   `;
-  d.github_trending.forEach(g => {
+  
+  // AI Model Leaderboard
+  if (d.model_leaderboard && d.model_leaderboard.length) {
+    html += `<div class="section-title">🏆 AI Model Leaderboard</div>
+    <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); gap: 8px;">`;
+    d.model_leaderboard.forEach((m, i) => {
+      const rankColor = i === 0 ? '#ffd700' : i === 1 ? '#c0c0c0' : i === 2 ? '#cd7f32' : '#5d8fa8';
+      const changeColor = m.change.startsWith('+') ? '#69f0ae' : m.change.startsWith('-') ? '#ff5252' : '#ffd54f';
+      html += `
+        <div class="kpi-card" style="border-left: 3px solid ${rankColor}; padding: 8px;">
+          <div style="font-size:10px;color:#8fb8d8">${m.company}</div>
+          <div class="kpi-value" style="font-size:16px;">${m.model}</div>
+          <div style="font-size:11px;color:${changeColor}">${m.change}</div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+  
+  // AI Funding Tracking
+  if (d.funding_tracking && d.funding_tracking.length) {
+    html += `<div class="section-title">💰 AI Startup Funding</div>
+    <div class="data-list">`;
+    d.funding_tracking.forEach(f => {
+      html += `
+        <div class="data-row elevated" style="border-left: 3px solid #69f0ae;">
+          <div class="data-title">${f.company}</div>
+          <div class="data-meta">
+            <span class="tag success">${f.round}</span>
+            <span class="tag warn">${f.amount}</span>
+            <span class="tag">${f.date}</span>
+            <span style="font-size:11px;color:#5d8fa8">Lead: ${f.lead}</span>
+          </div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+  
+  // GitHub Trending
+  html += `<div class="section-title">⭐ GitHub Trending AI</div><div class="data-list">`;
+  d.github_trending.slice(0, 10).forEach(g => {
+    const scoreColor = g.score >= 80 ? 'critical' : g.score >= 60 ? 'elevated' : 'moderate';
     html += `
-      <div class="data-row elevated">
+      <div class="data-row ${scoreColor}">
         <div class="data-title">${g.repo}</div>
         <div class="data-meta">
-          <span class="tag">${g.lang}</span>
+          <span class="tag">${g.lang || 'Code'}</span>
           <span class="tag warn">⭐ ${g.stars}</span>
-          <span style="font-size:11px;color:#5d8fa8">${g.desc}</span>
+          <span style="font-size:11px;color:#5d8fa8">${g.desc || ''}</span>
         </div>
       </div>
     `;
   });
-  html += `</div><div class="section-title">AI 头条新闻</div><div class="data-list">`;
+  html += `</div>`;
+  
+  // Topic Distribution
+  if (d.topic_distribution) {
+    const topics = Object.entries(d.topic_distribution).sort((a, b) => b[1] - a[1]);
+    html += `<div class="section-title">📊 Topic Distribution</div><div class="topic-bars">`;
+    topics.forEach(([topic, count]) => {
+      const pct = Math.round((count / d.news.length) * 100);
+      const color = topicColors[topic] || '';
+      html += `
+        <div style="display:flex;align-items:center;margin:4px 0;">
+          <span class="tag ${color}" style="min-width:90px;">${topic}</span>
+          <div style="flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin:0 8px;">
+            <div style="width:${pct}%;height:100%;background:${color ? 'var(--accent-' + color + ')' : 'var(--accent-cyan)'};border-radius:4px;"></div>
+          </div>
+          <span style="font-size:11px;color:#8fb8d8;min-width:30px;">${count}</span>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+  
+  // AI News Articles
+  html += `<div class="section-title">📰 AI Intelligence Feed</div><div class="data-list">`;
   if (!d.news.length) {
-    html += `<div class="empty">暂无文章</div>`;
+    html += `<div class="empty">No articles available</div>`;
   } else {
-    d.news.slice(0, 25).forEach(n => {
+    d.news.slice(0, 20).forEach(n => {
       const cls = n.score >= 80 ? 'critical' : n.score >= 60 ? 'elevated' : 'moderate';
-      const tagCls = n.topic === '发布' ? 'success' : n.topic === '论文' ? 'purple' : 'warn';
+      const topicCls = topicColors[n.topic] || 'warn';
       html += `
         <div class="data-row ${cls}">
           <div class="data-title">${n.title}</div>
           <div class="data-meta">
             <span class="tag">${n.source}</span>
-            <span class="tag ${tagCls}">${n.topic}</span>
-            <span class="tag warn">SCORE ${n.score}</span>
+            <span class="tag ${topicCls}">${n.topic}</span>
+            <span class="tag warn">${n.score}</span>
           </div>
+          ${n.summary ? `<div style="font-size:11px;color:#5d8fa8;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${n.summary}</div>` : ''}
         </div>
       `;
     });
@@ -4027,6 +4160,8 @@ function loadSettings() {
     'cfg-interval': settings.scanInterval, 'cfg-quality': settings.quality,
     'cfg-maxhot': settings.maxHotspots, 'cfg-showip': settings.showIP,
     'cfg-coords': settings.showCoords,
+    'cfg-lang': settings.language || 'en',  // 默认英语
+    'cfg-theme': settings.theme || 'dark', // 默认深色
   };
   Object.entries(map).forEach(([id, val]) => {
     const el = document.getElementById(id);
@@ -4038,6 +4173,12 @@ function loadSettings() {
   if (rateVal) rateVal.textContent = settings.ttsRate + 'x';
   const pitchVal = document.getElementById('cfg-pitch-val');
   if (pitchVal) pitchVal.textContent = (settings.ttsPitch || 1.05) + 'x';
+  
+  // 应用语言和主题
+  currentLang = settings.language || 'en';
+  currentTheme = settings.theme || 'dark';
+  applyLanguage();
+  applyTheme();
 }
 
 function saveSettings() {
@@ -4061,6 +4202,112 @@ function applyTimezone(tz) {
 function applyTimeFormat(fmt) {
   settings.timeFormat = fmt; saveSettings(); updateTime();
 }
+
+// ===== Language & Theme =====
+let currentLang = 'en'; // 默认英语
+let currentTheme = 'dark';
+
+const I18N = {
+  en: {
+    moduleNames: {
+      'demand': 'DEMAND RADAR', 'intel': 'GLOBAL INTEL', 'finance': 'FINANCE RADAR',
+      'ainews': 'AI INTELLIGENCE', 'osint': 'CONFLICT TRACK', 'freelance': 'FREELANCE',
+      'energy': 'ENERGY MONITOR', 'specialized': 'DISASTER ALERT', 'sources': 'DATA SOURCES',
+      'weather': 'WEATHER/OCEAN', 'space': 'SPACE TRACK', 'supply': 'SUPPLY CHAIN',
+      'health': 'HEALTH', 'social': 'SOCIAL MEDIA', 'models': 'AI MODELS', 'tech': 'TECH INTEL'
+    },
+    panelEmpty: {
+      'demand': 'Waiting for global demands...',
+      'finance': 'Connecting to financial data...',
+      'ainews': 'Loading AI news sources...'
+    },
+    navLabels: {
+      'demand': 'DEMAND', 'intel': 'INTEL', 'finance': 'FINANCE',
+      'ainews': 'AI NEWS', 'osint': 'CONFLICT', 'freelance': 'FREELANCE',
+      'energy': 'ENERGY', 'specialized': 'DISASTER', 'sources': 'SOURCES',
+      'weather': 'WEATHER', 'space': 'SPACE', 'supply': 'SUPPLY',
+      'health': 'HEALTH', 'social': 'SOCIAL', 'models': 'MODELS', 'tech': 'TECH'
+    }
+  },
+  zh: {
+    moduleNames: {
+      'demand': '需求雷达', 'intel': '全球情报', 'finance': '金融雷达',
+      'ainews': 'AI情报', 'osint': '冲突追踪', 'freelance': '自由职业',
+      'energy': '能源监控', 'specialized': '灾害预警', 'sources': '数据源',
+      'weather': '气象海洋', 'space': '太空监测', 'supply': '供应链',
+      'health': '健康', 'social': '社交媒体', 'models': 'AI模型', 'tech': '科技情报'
+    },
+    panelEmpty: {
+      'demand': '等待全球数据源接入...',
+      'finance': '金融数据接入中...',
+      'ainews': 'AI新闻源接入中...'
+    },
+    navLabels: {
+      'demand': '需求', 'intel': '情报', 'finance': '金融',
+      'ainews': 'AI新闻', 'osint': '冲突', 'freelance': '自由职业',
+      'energy': '能源', 'specialized': '灾害', 'sources': '数据源',
+      'weather': '气象', 'space': '太空', 'supply': '供应链',
+      'health': '健康', 'social': '社交', 'models': '模型', 'tech': '科技'
+    }
+  }
+};
+
+function setLanguage(lang) {
+  currentLang = lang;
+  settings.language = lang;
+  saveSettings();
+  applyLanguage();
+}
+
+function applyLanguage() {
+  // 更新模块名称
+  document.querySelectorAll('.module-nav-item').forEach(item => {
+    const id = item.dataset.module;
+    if (id && I18N[currentLang].moduleNames[id]) {
+      const label = item.querySelector('.module-label');
+      if (label) label.textContent = I18N[currentLang].moduleNames[id];
+    }
+  });
+  // 更新面板空状态文本
+  if (typeof renderPanel === 'function') {
+    renderPanel();
+  }
+}
+
+function setTheme(theme) {
+  currentTheme = theme;
+  settings.theme = theme;
+  saveSettings();
+  applyTheme();
+}
+
+function applyTheme() {
+  const root = document.documentElement;
+  if (currentTheme === 'light') {
+    root.style.setProperty('--bg-dark', '#f0f4f8');
+    root.style.setProperty('--bg-darker', '#e1e8ed');
+    root.style.setProperty('--text-primary', '#1a2a3a');
+    root.style.setProperty('--text-secondary', '#4a5a6a');
+    root.style.setProperty('--panel-bg', 'rgba(240,244,248,0.95)');
+    root.style.setProperty('--border-color', 'rgba(0,0,0,0.1)');
+    root.style.setProperty('--accent-cyan', '#0088cc');
+    root.style.setProperty('--accent-purple', '#6633cc');
+    root.style.setProperty('--accent-green', '#00aa55');
+    document.body.style.background = 'linear-gradient(135deg, #e8eef4 0%, #d0dce8 100%)';
+  } else {
+    root.style.setProperty('--bg-dark', '#0a1628');
+    root.style.setProperty('--bg-darker', '#050d18');
+    root.style.setProperty('--text-primary', '#e8f4ff');
+    root.style.setProperty('--text-secondary', '#8fb8d8');
+    root.style.setProperty('--panel-bg', 'rgba(10,22,40,0.95)');
+    root.style.setProperty('--border-color', 'rgba(0,150,255,0.2)');
+    root.style.setProperty('--accent-cyan', '#00d4ff');
+    root.style.setProperty('--accent-purple', '#b388ff');
+    root.style.setProperty('--accent-green', '#69f0ae');
+    document.body.style.background = 'linear-gradient(135deg, #020a14 0%, #051428 100%)';
+  }
+}
+
 function toggleEarthRotation(on) {
   settings.earthRotation = on; saveSettings();
 }
