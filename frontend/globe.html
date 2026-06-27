@@ -1963,6 +1963,7 @@ function _clearOverlayGroup(key) {
   delete _overlayGroups[key];
 }
 function _drawArcLine(lat1, lon1, lat2, lon2, color, heightFactor = 1.05, opacity = 0.7, lineWidth = 1) {
+  if (!isFinite(lat1) || !isFinite(lon1) || !isFinite(lat2) || !isFinite(lon2)) return new THREE.Line();
   const v1 = latLonToVec3(lat1, lon1, EARTH_RADIUS);
   const v2 = latLonToVec3(lat2, lon2, EARTH_RADIUS);
   const dist = v1.distanceTo(v2);
@@ -1982,7 +1983,9 @@ function _drawArcLine(lat1, lon1, lat2, lon2, color, heightFactor = 1.05, opacit
   return new THREE.Line(geo, mat);
 }
 function _drawPointSprite(lat, lon, color, size = 1.5, r = EARTH_RADIUS) {
+  if (!isFinite(lat) || !isFinite(lon)) return new THREE.Mesh();
   const pos = latLonToVec3(lat, lon, r);
+  if (!isFinite(pos.x) || !isFinite(pos.y) || !isFinite(pos.z)) return new THREE.Mesh();
   const mesh = new THREE.Mesh(
     new THREE.SphereGeometry(size, 8, 8),
     new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.95 })
@@ -1991,12 +1994,11 @@ function _drawPointSprite(lat, lon, color, size = 1.5, r = EARTH_RADIUS) {
   return mesh;
 }
 function _drawRing(lat, lon, color, innerR = 2, outerR = 3, opacity = 0.6, r = EARTH_RADIUS) {
-  if (typeof lat !== 'number' || typeof lon !== 'number' || isNaN(lat) || isNaN(lon)) {
-    lat = lat || 0; lon = lon || 0;
-  }
+  if (!isFinite(lat) || !isFinite(lon)) return new THREE.Mesh();
   if (typeof innerR !== 'number' || isNaN(innerR) || innerR <= 0) innerR = 0.5;
   if (typeof outerR !== 'number' || isNaN(outerR) || outerR <= innerR) outerR = innerR + 0.5;
   const pos = latLonToVec3(lat, lon, r);
+  if (!isFinite(pos.x) || !isFinite(pos.y) || !isFinite(pos.z)) return new THREE.Mesh();
   const ring = new THREE.Mesh(
     new THREE.RingGeometry(innerR, outerR, 32),
     new THREE.MeshBasicMaterial({ color, transparent: true, opacity, side: THREE.DoubleSide })
@@ -2125,6 +2127,7 @@ function applyWeatherOverlay(data) {
     for (let i = 0; i < 8; i++) {
       const angle = (i / 8) * Math.PI * 2;
       const dist = size * 0.8 + Math.random() * size * 0.5;
+      if (!isFinite(cy.lat) || !isFinite(cy.lon)) continue;
       const latOffset = Math.sin(angle) * dist * 0.3;
       const lonOffset = Math.cos(angle) * dist * 0.5;
       const p = new THREE.Mesh(
@@ -2132,6 +2135,7 @@ function applyWeatherOverlay(data) {
         new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 })
       );
       const pos = latLonToVec3(cy.lat + latOffset, cy.lon + lonOffset, EARTH_RADIUS * 1.025);
+      if (!isFinite(pos.x) || !isFinite(pos.y) || !isFinite(pos.z)) continue;
       p.position.copy(pos);
       g.add(p);
       _animParticles.push({
@@ -2401,10 +2405,14 @@ function animate() {
       ap.mesh.material.opacity = 0.5 * (1 - ap.phase);
     } else if (ap.type === 'cyclone_orbit') {
       ap.phase = (ap.phase + ap.speed) % (Math.PI * 2);
-      const latOff = Math.sin(ap.phase) * ap.radius * 0.3;
-      const lonOff = Math.cos(ap.phase) * ap.radius * 0.5;
-      const pos = latLonToVec3(ap.centerLat + latOff, ap.centerLon + lonOff, ap.height);
-      ap.mesh.position.copy(pos);
+      if (typeof ap.centerLat === 'number' && typeof ap.centerLon === 'number') {
+        const latOff = Math.sin(ap.phase) * ap.radius * 0.3;
+        const lonOff = Math.cos(ap.phase) * ap.radius * 0.5;
+        const pos = latLonToVec3(ap.centerLat + latOff, ap.centerLon + lonOff, ap.height);
+        if (isFinite(pos.x) && isFinite(pos.y) && isFinite(pos.z)) {
+          ap.mesh.position.copy(pos);
+        }
+      }
     }
   }
   controls.update();
