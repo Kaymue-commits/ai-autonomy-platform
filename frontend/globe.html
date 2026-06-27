@@ -2344,6 +2344,8 @@ function clearSourcesOverlay() { _clearOverlayGroup('sources'); }
 
 // FPS 计数
 let frameCount = 0, lastFpsTime = performance.now(), currentFps = 60;
+let currentModule = 'demand';
+let settings = { earthRotation: true, stars: true, atmosphere: true };
 function animate() {
   requestAnimationFrame(animate);
   const t = performance.now();
@@ -2426,8 +2428,6 @@ function animate() {
     frameCount = 0; lastFpsTime = now;
   }
 }
-// settings 提前声明, 避免 animate() 同步调用时触发 TDZ
-let settings = { earthRotation: true, stars: true, atmosphere: true };
 animate();
 window.addEventListener('resize', () => {
   camera.aspect = container.clientWidth / container.clientHeight;
@@ -2459,7 +2459,6 @@ const MODULES = [
   { id: 'models',    name: 'AI模型对比', color: '#7986cb', icon: _svgWrap('<rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/><rect x="10" y="10" width="4" height="4" fill="currentColor" stroke="none"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="6" y1="9" x2="6" y2="15"/>') },
 ];
 
-let currentModule = 'demand';
 let moduleData = {
   demand: { demands: [], stats: { scan: 0, match: 0, contact: 0, revenue: 0 } },
   intel: null,
