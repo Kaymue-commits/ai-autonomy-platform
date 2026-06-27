@@ -4329,16 +4329,46 @@ async function bootstrap() {
 }
 
 // 启动
-renderSidebar();
-switchModule('demand');
-pushLog('NEXUS RADAR 系统启动', 'success');
-pushLog('正在接入全球数据源...', 'info');
+try {
+  renderSidebar();
+  switchModule('demand');
+  pushLog('NEXUS RADAR 系统启动', 'success');
+  pushLog('正在接入全球数据源...', 'info');
+} catch (e) {
+  console.error('初始化侧边栏失败:', e);
+}
+
 // 等地球纹理加载完再连 SSE
-Promise.all([
-  new Promise(r => texLoader.load('/static/textures/earth-blue-marble.jpg', r, undefined, ()=>r())),
-  new Promise(r => texLoader.load('/static/textures/earth-topology.png', r, undefined, ()=>r())),
-]).then(() => {
-  setTimeout(() => { connectSSE(); bootstrap(); initAssistant(); loadModelList(); }, 500);
+const texturePromises = [
+  new Promise(r => texLoader.load('/static/textures/earth-blue-marble.jpg', r, undefined, r)),
+  new Promise(r => texLoader.load('/static/textures/earth-topology.png', r, undefined, r)),
+];
+Promise.all(texturePromises).then(() => {
+  pushLog('3D地球纹理加载完成', 'success');
+  setTimeout(() => { 
+    try {
+      connectSSE(); 
+      bootstrap(); 
+      initAssistant(); 
+      loadModelList(); 
+    } catch (e) {
+      console.error('SSE/引导初始化失败:', e);
+      pushLog('部分功能初始化失败，请刷新页面', 'error');
+    }
+  }, 500);
+}).catch(err => {
+  console.error('纹理加载失败:', err);
+  pushLog('纹理加载失败，尝试降级启动...', 'warn');
+  setTimeout(() => { 
+    try {
+      connectSSE(); 
+      bootstrap(); 
+      initAssistant(); 
+      loadModelList(); 
+    } catch (e) {
+      console.error('降级启动失败:', e);
+    }
+  }, 2000);
 });
 
 // ============================================================
